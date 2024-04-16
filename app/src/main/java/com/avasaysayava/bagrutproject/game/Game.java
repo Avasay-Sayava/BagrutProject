@@ -16,8 +16,8 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.entity.Player;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.FloorMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.GroundMap;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.GroundTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.PlayerTileSet;
@@ -61,7 +61,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         // initialize the game objects
         this.joystick = new Joystick(this, 225, 500, 100);
-        this.map = new GroundMap(this, 0, 0);
+        this.map = new FloorMap(this, 0, 0);
         this.player = new Player(this, -32, 40);
 
         // play music
