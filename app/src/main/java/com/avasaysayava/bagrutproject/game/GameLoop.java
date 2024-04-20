@@ -1,6 +1,7 @@
 package com.avasaysayava.bagrutproject.game;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.avasaysayava.bagrutproject.game.structure.SizedDeque;
@@ -68,13 +69,15 @@ public class GameLoop extends Thread {
         Canvas canvas = null;
 
         while (this.running) {
-//            Log.d("game/loop", "looping");
+            Log.d("game/loop", "instance start");
+
             // Trying to update & render the game
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (this.surfaceHolder) {
+                    Log.d("game/loop", "update start");
                     this.game.update();
-//                    Log.d("game/loop", "update");
+                    Log.d("game/loop", "update end");
 
                     // for every update, update the ups
                     ups++;
@@ -82,13 +85,14 @@ public class GameLoop extends Thread {
 
                     // drawing happens here,
                     // because it needs to be synced with our surfaceHolder
+                    Log.d("game/loop", "draw start");
                     this.game.draw(canvas);
                 }
             } catch (IllegalArgumentException ignored) {
             } finally {
                 if (canvas != null) {
                     try {
-//                        Log.d("game/loop", "draw");
+                        Log.d("game/loop", "draw end");
 
                         // for each draw, update the fps
                         fps++;
@@ -104,13 +108,20 @@ public class GameLoop extends Thread {
             t_elapsed = System.nanoTime() - t_start;
             t_sleep = (long) (1E9 * ups / this.UPS) - t_elapsed;
             if (t_sleep > 0) {
-                Util.sleep(t_sleep);
+                Log.d("game/loop", "sleep start (" + t_sleep + "ns)");
+                try {
+                    super.sleep(t_sleep / 1_000_000, (int) (t_sleep % 1_000_000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.d("game/loop", "sleep end");
             }
 
             // skip frames for keeping up with the UPS value
             while (t_sleep < 0 && ++ups < this.UPS) {
+                Log.d("game/loop", "no draw update start");
                 this.game.update();
-//                Log.d("game/loop", "update");
+                Log.d("game/loop", "no draw update end");
                 this.upsDeque.addLast(System.nanoTime());
                 t_elapsed = System.nanoTime() - t_start;
                 t_sleep = (long) (1E9 * ups / this.UPS) - t_elapsed;
@@ -126,8 +137,11 @@ public class GameLoop extends Thread {
                 this.fixedFPS = fps * 1E9 / t_elapsed;
                 ups = fps = 0;
             }
+
+            Log.d("game/loop", "instance end");
         }
 
+        Log.d("game/loop", "interrupt");
         super.interrupt();
     }
 

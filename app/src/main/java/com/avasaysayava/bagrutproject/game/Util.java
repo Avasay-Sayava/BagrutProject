@@ -38,7 +38,7 @@ public class Util {
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    public static void sleep(long nanos) {
+    public static void timeout(long nanos) {
         for (long time = System.nanoTime(); time + nanos <= System.nanoTime(); )
             ;
     }
