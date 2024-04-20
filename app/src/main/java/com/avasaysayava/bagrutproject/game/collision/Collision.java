@@ -3,6 +3,8 @@ package com.avasaysayava.bagrutproject.game.collision;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.avasaysayava.bagrutproject.game.LineF;
+
 public class Collision {
     public static final Collision empty = null;
     private final Path[] paths;
@@ -11,17 +13,19 @@ public class Collision {
         this.paths = paths;
     }
 
-    public boolean doesIntersect(Collision collision) {
-        if (collision == Collision.empty) return false;
+    public LineF getIntersector(Collision collision) {
+        if (collision == Collision.empty)
+            return null;
         for (Path p1 : this.paths) {
             for (Path p2 : collision.getPaths()) {
-                if (p1.doesIntersect(p2)) {
-                    return true;
+                LineF intersector = p1.getIntersector(p2);
+                if (intersector != null) {
+                    return intersector;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     public void move(float x, float y) {

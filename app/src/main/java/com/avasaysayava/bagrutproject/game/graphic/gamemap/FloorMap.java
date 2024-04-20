@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class FloorMap extends GameMap {
+    @SuppressWarnings("unchecked")
     public FloorMap(Game game, float x, float y) {
         super(
                 game,

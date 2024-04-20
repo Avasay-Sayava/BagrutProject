@@ -22,7 +22,7 @@ public class PlayerTileSet extends TileSet {
         tiles[1] = getTile(5, 48, 2, 0, 2, 3, 16, reg, Collision.empty, Collision.empty, TileType.ENTITY);
         tiles[2] = getTile(5, 48, 4, 0, 2, 3, 16, reg, Collision.empty, Collision.empty, TileType.ENTITY);
         tiles[3] = getTile(5, 48, 6, 0, 2, 3, 16, reg, Collision.empty, Collision.empty, TileType.ENTITY);
-        tiles[4] = getTile(5, 48, 8, 0, 2, 3, 16, reg, Collision.empty, Collision.empty, TileType.ENTITY);
+        tiles[4] = getTile(5, 44, 8, 0, 2, 3, 16, reg, Collision.empty, Collision.empty, TileType.ENTITY);
         return tiles;
     }
 }

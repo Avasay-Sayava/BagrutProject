@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.avasaysayava.bagrutproject.game.LineF;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
@@ -74,18 +75,14 @@ public class Tile {
                 paint);
     }
 
-    public boolean collides(Entity e) {
+    public LineF getIntersector(Entity e) {
         if (e.getZ() == this.z) {
-            return this.collision != Collision.empty && this.collision.doesIntersect(e.getCollision());
+            return this.collision != Collision.empty ? this.collision.getIntersector(e.getCollision()) : null;
         } else if (e.getZ() > this.z) {
-            return this.collisionTop != Collision.empty && this.collisionTop.doesIntersect(e.getCollision());
+            return this.collisionTop != Collision.empty ? this.collisionTop.getIntersector(e.getCollision()) : null;
         } else {
-            return this.collisionDown != Collision.empty && this.collisionDown.doesIntersect(e.getCollision());
+            return this.collisionDown != Collision.empty ? this.collisionDown.getIntersector(e.getCollision()) : null;
         }
-    }
-
-    public boolean collides(Collision collision) {
-        return this.collision.doesIntersect(collision);
     }
 
     public void move(float x, float y) {

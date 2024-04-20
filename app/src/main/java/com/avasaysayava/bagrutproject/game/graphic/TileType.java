@@ -7,7 +7,8 @@ public enum TileType {
     PATH(R.raw.path1, R.raw.path2, R.raw.path3),
     FLOOR(R.raw.path1, R.raw.path2, R.raw.path3),
     WALL(R.raw.path1, R.raw.path2, R.raw.path3),
-    ENTITY(R.raw.path1, R.raw.path2, R.raw.path3);
+    ENTITY(R.raw.path1, R.raw.path2, R.raw.path3),
+    STAIR(R.raw.path1, R.raw.path2, R.raw.path3);
 
     final int[] sounds;
     TileType(int... sounds) {

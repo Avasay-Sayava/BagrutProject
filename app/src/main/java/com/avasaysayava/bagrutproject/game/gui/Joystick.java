@@ -11,11 +11,11 @@ import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.Util;
 
 public class Joystick {
-    private final float X, Y;
     private final float radius;
     private final Paint innerPaint;
     private final Paint outerPaint;
-    private float outerX, outerY;
+    protected float outerX, outerY;
+    private float X, Y;
     private float innerX, innerY;
     private boolean enabled;
     private boolean inverted;
@@ -51,12 +51,10 @@ public class Joystick {
                 this.innerPaint);
     }
 
-    public void update() {
-        if (isEnabled()) {
-            if (getDistance() > this.radius) {
-                this.outerX += (float) ((inverted ? -1 : 1) * getCos() * (getDistance() - this.radius) / 2);
-                this.outerY += (float) ((inverted ? -1 : 1) * getSin() * (getDistance() - this.radius) / 2);
-            }
+    protected void arrange() {
+        if (getDistance() > this.radius) {
+            this.innerX = (float) ((this.innerX - this.outerX) * (this.radius / getDistance()) + this.outerX);
+            this.innerY = (float) ((this.innerY - this.outerY) * (this.radius / getDistance()) + this.outerY);
         }
     }
 
@@ -118,7 +116,9 @@ public class Joystick {
         return this.getDistance(event) <= this.radius;
     }
 
-    public void enable() {
+    public void enable(MotionEvent ignored) {
+//        this.outerX = this.innerX = event.getX();
+//        this.outerY = this.innerY = event.getY();
         this.enabled = true;
     }
 
@@ -140,13 +140,29 @@ public class Joystick {
         float dy = event.getY() - this.outerY;
         this.innerX = this.outerX + dx;
         this.innerY = this.outerY + dy;
+
+        arrange();
     }
 
     public void invert() {
         this.inverted = !this.inverted;
     }
 
+    public boolean isInverted() {
+        return this.inverted;
+    }
+
     public float getRadius() {
         return radius;
+    }
+
+    public void move(float x, float y) {
+        this.innerX += x - this.X;
+        this.outerX += x - this.X;
+        this.X = x;
+
+        this.innerY += y - this.Y;
+        this.outerY += y - this.Y;
+        this.Y = y;
     }
 }

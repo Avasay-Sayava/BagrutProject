@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,14 +17,15 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.entity.Player;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.FloorMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.PropsMap;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.GroundTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.PlayerTileSet;
-import com.avasaysayava.bagrutproject.game.graphic.tileset.WallsTileSet;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.PropsTileSet;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
-import com.avasaysayava.bagrutproject.game.sound.Audio;
+import com.avasaysayava.bagrutproject.game.gui.MovableJoystick;
 
 @SuppressLint("ViewConstructor")
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
@@ -31,68 +33,62 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public final PlayerTileSet playerTileSet = new PlayerTileSet(getContext());
     public final FloorTileSet floorTileSet = new FloorTileSet(getContext());
     public final GroundTileSet groundTileSet = new GroundTileSet(getContext());
-    public final WallsTileSet wallsTileSet = new WallsTileSet(getContext());
+    public final PropsTileSet propsTileSet = new PropsTileSet(getContext());
+    public final StructuresTileSet structuresTileSet = new StructuresTileSet(getContext());
 
-    private final Paint textPaint;
     private final Joystick joystick;
     private final Player player;
     private final GameMap map;
-    private final Audio audio;
+    //    private final Audio audio;
     private final double[] fpsGraph = new double[400];
     private final double[] upsGraph = new double[400];
     private Bitmap vignetteBitmap;
     private GameLoop gameLoop;
-    private boolean debugMode;
+    private boolean debugMode, graphMode;
     private int fpsI = 0;
     private int upsI = 0;
 
-    public Game(Context context, int ups, int scale, boolean debugMode) {
+    public Game(Context context, int ups, int scale, boolean debugMode, boolean graphMode) {
         super(context);
 
         this.UPS = ups;
         this.SCALE = scale;
         this.debugMode = debugMode;
+        this.graphMode = graphMode;
 
-        SurfaceHolder surfaceHolder = getHolder();
-        surfaceHolder.addCallback(this);
-        surfaceHolder.setFormat(PixelFormat.UNKNOWN);
-
-        this.gameLoop = new GameLoop(this, surfaceHolder, this.UPS);
+        createLoop();
 
         // initialize the game objects
-        this.joystick = new Joystick(this, 225, 500, 100);
-        this.map = new FloorMap(this, 0, 0);
-        this.player = new Player(this, -32, 40);
+        int joystickRadius = 100;
+        this.joystick = new MovableJoystick(this, 2 * joystickRadius, getHeight() - 2 * joystickRadius, joystickRadius);
+        this.map = new PropsMap(this, 0, 0);
+        this.player = new Player(this, -32, -32, 0);
 
         // play music
-        this.audio = new Audio(context);
-//        loopMusic(R.raw.contemplation);
+//        this.audio = new Audio(context);
+        // TODO: find background music and play it
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         this.vignetteBitmap = null;
 
-        this.textPaint = new Paint();
-        this.textPaint.setTextSize(50);
-        this.textPaint.setColor(ContextCompat.getColor(getContext(), R.color.White));
-
         setFocusable(true);
     }
 
-    private void loopMusic(int id) {
-        playMusic(id);
-        this.audio.loop();
-    }
-
-    private void playMusic(int id) {
-        this.audio.setFile(id);
-        this.audio.play();
-    }
-
-    private void stopMusic() {
-        this.audio.stop();
-        this.audio.kill();
-    }
+//    private void loopMusic(int id) {
+//        playMusic(id);
+//        this.audio.loop();
+//    }
+//
+//    private void playMusic(int id) {
+//        this.audio.setFile(id);
+//        this.audio.play();
+//    }
+//
+//    private void stopMusic() {
+//        this.audio.stop();
+//        this.audio.kill();
+//    }
 
     @Override
     @SuppressLint("ClickableViewAccessibility")
@@ -100,7 +96,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (this.joystick.isPressed(event)) {
-                    this.joystick.enable();
+                    this.joystick.enable(event);
                     return true;
                 }
             case MotionEvent.ACTION_MOVE:
@@ -109,30 +105,48 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                     return true;
                 }
             case MotionEvent.ACTION_UP:
-                this.joystick.disable();
-                this.joystick.reset();
-                return true;
+                if (this.joystick.isEnabled()) {
+                    this.joystick.disable();
+                    this.joystick.reset();
+                    return true;
+                }
+            default:
+                return super.onTouchEvent(event);
         }
-        return super.onTouchEvent(event);
     }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
+        Log.d("app/event", "surfaceCreated");
+
+        // if the game loop is terminated, create a new one
         if (gameLoop.getState().equals(Thread.State.TERMINATED)) {
-            SurfaceHolder surfaceHolder = getHolder();
-            surfaceHolder.addCallback(this);
-            this.gameLoop = new GameLoop(this, surfaceHolder, this.UPS);
+            createLoop();
         }
+
+        // resume the game loop
         this.gameLoop.start();
     }
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+        Log.d("app/event", "surfaceChanged[" + width + "x" + height + "]");
+
+        // if screen size changed
         this.vignetteBitmap = Util.generateVignette(width, height);
+
+        float joystickRadius = joystick.getRadius();
+        this.joystick.move(2 * joystickRadius, getHeight() - 2 * joystickRadius);
+
+        // if the game loop is terminated, create a new one
+        if (gameLoop.getState().equals(Thread.State.TERMINATED)) {
+            createLoop();
+        }
     }
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
+        Log.d("app/event", "surfaceDestroyed");
     }
 
     @Override
@@ -150,11 +164,15 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         this.joystick.draw(canvas);
 
+        Paint textPaint = new Paint();
+        textPaint.setTextSize(50);
+        textPaint.setColor(ContextCompat.getColor(getContext(), R.color.White));
+
         if (isDebug()) {
-            drawUPS(canvas, this.textPaint);
-            drawFPS(canvas, this.textPaint);
-            drawBounds(canvas, this.textPaint);
-            drawPlayerVelocity(canvas, this.textPaint);
+            drawUPS(canvas, textPaint);
+            drawFPS(canvas, textPaint);
+            drawBounds(canvas, textPaint);
+            drawPlayerVelocity(canvas, textPaint);
         }
     }
 
@@ -166,17 +184,18 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         this.upsGraph[this.upsI++] = this.gameLoop.getAvgUPS();
         this.upsI %= this.upsGraph.length;
 
-        Paint graphPaint = new Paint();
-
-        for (int i = this.upsI; i < this.upsGraph.length + this.upsI; i++) {
-            int[] rgb = getGradientColor(this.upsGraph[i % this.upsGraph.length]);
-            graphPaint.setARGB(120, rgb[0], rgb[1], rgb[2]);
-            if (this.upsGraph[i % this.upsGraph.length] != 0)
-                canvas.drawLine((float) (getRight() - this.upsGraph.length + i - this.upsI),
-                        (float) (getBottom() - this.upsGraph[i % this.upsGraph.length] * 2 * 60.0 / this.UPS),
-                        getRight() - this.upsGraph.length + i - this.upsI,
-                        getBottom(),
-                        graphPaint);
+        if (this.graphMode) {
+            Paint graphPaint = new Paint();
+            for (int i = this.upsI; i < this.upsGraph.length + this.upsI; i++) {
+                int[] rgb = getGradientColor(this.upsGraph[i % this.upsGraph.length]);
+                graphPaint.setARGB(120, rgb[0], rgb[1], rgb[2]);
+                if (this.upsGraph[i % this.upsGraph.length] != 0)
+                    canvas.drawLine(getRight() - this.upsGraph.length + i - this.upsI,
+                            (float) (getBottom() - this.upsGraph[i % this.upsGraph.length] * 2 * 60.0 / this.UPS),
+                            getRight() - this.upsGraph.length + i - this.upsI,
+                            getBottom(),
+                            graphPaint);
+            }
         }
     }
 
@@ -188,17 +207,18 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         this.fpsGraph[this.fpsI++] = this.gameLoop.getAvgFPS();
         this.fpsI %= this.fpsGraph.length;
 
-        Paint graphPaint = new Paint();
-
-        for (int i = this.fpsI; i < this.fpsGraph.length + this.fpsI; i++) {
-            int[] rgb = getGradientColor(this.fpsGraph[i % this.fpsGraph.length]);
-            graphPaint.setARGB(120, rgb[0], rgb[1], rgb[2]);
-            if (this.fpsGraph[i % this.fpsGraph.length] != 0)
-                canvas.drawLine((float) (getRight() - this.fpsGraph.length + i - this.fpsI),
-                        (float) (getBottom() - this.fpsGraph[i % this.fpsGraph.length] * 2 * 60.0 / this.UPS),
-                        getRight() - this.fpsGraph.length + i - this.fpsI,
-                        getBottom(),
-                        graphPaint);
+        if (this.graphMode) {
+            Paint graphPaint = new Paint();
+            for (int i = this.fpsI; i < this.fpsGraph.length + this.fpsI; i++) {
+                int[] rgb = getGradientColor(this.fpsGraph[i % this.fpsGraph.length]);
+                graphPaint.setARGB(120, rgb[0], rgb[1], rgb[2]);
+                if (this.fpsGraph[i % this.fpsGraph.length] != 0)
+                    canvas.drawLine(getRight() - this.fpsGraph.length + i - this.fpsI,
+                            (float) (getBottom() - this.fpsGraph[i % this.fpsGraph.length] * 2 * 60.0 / this.UPS),
+                            getRight() - this.fpsGraph.length + i - this.fpsI,
+                            getBottom(),
+                            graphPaint);
+            }
         }
     }
 
@@ -223,7 +243,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        this.joystick.update();
         this.player.update();
     }
 
@@ -252,6 +271,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void onPause() {
+        this.joystick.reset();
         this.gameLoop.pause();
     }
 
@@ -261,5 +281,13 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     public void onDestroy() {
 
+    }
+
+    public void createLoop() {
+        SurfaceHolder surfaceHolder = getHolder();
+        surfaceHolder.addCallback(this);
+        surfaceHolder.setFormat(PixelFormat.RGBA_8888);
+        this.gameLoop = new GameLoop(this, surfaceHolder, this.UPS);
+        Log.d("game/loop", "created");
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
+import com.avasaysayava.bagrutproject.game.LineF;
 import com.avasaysayava.bagrutproject.game.Util;
 
 import java.util.ArrayList;
@@ -32,22 +33,20 @@ public class Path {
     public static Path polygon(PointF... vertexes) {
         PointF[] path = new PointF[vertexes.length + 1];
         System.arraycopy(vertexes, 0, path, 0, vertexes.length);
-        path[vertexes.length] = new PointF(vertexes[0].x , vertexes[0].y);
+        path[vertexes.length] = new PointF(vertexes[0].x, vertexes[0].y);
         return new Path(path);
     }
 
-    public boolean doesIntersect(Path path) {
+    public LineF getIntersector(Path path) {
         PointF[] pPoints = path.getPoints();
         for (int i = 1; i < this.points.length; i++)
-            for (int j = 1; j < pPoints.length; j++) {
+            for (int j = 1; j < pPoints.length; j++)
                 if (Util.doesIntersect(this.points[i - 1],
                         this.points[i],
                         pPoints[j - 1],
-                        pPoints[j])) {
-                    return true;
-                }
-            }
-        return false;
+                        pPoints[j]))
+                    return new LineF(this.points[i], this.points[i - 1]);
+        return null;
     }
 
     public void translate(float dx, float dy) {

@@ -9,13 +9,12 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.Game;
+import com.avasaysayava.bagrutproject.game.LineF;
 import com.avasaysayava.bagrutproject.game.Util;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.collision.Path;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
-import com.avasaysayava.bagrutproject.game.sound.Audio;
-import com.avasaysayava.bagrutproject.game.sound.PlayerAudio;
 
 public class Player extends Entity {
     private final float maxSpeed;
@@ -23,45 +22,51 @@ public class Player extends Entity {
     private final Collision collision;
     private double wobble;
     private double Vx, Vy;
+    private double angle;
+    private int z;
     private int lastId;
-    private Audio audio;
 
-    public Player(Game game, float x, float y) {
-        super(game, .6, x, y);
+    public Player(Game game, float x, float y, int z) {
+        super(game, .4, x, y);
         this.maxSpeed = 80;
         this.lastId = 0;
         this.collision = new Collision(Path.polygon(new PointF(5, 33), new PointF(25, 33), new PointF(25, 47), new PointF(5, 47)));
         this.shadow = new Shadow(this.game, this, this.game.playerTileSet.getTile(4));
-        this.audio = new PlayerAudio(this.game, this, this.game.getContext());
+        this.z = z;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        if (this.game.isDebug()) {
-            Paint paint = new Paint();
+        boolean debugMode = this.game.isDebug();
 
-            // mark player's tile
-            paint.setColor(ContextCompat.getColor(this.game.getContext(), R.color.Blue));
+        Paint debugPaint = null;
+        if (debugMode) {
+            debugPaint = new Paint();
+            debugPaint.setColor(ContextCompat.getColor(this.game.getContext(), R.color.Blue));
+        }
+
+        // mark player's tile
+        if (debugMode) {
             canvas.drawLine((Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
                     (Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
-                    paint);
+                    debugPaint);
             canvas.drawLine((Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
                     (Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
-                    paint);
+                    debugPaint);
             canvas.drawLine((Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
                     (Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
-                    paint);
+                    debugPaint);
             canvas.drawLine((Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
                     (Math.round((this.x - this.game.getMap().getX()) / this.game.getMap().TILE_SIZE) * this.game.getMap().TILE_SIZE + this.game.getMap().getX()) * this.game.SCALE,
                     (Math.round((this.y - this.game.getMap().getY() + 24) / this.game.getMap().TILE_SIZE + 1) * this.game.getMap().TILE_SIZE + this.game.getMap().getY()) * this.game.SCALE,
-                    paint);
+                    debugPaint);
         }
 
         // draw player's sprite according to his direction
@@ -81,6 +86,13 @@ public class Player extends Entity {
         double extraHeight = 2 * (-Math.cos(this.wobble) + 1);
         tile.draw(canvas, this.x * this.game.SCALE, this.y * this.game.SCALE, 0, extraHeight, null);
         this.lastId = id;
+
+        if (debugMode) {
+            canvas.drawLine((this.x + 16) * this.game.SCALE,
+                    (this.y + 40) * this.game.SCALE,
+                    (float) ((this.x + 16 + getSpeed() * this.game.UPS * Math.cos(this.angle) / 5) * this.game.SCALE),
+                    (float) ((this.y + 40 + getSpeed() * this.game.UPS * Math.sin(this.angle) / 5) * this.game.SCALE), debugPaint);
+        }
     }
 
     public double getSpeed() {
@@ -108,81 +120,101 @@ public class Player extends Entity {
 
         Joystick joystick = this.game.getJoystick();
         // set velocity according to the joystick
-        updateVelocity(this.maxSpeed * joystick.getCos() * Math.pow(joystick.getPercentage(), Math.sqrt(.5)) / avgUPS,
-                this.maxSpeed * joystick.getSin() * Math.pow(joystick.getPercentage(), Math.sqrt(.5)) / avgUPS);
+        updateVelocity(joystick.getCos() * getPreferredSpeed(),
+                joystick.getSin() * getPreferredSpeed());
 
         int scale = this.game.SCALE;
 
         // smooth camera
         Tile tile = this.game.playerTileSet.getTile(this.lastId).withScale(scale);
-        float dx = (float) this.game.getWidth() / 2 - (float) tile.getWidth() / 2 - this.x * scale;
-        float dy = (float) this.game.getHeight() / 2 - (float) tile.getHeight() / 2 - this.y * scale;
+        float dx = this.game.getWidth() / 2f - tile.getWidth() / 2f - this.x * scale;
+        float dy = this.game.getHeight() / 2f - tile.getHeight() / 2f - this.y * scale;
         float factor = (float) (1 / avgUPS);
         this.game.getMap().translate(dx * factor, dy * factor);
         translate(dx * factor, dy * factor);
 
-        // fix collision
+        // move the player
+        this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), (float) (this.y + this.Vy + Math.signum(this.Vy)));
+        LineF intersector = this.game.getMap().getIntersector(this);
+
+        if (intersector != null) {
+            PointF A = intersector.first, B = intersector.second;
+            double intersectorAngle = Math.atan2(A.y - B.y, A.x - B.x);
+
+            if ((intersectorAngle * 2) % Math.PI != 0) {
+                double playerAngle = joystick.getRadians();
+                double speedPercentage = Math.cos(playerAngle - intersectorAngle);
+                this.Vx = speedPercentage * getPreferredSpeed() * Math.cos(intersectorAngle);
+                this.Vy = speedPercentage * getPreferredSpeed() * Math.sin(intersectorAngle);
+            }
+
+            this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), (float) (this.y + this.Vy + Math.signum(this.Vy)));
+            if (this.game.getMap().getIntersector(this) != null) {
+                this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), this.y);
+                if (this.game.getMap().getIntersector(this) != null)
+                    this.Vx = 0;
+                this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), (float) (this.y + this.Vy + Math.signum(this.Vy)));
+                if (this.game.getMap().getIntersector(this) != null)
+                    this.Vy = 0;
+            }
+        }
+
+        this.angle = Math.atan2(this.Vy, this.Vx);
+        translate((float) this.Vx, (float) this.Vy);
+
+        // fix collision caused by camera movement and floating points
         this.collision.move(this.x, this.y);
-        if (this.game.getMap().collides(this)) {
-            for (int i = 1; true; i++) {
+        if (this.game.getMap().getIntersector(this) != null) {
+            for (int i = 1; i < this.maxSpeed; i++) {
                 this.collision.move(this.x + i, this.y);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(i, 0);
                     break;
                 }
 
                 this.collision.move(this.x - i, this.y);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(-i, 0);
                     break;
                 }
 
                 this.collision.move(this.x, this.y + i);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(0, i);
                     break;
                 }
 
                 this.collision.move(this.x, this.y - i);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(0, -i);
                     break;
                 }
 
                 this.collision.move(this.x + i, this.y + i);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(i, i);
                     break;
                 }
 
                 this.collision.move(this.x + i, this.y - i);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(i, -i);
                     break;
                 }
 
                 this.collision.move(this.x - i, this.y + i);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(-i, i);
                     break;
                 }
 
                 this.collision.move(this.x - i, this.y - i);
-                if (!this.game.getMap().collides(this)) {
+                if (this.game.getMap().getIntersector(this) == null) {
                     translate(-i, -i);
                     break;
                 }
             }
         }
-
-        // move the player
-        this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), this.y);
-        if (this.game.getMap().collides(this))
-            this.Vx = 0;
-        this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), (float) (this.y + this.Vy + Math.signum(this.Vy)));
-        if (this.game.getMap().collides(this))
-            this.Vy = 0;
-        translate((float) this.Vx, (float) this.Vy);
 
         // using the joystick distance for making the player wobble faster when walking
         // because the velocity is smooth, changing wobble speed is smooth
@@ -190,6 +222,10 @@ public class Player extends Entity {
         this.wobble %= 2 * Math.PI;
 
         this.shadow.update();
+    }
+
+    private double getPreferredSpeed() {
+        return this.maxSpeed * this.game.getJoystick().getPercentage() / this.game.getGameLoop().getAvgUPS();
     }
 
     @Override
@@ -214,7 +250,7 @@ public class Player extends Entity {
 
     @Override
     public int getZ() {
-        return 0;
+        return this.z;
     }
 
     @Override

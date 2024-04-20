@@ -12,10 +12,12 @@ public class GameLoop extends Thread {
     // ups stands for updates per-second,
     // and fps stands for frames per-second
     private final SizedDeque<Long> upsDeque, fpsDeque;
-    private volatile boolean running; // volatile: var change immediately visible to all threads
+    private boolean running;
     private double fixedUPS, fixedFPS;
 
     public GameLoop(Game game, SurfaceHolder surfaceHolder, int ups) {
+        super("GameLoop");
+
         this.running = false;
         this.UPS = ups;
         this.game = game;
@@ -66,11 +68,13 @@ public class GameLoop extends Thread {
         Canvas canvas = null;
 
         while (this.running) {
+//            Log.d("game/loop", "looping");
             // Trying to update & render the game
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (this.surfaceHolder) {
                     this.game.update();
+//                    Log.d("game/loop", "update");
 
                     // for every update, update the ups
                     ups++;
@@ -84,9 +88,11 @@ public class GameLoop extends Thread {
             } finally {
                 if (canvas != null) {
                     try {
+//                        Log.d("game/loop", "draw");
+
                         // for each draw, update the fps
-                        this.surfaceHolder.unlockCanvasAndPost(canvas);
                         fps++;
+                        this.surfaceHolder.unlockCanvasAndPost(canvas);
 
                         this.fpsDeque.addLast(System.nanoTime());
                     } catch (Exception ignored) {
@@ -104,6 +110,7 @@ public class GameLoop extends Thread {
             // skip frames for keeping up with the UPS value
             while (t_sleep < 0 && ++ups < this.UPS) {
                 this.game.update();
+//                Log.d("game/loop", "update");
                 this.upsDeque.addLast(System.nanoTime());
                 t_elapsed = System.nanoTime() - t_start;
                 t_sleep = (long) (1E9 * ups / this.UPS) - t_elapsed;
@@ -128,6 +135,7 @@ public class GameLoop extends Thread {
         this.running = false;
         try {
             join();
-        } catch (InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+        }
     }
 }

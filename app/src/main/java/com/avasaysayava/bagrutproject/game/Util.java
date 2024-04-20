@@ -29,20 +29,12 @@ public class Util {
         return color & (alpha << 24 | 0x00ffffff);
     }
 
+    public static boolean isCounterClockWise(PointF A, PointF B, PointF C) {
+        return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x);
+    }
+
     public static boolean doesIntersect(PointF A, PointF B, PointF C, PointF D) {
-        float a1 = A.y - B.y, b1 = A.x - B.x, c1 = A.y * b1 - A.x * a1;
-        float a2 = C.y - D.y, b2 = C.x - D.x, c2 = C.y * b2 - D.x * a2;
-
-        PointF P = new PointF((b1 * c2 - b2 * c1) / (b2 * a1 - b1 * a2), (a1 * c2 - a2 * c1) / (a1 * b2 - a2 * b1));
-
-        float tx = (P.x - C.x) / (D.x - C.x), sx = (P.x - A.x) / (B.x - A.x);
-        float ty = (P.y - C.y) / (D.y - C.y), sy = (P.y - A.y) / (B.y - A.y);
-        if (!Float.isFinite(tx))
-            tx = ty;
-        if (!Float.isFinite(sx))
-            sx = sy;
-
-        return Util.within(0, tx, 1) && Util.within(0, sx, 1);
+        return isCounterClockWise(A, C, D) != isCounterClockWise(B, C, D) && isCounterClockWise(A, B, C) != isCounterClockWise(A, B, D);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -58,14 +50,14 @@ public class Util {
         // calculate the center and radius of the gradient
         float centerX = width / 2f;
         float centerY = height / 2f;
-        float radius = Math.min(width, height) * 2;
+        float radius = Math.max(width, height) / 2f;
 
         // create the radial gradient
         Shader shader = new RadialGradient(centerX,
                 centerY,
                 radius,
                 Color.TRANSPARENT,
-                Color.BLACK,
+                Util.withAlpha(Color.BLACK, 0x60),
                 Shader.TileMode.CLAMP);
 
         // set up the paint for drawing the gradient

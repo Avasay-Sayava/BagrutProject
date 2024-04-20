@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.Game;
+import com.avasaysayava.bagrutproject.game.LineF;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
@@ -111,10 +112,6 @@ public abstract class GameMap {
 
         if (p1.z != p2.z) {
             return p1.z - p2.z;
-        } else if (o1 instanceof Entity ^ o2 instanceof Entity) {
-            if (o1 instanceof Entity)
-                return Math.max(p1.y + p1.down - p2.y - p2.down, p2.x + p2.left - p1.x - p1.left);
-            else return Math.min(p1.y + p1.down - p2.y - p2.down, p2.x + p2.left - p1.x - p1.left);
         } else {
             return p1.y + p1.down - p2.y - p2.down;
         }
@@ -142,7 +139,7 @@ public abstract class GameMap {
         return p;
     }
 
-    public boolean collides(Entity e) {
+    public LineF getIntersector(Entity e) {
         for (int i = Math.max(Math.round((e.getY() - this.y) / this.TILE_SIZE) - 1, 0);
              i <= Math.min(Math.round((e.getY() - this.y) / this.TILE_SIZE) + 1, this.map.length - 1); i++) {
             for (int j = Math.max(Math.round((e.getX() - this.x) / this.TILE_SIZE) - 1, 0);
@@ -153,13 +150,15 @@ public abstract class GameMap {
                         continue;
                     tile.move(this.x + j * this.TILE_SIZE,
                             this.y + i * this.TILE_SIZE);
-                    if (tile.collides(e))
-                        return true;
+                    LineF intersector = tile.getIntersector(e);
+                    if (intersector != null) {
+                        return intersector;
+                    }
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     public List<Tile> getTiles(int i, int j) {
@@ -175,6 +174,10 @@ public abstract class GameMap {
     }
 
     private static class Prioritised {
-        public int z, down, left, x, y;
+        public int z;
+        public int down;
+        public int left;
+        public int x;
+        public int y;
     }
 }
