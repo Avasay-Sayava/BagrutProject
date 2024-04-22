@@ -9,12 +9,13 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.Game;
-import com.avasaysayava.bagrutproject.game.LineF;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
+import com.avasaysayava.bagrutproject.game.util.LineF;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -88,21 +89,25 @@ public abstract class GameMap {
                 for (int j = 0; j < this.map[i].length; j++) {
                     for (Tile t : this.map[i][j]) {
                         if (t != Tile.empty) {
-                            t.move(this.x + j * this.TILE_SIZE, 500 + this.y + i * this.TILE_SIZE);
+                            t.move(this.x + j * this.TILE_SIZE, this.y + i * this.TILE_SIZE);
                             if (t.getCollision() != Collision.empty)
-                                t.getCollision().draw(canvas, paint);
+                                t.getCollision().draw(canvas, paint, this.game.SCALE);
                             if (t.getCollisionTop() != Collision.empty)
-                                t.getCollisionTop().draw(canvas, paint);
+                                t.getCollisionTop().draw(canvas, paint, this.game.SCALE);
                             if (t.getCollisionDown() != Collision.empty)
-                                t.getCollisionDown().draw(canvas, paint);
+                                t.getCollisionDown().draw(canvas, paint, this.game.SCALE);
+                            canvas.drawText(t.getId() + "",
+                                    (this.x + j * this.TILE_SIZE + this.TILE_SIZE / 2f) * this.game.SCALE - this.game.textPaint.measureText(t.getId() + "") / 2,
+                                    (this.y + i * this.TILE_SIZE + this.TILE_SIZE / 2f) * this.game.SCALE + this.game.textPaint.getTextSize() / 2,
+                                    this.game.textPaint);
                         }
                     }
                 }
             }
 
             for (Entity e : entities) {
-                e.getCollision().move(e.getX(), 500 + e.getY());
-                e.getCollision().draw(canvas, paint);
+                e.getCollision().move(e.getX(), e.getY());
+                e.getCollision().draw(canvas, paint, this.game.SCALE);
             }
         }
     }
@@ -162,6 +167,8 @@ public abstract class GameMap {
     }
 
     public List<Tile> getTiles(int i, int j) {
+        if (i < 0 || i >= this.map.length || j < 0 || j >= this.map[i].length)
+            return Collections.emptyList();
         return this.map[i][j];
     }
 

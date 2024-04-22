@@ -17,6 +17,10 @@ public abstract class TileSet {
         options.inScaled = false;
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), id, options);
         this.tiles = getTileArray();
+        for (int i = 0; i < this.tiles.length; i++) {
+            if (this.tiles[i] != null)
+                this.tiles[i].setId(i);
+        }
     }
 
     protected abstract Tile[] getTileArray();

@@ -3,7 +3,7 @@ package com.avasaysayava.bagrutproject.game.collision;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.avasaysayava.bagrutproject.game.LineF;
+import com.avasaysayava.bagrutproject.game.util.LineF;
 
 public class Collision {
     public static final Collision empty = null;
@@ -40,9 +40,9 @@ public class Collision {
         }
     }
 
-    public void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas, Paint paint, int scale) {
         for (Path p : this.paths) {
-            p.draw(canvas, paint);
+            p.draw(canvas, paint, scale);
         }
     }
 

@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
-import com.avasaysayava.bagrutproject.game.LineF;
-import com.avasaysayava.bagrutproject.game.Util;
+import com.avasaysayava.bagrutproject.game.util.LineF;
+import com.avasaysayava.bagrutproject.game.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +56,13 @@ public class Path {
         this.dy += dy;
     }
 
-    public void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas, Paint paint, int scale) {
         for (int i = 1; i < this.points.length; i++) {
-            canvas.drawLine(this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, paint);
+            canvas.drawLine(this.points[i - 1].x * scale,
+                    this.points[i - 1].y * scale,
+                    this.points[i].x * scale,
+                    this.points[i].y * scale,
+                    paint);
         }
     }
 

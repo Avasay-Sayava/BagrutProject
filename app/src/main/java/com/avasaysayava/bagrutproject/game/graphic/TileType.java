@@ -1,21 +1,24 @@
 package com.avasaysayava.bagrutproject.game.graphic;
 
+import androidx.annotation.RawRes;
+
 import com.avasaysayava.bagrutproject.R;
 
 public enum TileType {
-    GRASS(R.raw.path1, R.raw.path2, R.raw.path3),
-    PATH(R.raw.path1, R.raw.path2, R.raw.path3),
-    FLOOR(R.raw.path1, R.raw.path2, R.raw.path3),
-    WALL(R.raw.path1, R.raw.path2, R.raw.path3),
-    ENTITY(R.raw.path1, R.raw.path2, R.raw.path3),
-    STAIR(R.raw.path1, R.raw.path2, R.raw.path3);
+    GRASS(R.raw.grass1, R.raw.grass2),
+    PATH(),
+    FLOOR(),
+    WALL(),
+    ENTITY(),
+    STAIR();
 
-    final int[] sounds;
-    TileType(int... sounds) {
+    final @RawRes int[] sounds;
+
+    TileType(@RawRes int... sounds) {
         this.sounds = sounds;
     }
 
-    public int getSound() {
+    public @RawRes int getSound() {
         return sounds[(int) (Math.random() * this.sounds.length)];
     }
 }

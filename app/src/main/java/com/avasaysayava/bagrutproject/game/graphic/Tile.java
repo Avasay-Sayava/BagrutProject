@@ -4,14 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.avasaysayava.bagrutproject.game.LineF;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
+import com.avasaysayava.bagrutproject.game.util.LineF;
 
 public class Tile {
     public static final Tile empty = null;
-
+    protected int id;
     protected final int z;
     protected final int down, left;
     protected final int scale;
@@ -23,6 +23,7 @@ public class Tile {
     protected final Collision collisionDown;
 
     public Tile(Tile tile) {
+        this.id = tile.getId();
         this.z = tile.getZ();
         this.left = tile.getLeft();
         this.down = tile.getDown();
@@ -36,6 +37,7 @@ public class Tile {
     }
 
     private Tile(Tile tile, int newScale, int newZ) {
+        this.id = tile.getId();
         this.z = newZ;
         this.left = tile.getLeft();
         this.down = tile.getDown();
@@ -49,6 +51,7 @@ public class Tile {
     }
 
     public Tile(TileSet tileSet, Rect bounds, Collision collision, Collision collisionTop, Collision collisionDown, int left, int down, TileType type) {
+        this.id = -1;
         this.z = 0;
         this.left = left;
         this.down = down;
@@ -148,5 +151,13 @@ public class Tile {
 
     public Tile withZ(int z) {
         return new Tile(this, this.scale, z);
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

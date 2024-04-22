@@ -9,12 +9,16 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.Game;
-import com.avasaysayava.bagrutproject.game.LineF;
-import com.avasaysayava.bagrutproject.game.Util;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.collision.Path;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
+import com.avasaysayava.bagrutproject.game.graphic.TileType;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
+import com.avasaysayava.bagrutproject.game.util.LineF;
+import com.avasaysayava.bagrutproject.game.util.Util;
+
+import java.util.List;
 
 public class Player extends Entity {
     private final float maxSpeed;
@@ -25,6 +29,7 @@ public class Player extends Entity {
     private double angle;
     private int z;
     private int lastId;
+    private boolean playSound;
 
     public Player(Game game, float x, float y, int z) {
         super(game, .4, x, y);
@@ -33,6 +38,7 @@ public class Player extends Entity {
         this.collision = new Collision(Path.polygon(new PointF(5, 33), new PointF(25, 33), new PointF(25, 47), new PointF(5, 47)));
         this.shadow = new Shadow(this.game, this, this.game.playerTileSet.getTile(4));
         this.z = z;
+        this.playSound = true;
     }
 
     @Override
@@ -101,7 +107,7 @@ public class Player extends Entity {
 
     private void updateVelocity(double Vx, double Vy) {
         // smooth velocity change
-        double avgUPS = this.game.getGameLoop().getAvgUPS();
+        double avgUPS = this.game.getGameScheduler().getAvgUPS();
         double totalFactor = Math.pow(1, 60 / avgUPS);
         double continuityFactor = Math.pow(1 - this.mass * this.mass, 60 / avgUPS);
         this.Vx = ((totalFactor - continuityFactor) * Vx + continuityFactor * this.Vx) / totalFactor;
@@ -115,7 +121,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        double avgUPS = this.game.getGameLoop().getAvgUPS();
+        double avgUPS = this.game.getGameScheduler().getAvgUPS();
         if (avgUPS < 1) avgUPS = 1;
 
         Joystick joystick = this.game.getJoystick();
@@ -217,15 +223,32 @@ public class Player extends Entity {
         }
 
         // using the joystick distance for making the player wobble faster when walking
-        // because the velocity is smooth, changing wobble speed is smooth
+        // because the velocity has smooth change, changing wobble speed is smooth
         this.wobble += 4 / avgUPS + getSpeed() / 8;
-        this.wobble %= 2 * Math.PI;
+        this.wobble %= Math.PI * 2;
+
+        if (Math.cos(this.wobble) < 0 && this.playSound && getSpeed() != 0) {
+            this.playSound = false;
+
+            GameMap map = this.game.getMap();
+            Point p = getPositionOnMap(map);
+            List<Tile> tiles = map.getTiles(p.y, p.x);
+
+            for (Tile t : tiles) {
+                if (t.getType() == TileType.GRASS) {
+                    this.game.getAudioScheduler().scheduleFile(t.getType().getSound());
+                    break;
+                }
+            }
+        } else {
+            this.playSound = true;
+        }
 
         this.shadow.update();
     }
 
     private double getPreferredSpeed() {
-        return this.maxSpeed * this.game.getJoystick().getPercentage() / this.game.getGameLoop().getAvgUPS();
+        return this.maxSpeed * this.game.getJoystick().getPercentage() / this.game.getGameScheduler().getAvgUPS();
     }
 
     @Override
@@ -265,5 +288,12 @@ public class Player extends Entity {
 
     public double getVy() {
         return this.Vy;
+    }
+
+    private Point getPositionOnMap(GameMap map) {
+        return new Point(
+                Math.round((this.x - map.getX()) / map.TILE_SIZE),
+                Math.round((this.y - map.getY() + 24) / map.TILE_SIZE)
+        );
     }
 }

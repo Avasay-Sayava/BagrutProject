@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.Game;
-import com.avasaysayava.bagrutproject.game.Util;
+import com.avasaysayava.bagrutproject.game.util.Util;
 
 public class Joystick {
     private final float radius;

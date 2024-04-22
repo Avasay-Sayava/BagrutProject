@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.entity.Player;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.PropsMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.GroundMap;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.GroundTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.PlayerTileSet;
@@ -26,10 +26,14 @@ import com.avasaysayava.bagrutproject.game.graphic.tileset.PropsTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
 import com.avasaysayava.bagrutproject.game.gui.MovableJoystick;
+import com.avasaysayava.bagrutproject.game.thread.AudioScheduler;
+import com.avasaysayava.bagrutproject.game.thread.GameScheduler;
+import com.avasaysayava.bagrutproject.game.util.Util;
 
 @SuppressLint("ViewConstructor")
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public final int SCALE, UPS;
+    public final Paint textPaint;
     public final PlayerTileSet playerTileSet = new PlayerTileSet(getContext());
     public final FloorTileSet floorTileSet = new FloorTileSet(getContext());
     public final GroundTileSet groundTileSet = new GroundTileSet(getContext());
@@ -43,7 +47,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final double[] fpsGraph = new double[400];
     private final double[] upsGraph = new double[400];
     private Bitmap vignetteBitmap;
-    private GameLoop gameLoop;
+    private GameScheduler gameScheduler;
+    private AudioScheduler audioScheduler;
     private boolean debugMode, graphMode;
     private int fpsI = 0;
     private int upsI = 0;
@@ -51,17 +56,23 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public Game(Context context, int ups, int scale, boolean debugMode, boolean graphMode) {
         super(context);
 
+        this.textPaint = new Paint();
+        this.textPaint.setTextSize(50);
+        this.textPaint.setColor(ContextCompat.getColor(getContext(), R.color.White));
+
         this.UPS = ups;
         this.SCALE = scale;
         this.debugMode = debugMode;
         this.graphMode = graphMode;
 
-        createLoop();
+        // initialize schedulers
+        this.audioScheduler = new AudioScheduler(this);
+        createGameScheduler();
 
         // initialize the game objects
         int joystickRadius = 100;
         this.joystick = new MovableJoystick(this, 2 * joystickRadius, getHeight() - 2 * joystickRadius, joystickRadius);
-        this.map = new PropsMap(this, 0, 0);
+        this.map = new GroundMap(this, 0, 0);
         this.player = new Player(this, -32, -32, 0);
 
         // play music
@@ -119,13 +130,19 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         Log.d("app/event", "surfaceCreated");
 
-        // if the game loop is terminated, create a new one
-        if (gameLoop.getState().equals(Thread.State.TERMINATED)) {
-            createLoop();
+        // if the game scheduler is terminated, create a new one
+        if (this.gameScheduler.getState().equals(Thread.State.TERMINATED)) {
+            createGameScheduler();
+        }
+
+        // if the audio scheduler is terminated, create a new one
+        if (this.audioScheduler.getState().equals(Thread.State.TERMINATED)) {
+            createAudioScheduler();
         }
 
         // resume the game loop
-        this.gameLoop.start();
+        this.gameScheduler.start();
+        this.audioScheduler.start();
     }
 
     @Override
@@ -138,9 +155,14 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         float joystickRadius = joystick.getRadius();
         this.joystick.move(2 * joystickRadius, getHeight() - 2 * joystickRadius);
 
-        // if the game loop is terminated, create a new one
-        if (gameLoop.getState().equals(Thread.State.TERMINATED)) {
-            createLoop();
+        // if the game scheduler is terminated, create a new one
+        if (this.gameScheduler.getState().equals(Thread.State.TERMINATED)) {
+            createGameScheduler();
+        }
+
+        // if the audio scheduler is terminated, create a new one
+        if (this.audioScheduler.getState().equals(Thread.State.TERMINATED)) {
+            createAudioScheduler();
         }
     }
 
@@ -164,24 +186,20 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         this.joystick.draw(canvas);
 
-        Paint textPaint = new Paint();
-        textPaint.setTextSize(50);
-        textPaint.setColor(ContextCompat.getColor(getContext(), R.color.White));
-
         if (isDebug()) {
-            drawUPS(canvas, textPaint);
-            drawFPS(canvas, textPaint);
-            drawBounds(canvas, textPaint);
-            drawPlayerVelocity(canvas, textPaint);
+            drawUPS(canvas, this.textPaint);
+            drawFPS(canvas, this.textPaint);
+            drawBounds(canvas, this.textPaint);
+            drawPlayerVelocity(canvas, this.textPaint);
         }
     }
 
     @SuppressLint("DefaultLocale")
     private void drawUPS(Canvas canvas, Paint paint) {
-        String avgUPS = String.format("%.5f", this.gameLoop.getAvgUPS()) + ", " + String.format("%.5f", this.gameLoop.getFixedUPS());
+        String avgUPS = String.format("%.5f", this.gameScheduler.getAvgUPS()) + ", " + String.format("%.5f", this.gameScheduler.getFramedUPS());
         canvas.drawText("UPS: " + avgUPS, 10, 50, paint);
 
-        this.upsGraph[this.upsI++] = this.gameLoop.getAvgUPS();
+        this.upsGraph[this.upsI++] = this.gameScheduler.getAvgUPS();
         this.upsI %= this.upsGraph.length;
 
         if (this.graphMode) {
@@ -201,10 +219,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     @SuppressLint("DefaultLocale")
     private void drawFPS(Canvas canvas, Paint paint) {
-        String avgFPS = String.format("%.5f", this.gameLoop.getAvgFPS()) + ", " + String.format("%.5f", this.gameLoop.getFixedFPS());
+        String avgFPS = String.format("%.5f", this.gameScheduler.getAvgFPS()) + ", " + String.format("%.5f", this.gameScheduler.getFramedFPS());
         canvas.drawText("FPS: " + avgFPS, 10, 100, paint);
 
-        this.fpsGraph[this.fpsI++] = this.gameLoop.getAvgFPS();
+        this.fpsGraph[this.fpsI++] = this.gameScheduler.getAvgFPS();
         this.fpsI %= this.fpsGraph.length;
 
         if (this.graphMode) {
@@ -254,8 +272,12 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         return this.map;
     }
 
-    public GameLoop getGameLoop() {
-        return this.gameLoop;
+    public GameScheduler getGameScheduler() {
+        return this.gameScheduler;
+    }
+
+    public AudioScheduler getAudioScheduler() {
+        return this.audioScheduler;
     }
 
     public Joystick getJoystick() {
@@ -272,7 +294,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     public void onPause() {
         this.joystick.reset();
-        this.gameLoop.pause();
+        this.gameScheduler.pause();
     }
 
     public void onStop() {
@@ -283,11 +305,16 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-    public void createLoop() {
+    public void createGameScheduler() {
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.RGBA_8888);
-        this.gameLoop = new GameLoop(this, surfaceHolder, this.UPS);
-        Log.d("game/loop", "created");
+        this.gameScheduler = new GameScheduler(this, surfaceHolder, this.UPS);
+        Log.d("game/thread", "created " + this.gameScheduler.getName());
+    }
+
+    public void createAudioScheduler() {
+        this.audioScheduler = new AudioScheduler(this);
+        Log.d("game/thread", "created " + this.audioScheduler.getName());
     }
 }
