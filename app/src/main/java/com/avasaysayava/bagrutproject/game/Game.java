@@ -75,10 +75,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         this.map = new GroundMap(this, 0, 0);
         this.player = new Player(this, -32, -32, 0);
 
-        // play music
-//        this.audio = new Audio(context);
-        // TODO: find background music and play it
-
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         this.vignetteBitmap = null;
