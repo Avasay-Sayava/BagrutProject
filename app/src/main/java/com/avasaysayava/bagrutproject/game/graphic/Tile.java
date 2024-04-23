@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.avasaysayava.bagrutproject.game.audio.TileSound;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
@@ -15,7 +16,7 @@ public class Tile {
     protected final int z;
     protected final int down, left;
     protected final int scale;
-    protected final TileType type;
+    protected final TileSound type;
     protected final TileSet tileSet;
     protected final Rect bounds;
     protected final Collision collision;
@@ -50,7 +51,7 @@ public class Tile {
         this.scale = newScale;
     }
 
-    public Tile(TileSet tileSet, Rect bounds, Collision collision, Collision collisionTop, Collision collisionDown, int left, int down, TileType type) {
+    public Tile(TileSet tileSet, Rect bounds, Collision collision, Collision collisionTop, Collision collisionDown, int left, int down, TileSound type) {
         this.id = -1;
         this.z = 0;
         this.left = left;
@@ -141,7 +142,7 @@ public class Tile {
         return this.z;
     }
 
-    public TileType getType() {
+    public TileSound getType() {
         return this.type;
     }
 

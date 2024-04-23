@@ -7,7 +7,7 @@ import android.view.SurfaceHolder;
 import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.structure.SizedDeque;
 
-public class GameScheduler extends GameThread {
+public class OperationScheduler extends PeriodicThread {
     private final int UPS;
     private final Game game;
     private final SurfaceHolder surfaceHolder;
@@ -18,7 +18,7 @@ public class GameScheduler extends GameThread {
     private int ups = 0, fps = 0;
     private long t_start;
 
-    public GameScheduler(Game game, SurfaceHolder surfaceHolder, int ups) {
+    public OperationScheduler(Game game, SurfaceHolder surfaceHolder, int ups) {
         this.UPS = ups;
         this.game = game;
         this.surfaceHolder = surfaceHolder;

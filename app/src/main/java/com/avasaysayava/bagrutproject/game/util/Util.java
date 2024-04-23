@@ -86,4 +86,8 @@ public class Util {
                 + '/' + res.getResourceTypeName(resId)
                 + '/' + res.getResourceEntryName(resId));
     }
+
+    public static <T> T randomElement(T[] arr) {
+        return arr[(int) (Math.random() * arr.length)];
+    }
 }

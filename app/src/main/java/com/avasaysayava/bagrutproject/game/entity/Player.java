@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.Game;
+import com.avasaysayava.bagrutproject.game.audio.TileSound;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.collision.Path;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
-import com.avasaysayava.bagrutproject.game.graphic.TileType;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
 import com.avasaysayava.bagrutproject.game.util.LineF;
@@ -107,7 +107,7 @@ public class Player extends Entity {
 
     private void updateVelocity(double Vx, double Vy) {
         // smooth velocity change
-        double avgUPS = this.game.getGameScheduler().getAvgUPS();
+        double avgUPS = this.game.getOperationScheduler().getAvgUPS();
         double totalFactor = Math.pow(1, 60 / avgUPS);
         double continuityFactor = Math.pow(1 - this.mass * this.mass, 60 / avgUPS);
         this.Vx = ((totalFactor - continuityFactor) * Vx + continuityFactor * this.Vx) / totalFactor;
@@ -121,7 +121,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        double avgUPS = this.game.getGameScheduler().getAvgUPS();
+        double avgUPS = this.game.getOperationScheduler().getAvgUPS();
         if (avgUPS < 1) avgUPS = 1;
 
         Joystick joystick = this.game.getJoystick();
@@ -227,17 +227,19 @@ public class Player extends Entity {
         this.wobble += 4 / avgUPS + getSpeed() / 8;
         this.wobble %= Math.PI * 2;
 
-        if (Math.cos(this.wobble) < 0 && this.playSound && getSpeed() != 0) {
-            this.playSound = false;
+        if (Math.cos(this.wobble) < 0) {
+            if (this.playSound && getSpeed() != 0) {
+                this.playSound = false;
 
-            GameMap map = this.game.getMap();
-            Point p = getPositionOnMap(map);
-            List<Tile> tiles = map.getTiles(p.y, p.x);
+                GameMap map = this.game.getMap();
+                Point p = getPositionOnMap(map);
+                List<Tile> tiles = map.getTiles(p.y, p.x);
 
-            for (Tile t : tiles) {
-                if (t.getType() == TileType.GRASS) {
-                    this.game.getAudioScheduler().scheduleFile(t.getType().getSound());
-                    break;
+                for (Tile t : tiles) {
+                    if (t.getType() == TileSound.GRASS) {
+                        Util.randomElement(this.game.tileSounds.getSounds(t.getType())).start();
+                        break;
+                    }
                 }
             }
         } else {
@@ -248,7 +250,7 @@ public class Player extends Entity {
     }
 
     private double getPreferredSpeed() {
-        return this.maxSpeed * this.game.getJoystick().getPercentage() / this.game.getGameScheduler().getAvgUPS();
+        return this.maxSpeed * this.game.getJoystick().getPercentage() / this.game.getOperationScheduler().getAvgUPS();
     }
 
     @Override

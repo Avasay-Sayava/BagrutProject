@@ -5,9 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import com.avasaysayava.bagrutproject.game.audio.TileSound;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
-import com.avasaysayava.bagrutproject.game.graphic.TileType;
 
 public abstract class TileSet {
     private final Bitmap bitmap;
@@ -29,11 +29,11 @@ public abstract class TileSet {
         return this.bitmap;
     }
 
-    public Tile getTile(int left, int down, int x, int y, int width, int height, Collision collision, Collision collisionTop, Collision collisionDown, TileType type) {
+    public Tile getTile(int left, int down, int x, int y, int width, int height, Collision collision, Collision collisionTop, Collision collisionDown, TileSound type) {
         return new Tile(this, new Rect(x, y, x + width, y + height), collision, collisionTop, collisionDown, left, down, type);
     }
 
-    public Tile getTile(int left, int down, int x, int y, int width, int height, int tileSize, Collision collision, Collision collisionTop, Collision collisionDown, TileType type) {
+    public Tile getTile(int left, int down, int x, int y, int width, int height, int tileSize, Collision collision, Collision collisionTop, Collision collisionDown, TileSound type) {
         return getTile(left, down, tileSize * x, tileSize * y, tileSize * width, tileSize * height, collision, collisionTop, collisionDown, type);
     }
 

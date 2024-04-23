@@ -1,9 +1,11 @@
 package com.avasaysayava.bagrutproject.game.thread;
 
-public abstract class GameThread extends Thread {
+import android.util.Log;
+
+public abstract class PeriodicThread extends Thread {
     private boolean running;
 
-    public GameThread() {
+    public PeriodicThread() {
         super();
         setName(getClass().getName());
     }
@@ -29,7 +31,8 @@ public abstract class GameThread extends Thread {
         this.running = false;
         try {
             join();
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
+            Log.e("game/thread", e.getMessage(), e);
         }
     }
 
