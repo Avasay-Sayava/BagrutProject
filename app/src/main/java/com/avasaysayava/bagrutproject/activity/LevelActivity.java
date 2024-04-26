@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.UsersTableHelper;
 import com.avasaysayava.bagrutproject.game.Level;
 import com.avasaysayava.bagrutproject.service.BackgroundMusicService;
 
@@ -27,13 +26,11 @@ public class LevelActivity extends Activity {
     private ImageButton img_btn_play, img_btn_debug, img_btn_graph, img_btn_quit;
     private MediaPlayer click, load;
     private long t_start;
-    private UsersTableHelper scoresDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.scoresDB = new UsersTableHelper(this);
         this.t_start = System.currentTimeMillis();
 
         Log.d("app/event", "onCreate");

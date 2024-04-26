@@ -13,32 +13,28 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 
 import com.avasaysayava.bagrutproject.R;
+import com.avasaysayava.bagrutproject.database.UUIDDataSource;
 
 public class StartActivity extends Activity {
     private RadioGroup optionsMenu;
     private Button btn_go;
     private MediaPlayer click, load;
+    private UUIDDataSource uuidDataSource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.deleteDatabase("Database");
+        this.uuidDataSource = new UUIDDataSource(this);
 
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
 
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
 
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -52,9 +48,9 @@ public class StartActivity extends Activity {
         this.btn_go.setOnClickListener(v -> {
             if (this.optionsMenu.getCheckedRadioButtonId() == R.id.rb_levels) {
                 startActivity(new Intent(this, MenuActivity.class), savedInstanceState);
-            } else if (this.optionsMenu.getCheckedRadioButtonId() == R.id.rb_register) {
-                startActivity(new Intent(this, RegisterActivity.class), savedInstanceState);
             }
         });
+
+        this.uuidDataSource.checkUUID();
     }
 }

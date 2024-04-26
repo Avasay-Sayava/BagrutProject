@@ -51,16 +51,6 @@
                 android:textSize="20sp" />
 
             <RadioButton
-                android:id="@+id/rb_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/default_radio"
-                android:fontFamily="@font/monospace"
-                android:text="Register"
-                android:textColor="@color/White"
-                android:textSize="20sp" />
-
-            <RadioButton
                 android:id="@+id/rb_how_to_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
