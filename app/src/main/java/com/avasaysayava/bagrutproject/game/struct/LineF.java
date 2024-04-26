@@ -1,4 +1,4 @@
-package com.avasaysayava.bagrutproject.game.util;
+package com.avasaysayava.bagrutproject.game.struct;
 
 import android.graphics.PointF;
 import android.util.Pair;

@@ -5,10 +5,10 @@ import android.media.MediaPlayer;
 
 import java.util.HashMap;
 
-public class TileSounds {
+public class TileSoundPreloader {
     private final HashMap<TileSound, MediaPlayer[]> soundMap;
 
-    public TileSounds(Context context) {
+    public TileSoundPreloader(Context context) {
         this.soundMap = new HashMap<>();
 
         for (TileSound ts : TileSound.values()) {

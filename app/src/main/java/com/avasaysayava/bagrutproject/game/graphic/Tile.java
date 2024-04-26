@@ -8,11 +8,11 @@ import com.avasaysayava.bagrutproject.game.audio.TileSound;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
-import com.avasaysayava.bagrutproject.game.util.LineF;
+import com.avasaysayava.bagrutproject.game.prop.Prop;
+import com.avasaysayava.bagrutproject.game.struct.LineF;
 
 public class Tile {
     public static final Tile empty = null;
-    protected int id;
     protected final int z;
     protected final int down, left;
     protected final int scale;
@@ -22,6 +22,8 @@ public class Tile {
     protected final Collision collision;
     protected final Collision collisionTop;
     protected final Collision collisionDown;
+    protected Prop prop;
+    protected int id;
 
     public Tile(Tile tile) {
         this.id = tile.getId();
@@ -35,6 +37,7 @@ public class Tile {
         this.collisionTop = tile.getCollisionTop();
         this.collisionDown = tile.getCollisionDown();
         this.type = tile.getType();
+        this.prop = tile.getProp();
     }
 
     private Tile(Tile tile, int newScale, int newZ) {
@@ -48,6 +51,7 @@ public class Tile {
         this.collisionTop = tile.getCollisionTop();
         this.collisionDown = tile.getCollisionDown();
         this.type = tile.getType();
+        this.prop = tile.getProp();
         this.scale = newScale;
     }
 
@@ -63,6 +67,15 @@ public class Tile {
         this.bounds = bounds;
         this.scale = 1;
         this.type = type;
+        this.prop = null;
+    }
+
+    public Prop getProp() {
+        return this.prop;
+    }
+
+    public void setProp(Prop prop) {
+        this.prop = prop;
     }
 
     public void draw(Canvas canvas, float x, float y, Paint paint) {
@@ -70,13 +83,7 @@ public class Tile {
     }
 
     public void draw(Canvas canvas, float x, float y, double extraWidth, double extraHeight, Paint paint) {
-        canvas.drawBitmap(this.tileSet.getBitmap(),
-                this.bounds,
-                new Rect((int) x,
-                        (int) (y - extraHeight * this.scale),
-                        (int) (x + getWidth() + extraWidth * this.scale),
-                        (int) (y + getHeight())),
-                paint);
+        canvas.drawBitmap(this.tileSet.getBitmap(), this.bounds, new Rect((int) x, (int) (y - extraHeight * this.scale), (int) (x + getWidth() + extraWidth * this.scale), (int) (y + getHeight())), paint);
     }
 
     public LineF getIntersector(Entity e) {
@@ -90,12 +97,9 @@ public class Tile {
     }
 
     public void move(float x, float y) {
-        if (this.collision != Collision.empty)
-            this.collision.move(x, y);
-        if (this.collisionTop != Collision.empty)
-            this.collisionTop.move(x, y);
-        if (this.collisionDown != Collision.empty)
-            this.collisionDown.move(x, y);
+        if (this.collision != Collision.empty) this.collision.move(x, y);
+        if (this.collisionTop != Collision.empty) this.collisionTop.move(x, y);
+        if (this.collisionDown != Collision.empty) this.collisionDown.move(x, y);
     }
 
     public int getWidth() {

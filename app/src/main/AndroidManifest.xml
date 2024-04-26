@@ -21,7 +21,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.GameActivity"
+            android:name=".activity.LevelActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.MenuActivity"
             android:exported="true" />
 
         <service

@@ -10,6 +10,7 @@ public enum TileSound {
     FLOOR(),
     WALL(),
     ENTITY(),
+    GLYPH(R.raw.glyph1, R.raw.glyph2),
     STAIR();
 
     public final int[] sounds;

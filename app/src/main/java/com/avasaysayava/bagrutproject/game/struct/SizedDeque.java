@@ -1,4 +1,4 @@
-package com.avasaysayava.bagrutproject.game.structure;
+package com.avasaysayava.bagrutproject.game.struct;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayDeque;

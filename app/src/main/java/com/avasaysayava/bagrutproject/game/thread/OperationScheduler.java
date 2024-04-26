@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.avasaysayava.bagrutproject.game.Game;
-import com.avasaysayava.bagrutproject.game.structure.SizedDeque;
+import com.avasaysayava.bagrutproject.game.struct.SizedDeque;
 
 public class OperationScheduler extends PeriodicThread {
     private final int UPS;
@@ -50,7 +50,7 @@ public class OperationScheduler extends PeriodicThread {
     protected void periodic() {
         Canvas canvas = null;
 
-        // Trying to update & render the game
+        // Trying to update & render the level
         try {
             canvas = this.surfaceHolder.lockCanvas();
             synchronized (this.surfaceHolder) {
@@ -65,7 +65,7 @@ public class OperationScheduler extends PeriodicThread {
                 this.game.draw(canvas);
             }
         } catch (IllegalArgumentException e) {
-            Log.e("game/thread", e.getMessage(), e);
+            Log.e("level/thread", e.getMessage(), e);
         } finally {
             if (canvas != null) {
                 try {
@@ -75,7 +75,7 @@ public class OperationScheduler extends PeriodicThread {
 
                     this.fpsDeque.addLast(System.nanoTime());
                 } catch (Exception e) {
-                    Log.e("game/thread", e.getMessage(), e);
+                    Log.e("level/thread", e.getMessage(), e);
                 }
             }
         }
@@ -88,7 +88,7 @@ public class OperationScheduler extends PeriodicThread {
             try {
                 sleep(t_sleep / 1_000_000, (int) (t_sleep % 1_000_000));
             } catch (InterruptedException e) {
-                Log.e("game/thread", e.getMessage(), e);
+                Log.e("level/thread", e.getMessage(), e);
             }
         }
 

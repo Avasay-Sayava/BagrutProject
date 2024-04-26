@@ -12,14 +12,18 @@ import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
-import com.avasaysayava.bagrutproject.game.util.LineF;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet;
+import com.avasaysayava.bagrutproject.game.prop.GlyphProp;
+import com.avasaysayava.bagrutproject.game.prop.GlyphStoneProp;
+import com.avasaysayava.bagrutproject.game.struct.LineF;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public abstract class GameMap {
+public class GameMap {
     public final int TILE_SIZE;
     protected final List<Tile>[][] map;
     protected Game game;
@@ -41,6 +45,20 @@ public abstract class GameMap {
     public void translate(float dx, float dy) {
         this.x += dx;
         this.y += dy;
+    }
+
+    public void update(Entity... entities) {
+        for (List<Tile>[] lists : this.map) {
+            for (List<Tile> list : lists) {
+                for (Tile tile : list) {
+                    if (tile == Tile.empty)
+                        continue;
+                    if (tile.getProp() == null)
+                        continue;
+                    tile.getProp().update(entities);
+                }
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -75,6 +93,12 @@ public abstract class GameMap {
                         (this.x + cords.x * this.TILE_SIZE) * this.game.SCALE,
                         (this.y + cords.y * this.TILE_SIZE) * this.game.SCALE,
                         null);
+                if (tile.getProp() != null && tile.getProp().getTile() != null) {
+                    tile.getProp().getTile().withScale(this.game.SCALE).draw(canvas,
+                            (this.x + cords.x * this.TILE_SIZE) * this.game.SCALE,
+                            (this.y + cords.y * this.TILE_SIZE) * this.game.SCALE,
+                            null);
+                }
             } else if (o instanceof Entity) {
                 Entity entity = (Entity) o;
                 entity.draw(canvas);
@@ -178,6 +202,54 @@ public abstract class GameMap {
 
     public float getY() {
         return this.y;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public int getColumns() {
+        int columns = 0;
+        for (List<Tile>[] row : this.map)
+            columns = Math.max(columns, row.length);
+        return columns;
+    }
+
+    public int getRows() {
+        return this.map.length;
+    }
+
+    public List<Tile>[][] getMap() {
+        return map;
+    }
+
+    public void clear() {
+        for (List<Tile>[] lists : this.map) {
+            for (List<Tile> list : lists) {
+                for (Tile tile : list) {
+                    if (tile == Tile.empty)
+                        continue;
+                    tile.setProp(null);
+                }
+            }
+        }
+    }
+
+    public void prepare() {
+        for (int i = 0; i < this.map.length; i++) {
+            for (int j = 0; j < this.map[i].length; j++) {
+                for (Tile tile : this.map[i][j]) {
+                    if (tile == Tile.empty)
+                        continue;
+                    if (tile.getTileSet() instanceof StructuresTileSet
+                            && (tile.getId() == 21 || tile.getId() == 5)) {
+                        tile.setProp(new GlyphStoneProp(this.game, this, tile, j, i));
+                    } else if (tile.getTileSet() instanceof FloorTileSet) {
+                        tile.setProp(new GlyphProp(this.game, this, tile, j, i));
+                    }
+                }
+            }
+        }
     }
 
     private static class Prioritised {

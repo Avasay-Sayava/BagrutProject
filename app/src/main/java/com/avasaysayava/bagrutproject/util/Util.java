@@ -1,5 +1,6 @@
-package com.avasaysayava.bagrutproject.game.util;
+package com.avasaysayava.bagrutproject.util;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
@@ -89,5 +90,16 @@ public class Util {
 
     public static <T> T randomElement(T[] arr) {
         return arr[(int) (Math.random() * arr.length)];
+    }
+
+    @SuppressLint("DefaultLocale")
+    public static String millisToTime(long millis) {
+        long hours = millis / (1000 * 60 * 60);
+        long minutes = (millis / (1000 * 60)) % 60;
+        long seconds = (millis / 1000) % 60;
+        millis %= 1000;
+        if (hours > 99)
+            return "99:59:59.999";
+        return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
     }
 }

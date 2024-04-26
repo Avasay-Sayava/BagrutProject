@@ -7,20 +7,20 @@ import android.view.MotionEvent;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.game.Game;
-import com.avasaysayava.bagrutproject.game.util.Util;
+import com.avasaysayava.bagrutproject.game.Level;
+import com.avasaysayava.bagrutproject.util.Util;
 
 public class Joystick {
     private final float radius;
     private final Paint innerPaint;
     private final Paint outerPaint;
     protected float outerX, outerY;
+    protected float innerX, innerY;
     private float X, Y;
-    private float innerX, innerY;
     private boolean enabled;
     private boolean inverted;
 
-    public Joystick(Game game, float x, float y, float radius) {
+    public Joystick(Level level, float x, float y, float radius) {
         this.X = this.innerX = this.outerX = x;
         this.Y = this.innerY = this.outerY = y;
         this.radius = radius;
@@ -29,11 +29,11 @@ public class Joystick {
 
         // initialize the Paints
         this.innerPaint = new Paint();
-        this.innerPaint.setColor(ContextCompat.getColor(game.getContext(), R.color.White));
+        this.innerPaint.setColor(ContextCompat.getColor(level.getContext(), R.color.White));
         this.innerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         this.outerPaint = new Paint();
-        this.outerPaint.setColor(Util.withAlpha(ContextCompat.getColor(game.getContext(), R.color.White), 0x80));
+        this.outerPaint.setColor(Util.withAlpha(ContextCompat.getColor(level.getContext(), R.color.White), 0x80));
         this.outerPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
@@ -117,8 +117,6 @@ public class Joystick {
     }
 
     public void enable(MotionEvent ignored) {
-//        this.outerX = this.innerX = event.getX();
-//        this.outerY = this.innerY = event.getY();
         this.enabled = true;
     }
 

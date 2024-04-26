@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">Bagrut Project</string>
+    <string name="app_name" translatable="false">Bagrut Project</string>
+    <string name="back">Back</string>
+    <string name="level1">Level 01</string>
+    <string name="level2">Level 02</string>
+    <string name="level3">Level 03</string>
+    <string name="level4">Level 04</string>
+    <string name="level6">Level 06</string>
+    <string name="level5">Level 05</string>
+    <string name="level7">Level 07</string>
+    <string name="level8">Level 08</string>
+    <string name="level9">Level 09</string>
+    <string name="debug_mode">Debug Mode</string>
+    <string name="play">PLAY</string>
+    <string name="no_level_title">Level 00</string>
+    <string name="no_level_provided">Can not load level.</string>
+    <string name="lose_all_progress">Do you want to quit?\nProceeding will lose all progress.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="no_preview">Preview is not available.</string>
+    <string name="pb_example">P. Best: 00:00:00.00</string>
+    <string name="wr_example">W. Record: 00:00:00.00</string>
+    <string name="invalid_info">Invalid password/username.</string>
 </resources>

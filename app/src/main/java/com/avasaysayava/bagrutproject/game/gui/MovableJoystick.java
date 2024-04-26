@@ -1,10 +1,12 @@
 package com.avasaysayava.bagrutproject.game.gui;
 
-import com.avasaysayava.bagrutproject.game.Game;
+import android.view.MotionEvent;
+
+import com.avasaysayava.bagrutproject.game.Level;
 
 public class MovableJoystick extends Joystick {
-    public MovableJoystick(Game game, float x, float y, float radius) {
-        super(game, x, y, radius);
+    public MovableJoystick(Level level, float x, float y, float radius) {
+        super(level, x, y, radius);
     }
 
     @Override
@@ -13,5 +15,13 @@ public class MovableJoystick extends Joystick {
             this.outerX += (float) ((isInverted() ? -1 : 1) * getCos() * (getDistance() - getRadius()) / 2);
             this.outerY += (float) ((isInverted() ? -1 : 1) * getSin() * (getDistance() - getRadius()) / 2);
         }
+    }
+
+    @Override
+    public void enable(MotionEvent event) {
+        super.enable(event);
+
+        this.outerX = this.innerX = event.getX();
+        this.outerY = this.innerY = event.getY();
     }
 }

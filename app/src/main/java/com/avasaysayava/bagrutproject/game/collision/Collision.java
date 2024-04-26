@@ -3,7 +3,7 @@ package com.avasaysayava.bagrutproject.game.collision;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.avasaysayava.bagrutproject.game.util.LineF;
+import com.avasaysayava.bagrutproject.game.struct.LineF;
 
 public class Collision {
     public static final Collision empty = null;

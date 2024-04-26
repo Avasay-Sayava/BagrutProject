@@ -4,15 +4,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import com.avasaysayava.bagrutproject.game.Game;
+import com.avasaysayava.bagrutproject.game.Level;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
 
 public class Shadow extends Entity {
     private final Tile tile;
     private final Entity entity;
-    public Shadow(Game game, Entity entity, Tile tile) {
-        super(game, 0, entity.getX(), entity.getY());
+
+    public Shadow(Level level, Entity entity, Tile tile) {
+        super(level, 0, entity.getX(), entity.getY());
         this.tile = tile;
         this.entity = entity;
     }
@@ -21,7 +22,7 @@ public class Shadow extends Entity {
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
         paint.setAlpha(25);
-        this.tile.withScale(this.game.SCALE).draw(canvas, this.x * this.game.SCALE, this.y * this.game.SCALE, paint);
+        this.tile.withScale(this.level.SCALE).draw(canvas, this.x * this.level.SCALE, this.y * this.level.SCALE, paint);
     }
 
     @Override
