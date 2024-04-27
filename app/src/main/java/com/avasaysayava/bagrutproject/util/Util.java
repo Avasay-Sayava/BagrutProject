@@ -16,6 +16,8 @@ import android.net.Uri;
 import androidx.annotation.AnyRes;
 import androidx.annotation.NonNull;
 
+import com.avasaysayava.bagrutproject.database.UUIDDataSource;
+
 public class Util {
     public static double random(double lower, double upper) {
         return Math.random() * (upper - lower) + lower;
@@ -62,12 +64,7 @@ public class Util {
         float radius = Math.max(width, height) / 2f;
 
         // create the radial gradient
-        Shader shader = new RadialGradient(centerX,
-                centerY,
-                radius,
-                Color.TRANSPARENT,
-                Util.withAlpha(Color.BLACK, 0x60),
-                Shader.TileMode.CLAMP);
+        Shader shader = new RadialGradient(centerX, centerY, radius, Color.TRANSPARENT, Util.withAlpha(Color.BLACK, 0x60), Shader.TileMode.CLAMP);
 
         // set up the paint for drawing the gradient
         Paint paint = new Paint();
@@ -82,10 +79,7 @@ public class Util {
     public static Uri ResIdToUri(@NonNull Context context, @AnyRes int resId) throws Resources.NotFoundException {
         Resources res = context.getResources();
 
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
-                "://" + res.getResourcePackageName(resId)
-                + '/' + res.getResourceTypeName(resId)
-                + '/' + res.getResourceEntryName(resId));
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resId) + '/' + res.getResourceTypeName(resId) + '/' + res.getResourceEntryName(resId));
     }
 
     public static <T> T randomElement(T[] arr) {
@@ -93,13 +87,27 @@ public class Util {
     }
 
     @SuppressLint("DefaultLocale")
-    public static String millisToTime(long millis) {
+    public static String timeToString(long millis) {
         long hours = millis / (1000 * 60 * 60);
         long minutes = (millis / (1000 * 60)) % 60;
         long seconds = (millis / 1000) % 60;
         millis %= 1000;
-        if (hours > 99)
-            return "99:59:59.999";
+        if (hours > 99) return "99:59:59.999";
         return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
+    }
+
+    public static void updateUUID(UUIDDataSource uuidDataSource) {
+        uuidDataSource.openReadable();
+        String uuid = uuidDataSource.getUUID();
+        if (uuid == null || uuid.isEmpty() || !uuidDataSource.UUIDExists(uuid)) {
+            do {
+                uuid = uuidDataSource.generateUUID();
+            } while (uuidDataSource.UUIDExists(uuid));
+            uuidDataSource.close();
+            uuidDataSource.openWriteable();
+            uuidDataSource.insertUUID(uuid);
+            uuidDataSource.saveUUID(uuid);
+            uuidDataSource.close();
+        }
     }
 }

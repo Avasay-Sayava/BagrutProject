@@ -9,12 +9,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + DatabaseContract.UUIDEntry.TABLE_NAME + " (" +
-                    DatabaseContract.UUIDEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    DatabaseContract.UUIDEntry.COLUMN_UUID + " VARCHAR(128))";
+            "CREATE TABLE " + DatabaseContract.UserEntry.TABLE_NAME + " (" +
+                    DatabaseContract.UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    DatabaseContract.UserEntry.COLUMN_UUID + " CHAR(36))";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + DatabaseContract.UUIDEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + DatabaseContract.UserEntry.TABLE_NAME;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

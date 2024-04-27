@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.database.UUIDDataSource;
+import com.avasaysayava.bagrutproject.util.Util;
 
 public class StartActivity extends Activity {
     private RadioGroup optionsMenu;
@@ -25,16 +27,16 @@ public class StartActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+
         this.uuidDataSource = new UUIDDataSource(this);
+        Util.updateUUID(this.uuidDataSource);
 
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
-
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -51,6 +53,6 @@ public class StartActivity extends Activity {
             }
         });
 
-        this.uuidDataSource.checkUUID();
+        Log.d(getClass().getSimpleName(), "UUID: " + this.uuidDataSource.getUUID());
     }
 }
