@@ -103,7 +103,7 @@ public class LevelPreview extends Game {
         if (this.map == null) {
             String text = getContext().getString(R.string.no_preview);
             float previewX = (getWidth() - this.textPaint.measureText(text)) / 2f;
-            float previewY = getHeight() / 2f;
+            float previewY = 40 + (getHeight() + this.textPaint.getTextSize()) / 2f;
             canvas.drawText(text, previewX, previewY, this.textPaint);
         } else {
             float previewX = (getWidth() - this.SCALE * this.map.TILE_SIZE * this.map.getColumns()) / 2f;

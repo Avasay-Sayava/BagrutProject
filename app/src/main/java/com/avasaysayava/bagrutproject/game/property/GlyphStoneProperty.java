@@ -1,4 +1,4 @@
-package com.avasaysayava.bagrutproject.game.prop;
+package com.avasaysayava.bagrutproject.game.property;
 
 import android.graphics.Point;
 
@@ -8,11 +8,11 @@ import com.avasaysayava.bagrutproject.game.graphic.Tile;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.util.Util;
 
-public class GlyphStoneProp extends Prop {
+public class GlyphStoneProperty extends Property {
     private int glyphs, glyphsGoal;
     private Tile tile;
 
-    public GlyphStoneProp(Game game, GameMap map, Tile parent, int x, int y) {
+    public GlyphStoneProperty(Game game, GameMap map, Tile parent, int x, int y) {
         super(game, map, parent, x, y);
 
         this.glyphs = 0;

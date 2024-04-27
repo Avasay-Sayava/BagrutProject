@@ -8,7 +8,7 @@ import com.avasaysayava.bagrutproject.game.audio.TileSound;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
-import com.avasaysayava.bagrutproject.game.prop.Prop;
+import com.avasaysayava.bagrutproject.game.property.Property;
 import com.avasaysayava.bagrutproject.game.struct.LineF;
 
 public class Tile {
@@ -22,7 +22,7 @@ public class Tile {
     protected final Collision collision;
     protected final Collision collisionTop;
     protected final Collision collisionDown;
-    protected Prop prop;
+    protected Property property;
     protected int id;
 
     public Tile(Tile tile) {
@@ -37,7 +37,7 @@ public class Tile {
         this.collisionTop = tile.getCollisionTop();
         this.collisionDown = tile.getCollisionDown();
         this.type = tile.getType();
-        this.prop = tile.getProp();
+        this.property = tile.getProp();
     }
 
     private Tile(Tile tile, int newScale, int newZ) {
@@ -51,7 +51,7 @@ public class Tile {
         this.collisionTop = tile.getCollisionTop();
         this.collisionDown = tile.getCollisionDown();
         this.type = tile.getType();
-        this.prop = tile.getProp();
+        this.property = tile.getProp();
         this.scale = newScale;
     }
 
@@ -67,15 +67,15 @@ public class Tile {
         this.bounds = bounds;
         this.scale = 1;
         this.type = type;
-        this.prop = null;
+        this.property = null;
     }
 
-    public Prop getProp() {
-        return this.prop;
+    public Property getProp() {
+        return this.property;
     }
 
-    public void setProp(Prop prop) {
-        this.prop = prop;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public void draw(Canvas canvas, float x, float y, Paint paint) {

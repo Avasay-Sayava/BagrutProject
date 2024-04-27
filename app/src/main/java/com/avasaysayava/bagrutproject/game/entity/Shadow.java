@@ -13,7 +13,7 @@ public class Shadow extends Entity {
     private final Entity entity;
 
     public Shadow(Level level, Entity entity, Tile tile) {
-        super(level, 0, entity.getX(), entity.getY());
+        super(level, 0, entity.getX(), entity.getY(), entity.getZ());
         this.tile = tile;
         this.entity = entity;
     }
@@ -53,6 +53,11 @@ public class Shadow extends Entity {
     @Override
     public int getZ() {
         return this.entity.getZ();
+    }
+
+    @Override
+    public void setZ(int z) {
+        this.entity.setZ(z);
     }
 
     @Override

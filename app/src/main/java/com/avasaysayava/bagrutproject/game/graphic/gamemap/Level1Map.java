@@ -33,7 +33,7 @@ public class Level1Map extends GameMap {
                         },
                         new List[]{
                                 Arrays.asList(game.groundTileSet.getTile(7), game.wallsTileSet.getTile(13).withZ(0)),
-                                Arrays.asList(game.groundTileSet.getTile(11), game.floorTileSet.getTile(27)),
+                                Arrays.asList(game.groundTileSet.getTile(11), game.glyphFloorTileSet.getTile(27)),
                                 Arrays.asList(game.groundTileSet.getTile(11), game.wallsTileSet.getTile(14).withZ(0))
                         },
                         new List[]{

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.avasaysayava.bagrutproject.game.audio.TileSoundPreloader;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.GlyphFloorTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.GroundTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.PlayerTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet;
@@ -20,7 +21,7 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
     public final int SCALE, UPS;
     public final Paint textPaint;
     public final TileSoundPreloader tileSoundPreloader;
-    public final TileSet playerTileSet, floorTileSet, groundTileSet, structuresTileSet, wallsTileSet;
+    public final TileSet playerTileSet, floorTileSet, glyphFloorTileSet, groundTileSet, structuresTileSet, wallsTileSet;
 
     public Game(Context context, int UPS, int SCALE, Paint textPaint) {
         this(context, null, UPS, SCALE, textPaint);
@@ -44,6 +45,7 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
         this.tileSoundPreloader = new TileSoundPreloader(getContext());
         this.playerTileSet = new PlayerTileSet(getContext());
         this.floorTileSet = new FloorTileSet(getContext());
+        this.glyphFloorTileSet = new GlyphFloorTileSet(getContext());
         this.groundTileSet = new GroundTileSet(getContext());
         this.structuresTileSet = new StructuresTileSet(getContext());
         this.wallsTileSet = new WallsTileSet(getContext());

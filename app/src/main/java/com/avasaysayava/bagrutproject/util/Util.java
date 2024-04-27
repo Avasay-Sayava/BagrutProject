@@ -16,7 +16,7 @@ import android.net.Uri;
 import androidx.annotation.AnyRes;
 import androidx.annotation.NonNull;
 
-import com.avasaysayava.bagrutproject.database.UUIDDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
 
 public class Util {
     public static double random(double lower, double upper) {
@@ -103,7 +103,6 @@ public class Util {
             do {
                 uuid = uuidDataSource.generateUUID();
             } while (uuidDataSource.UUIDExists(uuid));
-            uuidDataSource.close();
             uuidDataSource.openWriteable();
             uuidDataSource.insertUUID(uuid);
             uuidDataSource.saveUUID(uuid);

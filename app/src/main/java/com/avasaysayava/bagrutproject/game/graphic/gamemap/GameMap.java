@@ -12,11 +12,15 @@ import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
-import com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.GlyphFloorTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet;
-import com.avasaysayava.bagrutproject.game.prop.GlyphProp;
-import com.avasaysayava.bagrutproject.game.prop.GlyphStoneProp;
+import com.avasaysayava.bagrutproject.game.graphic.tileset.WallsTileSet;
+import com.avasaysayava.bagrutproject.game.property.GlyphProperty;
+import com.avasaysayava.bagrutproject.game.property.GlyphStoneProperty;
+import com.avasaysayava.bagrutproject.game.property.StairDownProperty;
+import com.avasaysayava.bagrutproject.game.property.StairUpProperty;
 import com.avasaysayava.bagrutproject.game.struct.LineF;
+import com.avasaysayava.bagrutproject.util.Util;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -229,7 +233,7 @@ public class GameMap {
                 for (Tile tile : list) {
                     if (tile == Tile.empty)
                         continue;
-                    tile.setProp(null);
+                    tile.setProperty(null);
                 }
             }
         }
@@ -242,10 +246,19 @@ public class GameMap {
                     if (tile == Tile.empty)
                         continue;
                     if (tile.getTileSet() instanceof StructuresTileSet
+                            // glyph stones indexes
                             && (tile.getId() == 21 || tile.getId() == 5)) {
-                        tile.setProp(new GlyphStoneProp(this.game, this, tile, j, i));
-                    } else if (tile.getTileSet() instanceof FloorTileSet) {
-                        tile.setProp(new GlyphProp(this.game, this, tile, j, i));
+                        tile.setProperty(new GlyphStoneProperty(this.game, this, tile, j, i));
+                    } else if (tile.getTileSet() instanceof GlyphFloorTileSet) {
+                        tile.setProperty(new GlyphProperty(this.game, this, tile, j, i));
+                    } else if (tile.getTileSet() instanceof WallsTileSet
+                            // middle part of stairs indexes
+                            && Util.within(85, tile.getId(), 90)) {
+                        tile.setProperty(new StairUpProperty(this.game, this, tile, j, i));
+                    } else if (tile.getTileSet() instanceof WallsTileSet
+                            // lower part of stairs indexes
+                            && Util.within(94, tile.getId(), 99)) {
+                        tile.setProperty(new StairDownProperty(this.game, this, tile, j, i));
                     }
                 }
             }

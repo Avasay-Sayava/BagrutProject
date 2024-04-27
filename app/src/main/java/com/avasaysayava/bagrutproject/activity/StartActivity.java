@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -14,7 +13,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.UUIDDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
 import com.avasaysayava.bagrutproject.util.Util;
 
 public class StartActivity extends Activity {
@@ -27,8 +26,8 @@ public class StartActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
 
         this.uuidDataSource = new UUIDDataSource(this);
         Util.updateUUID(this.uuidDataSource);
@@ -53,6 +52,6 @@ public class StartActivity extends Activity {
             }
         });
 
-        Log.d(getClass().getSimpleName(), "UUID: " + this.uuidDataSource.getUUID());
+        Log.d(getClass().getSimpleName(), "User UUID: " + this.uuidDataSource.getUUID());
     }
 }

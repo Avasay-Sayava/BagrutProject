@@ -27,17 +27,15 @@ public class Player extends Entity {
     private double wobble;
     private double Vx, Vy;
     private double angle;
-    private int z;
     private int lastId;
     private boolean playSound;
 
     public Player(Level level, float x, float y, int z) {
-        super(level, .4, x, y);
+        super(level, .4, x, y, z);
         this.maxSpeed = 80;
         this.lastId = 0;
         this.collision = new Collision(Path.polygon(new PointF(5, 33), new PointF(25, 33), new PointF(25, 47), new PointF(5, 47)));
         this.shadow = new Shadow(this.level, this, this.level.playerTileSet.getTile(4));
-        this.z = z;
         this.playSound = true;
     }
 
@@ -271,11 +269,6 @@ public class Player extends Entity {
     @Override
     public Shadow getShadow() {
         return this.shadow;
-    }
-
-    @Override
-    public int getZ() {
-        return this.z;
     }
 
     @Override

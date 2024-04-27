@@ -1,35 +1,20 @@
-package com.avasaysayava.bagrutproject.database;
+package com.avasaysayava.bagrutproject.database.datasource;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+
+import com.avasaysayava.bagrutproject.database.DatabaseContract;
 
 import java.util.UUID;
 
-public class UUIDDataSource {
+public class UUIDDataSource extends DataSource {
     private static final String PREFS_NAME = "Gwybie";
     private static final String UUID_PREF_NAME = "UUID";
-    private final DatabaseHelper databaseHelper;
-    private final Context context;
-    private SQLiteDatabase database;
 
     public UUIDDataSource(Context context) {
-        this.databaseHelper = new DatabaseHelper(context);
-        this.context = context;
-    }
-
-    public void openWriteable() {
-        this.database = this.databaseHelper.getWritableDatabase();
-    }
-
-    public void openReadable() {
-        this.database = this.databaseHelper.getReadableDatabase();
-    }
-
-    public void close() {
-        this.databaseHelper.close();
+        super(context);
     }
 
     public void insertUUID(String uuid) {

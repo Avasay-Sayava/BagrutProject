@@ -9,14 +9,16 @@ import com.avasaysayava.bagrutproject.game.collision.Collision;
 public abstract class Entity {
     protected Level level;
     protected float x, y;
+    protected int z;
     protected double mass;
     private int glyphs = 1;
 
-    public Entity(Level level, double mass, float x, float y) {
+    public Entity(Level level, double mass, float x, float y, int z) {
         this.level = level;
         this.mass = mass;
         this.x = x;
         this.y = y;
+        this.z = z;
     }
 
     public void move(float x, float y) {
@@ -67,7 +69,13 @@ public abstract class Entity {
 
     public abstract Shadow getShadow();
 
-    public abstract int getZ();
+    public int getZ() {
+        return this.z;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
+    }
 
     public abstract Point getPoint();
 }
