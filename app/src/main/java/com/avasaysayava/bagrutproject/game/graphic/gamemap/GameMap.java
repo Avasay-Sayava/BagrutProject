@@ -32,11 +32,13 @@ public class GameMap {
     protected final List<Tile>[][] map;
     protected Game game;
     protected float x, y;
+    private int glyphs;
 
     public GameMap(Game game, List<Tile>[][] map, int tileSize, float x, float y) {
         this.TILE_SIZE = tileSize;
         this.game = game;
         this.map = map;
+        this.glyphs = 0;
 
         move(x, y);
     }
@@ -55,10 +57,8 @@ public class GameMap {
         for (List<Tile>[] lists : this.map) {
             for (List<Tile> list : lists) {
                 for (Tile tile : list) {
-                    if (tile == Tile.empty)
-                        continue;
-                    if (tile.getProp() == null)
-                        continue;
+                    if (tile == Tile.empty) continue;
+                    if (tile.getProp() == null) continue;
                     tile.getProp().update(entities);
                 }
             }
@@ -73,12 +73,8 @@ public class GameMap {
         for (Entity e : entities)
             pq.add(e.getShadow());
 
-        for (int i = (int) Math.max(0, Math.floor(((float) this.game.getTop() / this.TILE_SIZE - this.y) / this.TILE_SIZE) - 1);
-             i <= Math.min(this.map.length - 1, Math.floor(((float) this.game.getBottom() / this.game.SCALE - this.y) / this.TILE_SIZE));
-             i++) {
-            for (int j = (int) Math.max(0, Math.floor(((float) this.game.getLeft() / this.TILE_SIZE - this.x) / this.TILE_SIZE) - 1);
-                 j <= Math.min(this.map[i].length - 1, Math.floor(((float) this.game.getRight() / this.game.SCALE - this.x) / this.TILE_SIZE));
-                 j++) {
+        for (int i = (int) Math.max(0, Math.floor(((float) this.game.getTop() / this.TILE_SIZE - this.y) / this.TILE_SIZE) - 1); i <= Math.min(this.map.length - 1, Math.floor(((float) this.game.getBottom() / this.game.SCALE - this.y) / this.TILE_SIZE)); i++) {
+            for (int j = (int) Math.max(0, Math.floor(((float) this.game.getLeft() / this.TILE_SIZE - this.x) / this.TILE_SIZE) - 1); j <= Math.min(this.map[i].length - 1, Math.floor(((float) this.game.getRight() / this.game.SCALE - this.x) / this.TILE_SIZE)); j++) {
                 for (Tile t : this.map[i][j]) {
                     pq.add(new Pair<>(t, new Point(j, i)));
                 }
@@ -91,17 +87,10 @@ public class GameMap {
                 Pair<Tile, Point> pair = (Pair<Tile, Point>) o;
                 Tile tile = pair.first;
                 Point cords = pair.second;
-                if (tile == Tile.empty)
-                    continue;
-                tile.withScale(this.game.SCALE).draw(canvas,
-                        (this.x + cords.x * this.TILE_SIZE) * this.game.SCALE,
-                        (this.y + cords.y * this.TILE_SIZE) * this.game.SCALE,
-                        null);
+                if (tile == Tile.empty) continue;
+                tile.withScale(this.game.SCALE).draw(canvas, (this.x + cords.x * this.TILE_SIZE) * this.game.SCALE, (this.y + cords.y * this.TILE_SIZE) * this.game.SCALE, null);
                 if (tile.getProp() != null && tile.getProp().getTile() != null) {
-                    tile.getProp().getTile().withScale(this.game.SCALE).draw(canvas,
-                            (this.x + cords.x * this.TILE_SIZE) * this.game.SCALE,
-                            (this.y + cords.y * this.TILE_SIZE) * this.game.SCALE,
-                            null);
+                    tile.getProp().getTile().withScale(this.game.SCALE).draw(canvas, (this.x + cords.x * this.TILE_SIZE) * this.game.SCALE, (this.y + cords.y * this.TILE_SIZE) * this.game.SCALE, null);
                 }
             } else if (o instanceof Entity) {
                 Entity entity = (Entity) o;
@@ -124,10 +113,7 @@ public class GameMap {
                                 t.getCollisionTop().draw(canvas, paint, this.game.SCALE);
                             if (t.getCollisionDown() != Collision.empty)
                                 t.getCollisionDown().draw(canvas, paint, this.game.SCALE);
-                            canvas.drawText(t.getId() + "",
-                                    (this.x + j * this.TILE_SIZE + this.TILE_SIZE / 2f) * this.game.SCALE - this.game.textPaint.measureText(t.getId() + "") / 2,
-                                    (this.y + i * this.TILE_SIZE + this.TILE_SIZE / 2f) * this.game.SCALE + this.game.textPaint.getTextSize() / 2,
-                                    this.game.textPaint);
+                            canvas.drawText(t.getId() + "", (this.x + j * this.TILE_SIZE + this.TILE_SIZE / 2f) * this.game.SCALE - this.game.textPaint.measureText(t.getId() + "") / 2, (this.y + i * this.TILE_SIZE + this.TILE_SIZE / 2f) * this.game.SCALE + this.game.textPaint.getTextSize() / 2, this.game.textPaint);
                         }
                     }
                 }
@@ -173,16 +159,11 @@ public class GameMap {
     }
 
     public LineF getIntersector(Entity e) {
-        for (int i = Math.max(Math.round((e.getY() - this.y) / this.TILE_SIZE) - 1, 0);
-             i <= Math.min(Math.round((e.getY() - this.y) / this.TILE_SIZE) + 1, this.map.length - 1); i++) {
-            for (int j = Math.max(Math.round((e.getX() - this.x) / this.TILE_SIZE) - 1, 0);
-                 j <= Math.min(Math.round((e.getX() - this.x) / this.TILE_SIZE) + 1, this.map[i].length - 1);
-                 j++) {
+        for (int i = Math.max(Math.round((e.getY() - this.y) / this.TILE_SIZE) - 1, 0); i <= Math.min(Math.round((e.getY() - this.y) / this.TILE_SIZE) + 1, this.map.length - 1); i++) {
+            for (int j = Math.max(Math.round((e.getX() - this.x) / this.TILE_SIZE) - 1, 0); j <= Math.min(Math.round((e.getX() - this.x) / this.TILE_SIZE) + 1, this.map[i].length - 1); j++) {
                 for (Tile tile : this.map[i][j]) {
-                    if (tile == Tile.empty)
-                        continue;
-                    tile.move(this.x + j * this.TILE_SIZE,
-                            this.y + i * this.TILE_SIZE);
+                    if (tile == Tile.empty) continue;
+                    tile.move(this.x + j * this.TILE_SIZE, this.y + i * this.TILE_SIZE);
                     LineF intersector = tile.getIntersector(e);
                     if (intersector != null) {
                         return intersector;
@@ -231,8 +212,7 @@ public class GameMap {
         for (List<Tile>[] lists : this.map) {
             for (List<Tile> list : lists) {
                 for (Tile tile : list) {
-                    if (tile == Tile.empty)
-                        continue;
+                    if (tile == Tile.empty) continue;
                     tile.setProperty(null);
                 }
             }
@@ -240,11 +220,11 @@ public class GameMap {
     }
 
     public void prepare() {
+        this.glyphs = 0;
         for (int i = 0; i < this.map.length; i++) {
             for (int j = 0; j < this.map[i].length; j++) {
                 for (Tile tile : this.map[i][j]) {
-                    if (tile == Tile.empty)
-                        continue;
+                    if (tile == Tile.empty) continue;
                     if (tile.getTileSet() instanceof StructuresTileSet
                             // glyph stones indexes
                             && (tile.getId() == 21 || tile.getId() == 5)) {
@@ -263,6 +243,29 @@ public class GameMap {
                 }
             }
         }
+        for (List<Tile>[] lists : this.map) {
+            for (List<Tile> list : lists) {
+                for (Tile tile : list) {
+                    if (tile == Tile.empty) continue;
+                    if (tile.getProp() != null) {
+                        if (tile.getProp() instanceof GlyphStoneProperty) {
+                            this.glyphs += ((GlyphStoneProperty) tile.getProp()).GLYPH_GOAL;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeGlyphs(int count) {
+        this.glyphs -= count;
+        if (this.glyphs <= 0) {
+            onNoGlyphs();
+        }
+    }
+
+    public void onNoGlyphs() {
+        this.game.onCompleted();
     }
 
     private static class Prioritised {

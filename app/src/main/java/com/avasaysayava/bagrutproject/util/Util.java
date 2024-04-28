@@ -1,9 +1,6 @@
 package com.avasaysayava.bagrutproject.util;
 
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,21 +8,15 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
-import android.net.Uri;
 
-import androidx.annotation.AnyRes;
 import androidx.annotation.NonNull;
 
+import com.avasaysayava.bagrutproject.database.DatabaseContract;
 import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map;
 
 public class Util {
-    public static double random(double lower, double upper) {
-        return Math.random() * (upper - lower) + lower;
-    }
-
-    public static double random(double upper) {
-        return random(0, upper);
-    }
 
     public static boolean within(double lower, double num, double upper) {
         return lower <= num && num <= upper;
@@ -48,12 +39,6 @@ public class Util {
         return isCounterClockWise(A, C, D) != isCounterClockWise(B, C, D) && isCounterClockWise(A, B, C) != isCounterClockWise(A, B, D);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    public static void timeout(long nanos) {
-        for (long time = System.nanoTime(); time + nanos < System.nanoTime(); )
-            ;
-    }
-
     public static @NonNull Bitmap generateVignette(int width, int height) {
         Bitmap vignetteBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
         Canvas canvas = new Canvas(vignetteBitmap);
@@ -74,12 +59,6 @@ public class Util {
         canvas.drawRect(0, 0, width, height, paint);
 
         return vignetteBitmap;
-    }
-
-    public static Uri ResIdToUri(@NonNull Context context, @AnyRes int resId) throws Resources.NotFoundException {
-        Resources res = context.getResources();
-
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + res.getResourcePackageName(resId) + '/' + res.getResourceTypeName(resId) + '/' + res.getResourceEntryName(resId));
     }
 
     public static <T> T randomElement(T[] arr) {
@@ -108,5 +87,20 @@ public class Util {
             uuidDataSource.saveUUID(uuid);
             uuidDataSource.close();
         }
+    }
+
+    public static String getLevel(GameMap map) {
+        if (map instanceof Level1Map) return DatabaseContract.UserEntry.COLUMN_LEVEL1;
+        else return DatabaseContract.UserEntry.COLUMN_LEVEL2;
+    }
+
+    public static long stringToTime(String timeString) {
+        String[] parts = timeString.split(":");
+        String[] secondsAndMillis = parts[2].split("\\.");
+        long hours = Long.parseLong(parts[0]);
+        long minutes = Long.parseLong(parts[1]);
+        long seconds = Long.parseLong(secondsAndMillis[0]);
+        long millis = Long.parseLong(secondsAndMillis[1]);
+        return ((hours * 60 + minutes) * 60 + seconds) * 1000 + millis;
     }
 }

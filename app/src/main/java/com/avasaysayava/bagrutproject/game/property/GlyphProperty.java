@@ -1,7 +1,6 @@
 package com.avasaysayava.bagrutproject.game.property;
 
 import android.graphics.Point;
-import android.util.Log;
 
 import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
@@ -21,9 +20,7 @@ public class GlyphProperty extends Property {
     public void update(Entity... entities) {
         for (Entity e : entities) {
             Point p = e.getPoint();
-            if (this.x == p.x && this.y == p.y
-                    && e.getZ() == this.parent.getZ()) {
-                Log.d("GlyphProperty", "Glyph added " + this.x + ", " + this.y);
+            if (this.x == p.x && this.y == p.y && e.getZ() == this.parent.getZ()) {
                 e.addGlyphs(3);
                 if (this.tile != Tile.empty) {
                     Util.randomElement(this.game.tileSoundPreloader.getSounds(this.tile.getType())).start();

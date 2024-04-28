@@ -51,40 +51,20 @@ public class Player extends Entity {
 
         // mark player's tile
         if (debugMode) {
-            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    debugPaint);
-            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    debugPaint);
-            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    debugPaint);
-            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE,
-                    (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE,
-                    debugPaint);
+            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, debugPaint);
+            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, debugPaint);
+            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, debugPaint);
+            canvas.drawLine((Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, (Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE) * this.level.getMap().TILE_SIZE + this.level.getMap().getX()) * this.level.SCALE, (Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE + 1) * this.level.getMap().TILE_SIZE + this.level.getMap().getY()) * this.level.SCALE, debugPaint);
         }
 
         // draw player's sprite according to his direction
         int id = 2;
         Joystick joystick = this.level.getJoystick();
         double angle = joystick.getAngle();
-        if (Util.within(-55, angle, 55))
-            id = 3;
-        else if (Util.between(55, angle, 125))
-            id = 0;
-        else if (Util.between(-125, angle, -55))
-            id = 1;
-        if (joystick.getDistance() == 0)
-            id = this.lastId;
+        if (Util.within(-55, angle, 55)) id = 3;
+        else if (Util.between(55, angle, 125)) id = 0;
+        else if (Util.between(-125, angle, -55)) id = 1;
+        if (joystick.getDistance() == 0) id = this.lastId;
 
         Tile tile = this.level.playerTileSet.getTile(id).withScale(this.level.SCALE);
         double extraHeight = 2 * (-Math.cos(this.wobble) + 1);
@@ -92,10 +72,7 @@ public class Player extends Entity {
         this.lastId = id;
 
         if (debugMode) {
-            canvas.drawLine((this.x + 16) * this.level.SCALE,
-                    (this.y + 40) * this.level.SCALE,
-                    (float) ((this.x + 16 + getSpeed() * this.level.UPS * Math.cos(this.angle) / 5) * this.level.SCALE),
-                    (float) ((this.y + 40 + getSpeed() * this.level.UPS * Math.sin(this.angle) / 5) * this.level.SCALE), debugPaint);
+            canvas.drawLine((this.x + 16) * this.level.SCALE, (this.y + 40) * this.level.SCALE, (float) ((this.x + 16 + getSpeed() * this.level.UPS * Math.cos(this.angle) / 5) * this.level.SCALE), (float) ((this.y + 40 + getSpeed() * this.level.UPS * Math.sin(this.angle) / 5) * this.level.SCALE), debugPaint);
         }
     }
 
@@ -111,10 +88,8 @@ public class Player extends Entity {
         this.Vx = ((totalFactor - continuityFactor) * Vx + continuityFactor * this.Vx) / totalFactor;
         this.Vy = ((totalFactor - continuityFactor) * Vy + continuityFactor * this.Vy) / totalFactor;
 
-        if (Util.within(-.1, this.Vx, .1))
-            this.Vx = 0;
-        if (Util.within(-.1, this.Vy, .1))
-            this.Vy = 0;
+        if (Util.within(-.1, this.Vx, .1)) this.Vx = 0;
+        if (Util.within(-.1, this.Vy, .1)) this.Vy = 0;
     }
 
     @Override
@@ -124,8 +99,7 @@ public class Player extends Entity {
 
         Joystick joystick = this.level.getJoystick();
         // set velocity according to the joystick
-        updateVelocity(joystick.getCos() * getPreferredSpeed(),
-                joystick.getSin() * getPreferredSpeed());
+        updateVelocity(joystick.getCos() * getPreferredSpeed(), joystick.getSin() * getPreferredSpeed());
 
         int scale = this.level.SCALE;
 
@@ -155,11 +129,9 @@ public class Player extends Entity {
             this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), (float) (this.y + this.Vy + Math.signum(this.Vy)));
             if (this.level.getMap().getIntersector(this) != null) {
                 this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), this.y);
-                if (this.level.getMap().getIntersector(this) != null)
-                    this.Vx = 0;
+                if (this.level.getMap().getIntersector(this) != null) this.Vx = 0;
                 this.collision.move((float) (this.x + this.Vx + Math.signum(this.Vx)), (float) (this.y + this.Vy + Math.signum(this.Vy)));
-                if (this.level.getMap().getIntersector(this) != null)
-                    this.Vy = 0;
+                if (this.level.getMap().getIntersector(this) != null) this.Vy = 0;
             }
         }
 
@@ -233,10 +205,21 @@ public class Player extends Entity {
                 Point p = getPositionOnMap(map);
                 List<Tile> tiles = map.getTiles(p.y, p.x);
 
+                boolean played = false;
                 for (Tile t : tiles) {
-                    if (t.getType() == TileSound.GRASS) {
+                    if (t.getType() == TileSound.FLOOR) {
+                        played = true;
                         Util.randomElement(this.level.tileSoundPreloader.getSounds(t.getType())).start();
                         break;
+                    }
+                }
+
+                if (!played) {
+                    for (Tile t : tiles) {
+                        if (t.getType() == TileSound.GRASS || t.getType() == TileSound.PATH || t.getType() == TileSound.STAIR) {
+                            Util.randomElement(this.level.tileSoundPreloader.getSounds(t.getType())).start();
+                            break;
+                        }
                     }
                 }
             }
@@ -273,8 +256,7 @@ public class Player extends Entity {
 
     @Override
     public Point getPoint() {
-        return new Point(Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE),
-                Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE));
+        return new Point(Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE), Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE));
     }
 
     public double getVx() {
@@ -286,9 +268,6 @@ public class Player extends Entity {
     }
 
     private Point getPositionOnMap(GameMap map) {
-        return new Point(
-                Math.round((this.x - map.getX()) / map.TILE_SIZE),
-                Math.round((this.y - map.getY() + 24) / map.TILE_SIZE)
-        );
+        return new Point(Math.round((this.x - map.getX()) / map.TILE_SIZE), Math.round((this.y - map.getY() + 24) / map.TILE_SIZE));
     }
 }

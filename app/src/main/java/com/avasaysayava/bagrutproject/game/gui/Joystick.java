@@ -14,18 +14,16 @@ public class Joystick {
     private final float radius;
     private final Paint innerPaint;
     private final Paint outerPaint;
+    private final float X, Y;
     protected float outerX, outerY;
     protected float innerX, innerY;
-    private float X, Y;
     private boolean enabled;
-    private boolean inverted;
 
     public Joystick(Level level, float x, float y, float radius) {
         this.X = this.innerX = this.outerX = x;
         this.Y = this.innerY = this.outerY = y;
         this.radius = radius;
         this.enabled = false;
-        this.inverted = false;
 
         // initialize the Paints
         this.innerPaint = new Paint();
@@ -39,16 +37,10 @@ public class Joystick {
 
     public void draw(Canvas canvas) {
         // draw the outer circle
-        canvas.drawCircle(this.outerX,
-                this.outerY,
-                this.radius,
-                this.outerPaint);
+        canvas.drawCircle(this.outerX, this.outerY, this.radius, this.outerPaint);
 
         // draw the inner circle
-        canvas.drawCircle(this.innerX,
-                this.innerY,
-                this.radius / 2,
-                this.innerPaint);
+        canvas.drawCircle(this.innerX, this.innerY, this.radius / 2, this.innerPaint);
     }
 
     protected void arrange() {
@@ -59,35 +51,11 @@ public class Joystick {
     }
 
     public double getDistance(MotionEvent event) {
-        return Math.sqrt(((this.outerX - event.getX()) * (this.outerX - event.getX()))
-                + ((this.outerY - event.getY()) * (this.outerY - event.getY())));
-    }
-
-    public double getPercentage(MotionEvent event) {
-        return getDistance(event) / getRadius();
-    }
-
-    public double getRadians(MotionEvent event) {
-        double dx = event.getX() - this.outerX;
-        double dy = event.getY() - this.outerY;
-        return this.inverted ? Math.PI - Math.atan2(dy, dx) : Math.atan2(dy, dx);
-    }
-
-    public double getAngle(MotionEvent event) {
-        return getRadians(event) * 180 / Math.PI;
-    }
-
-    public double getSin(MotionEvent event) {
-        return getDistance() == 0 ? 0 : this.inverted ? -(event.getY() - this.outerY) / getDistance(event) : (event.getY() - this.outerY) / getDistance(event);
-    }
-
-    public double getCos(MotionEvent event) {
-        return getDistance() == 0 ? 0 : this.inverted ? -(event.getX() - this.outerX) / getDistance(event) : (event.getX() - this.outerX) / getDistance(event);
+        return Math.sqrt(((this.outerX - event.getX()) * (this.outerX - event.getX())) + ((this.outerY - event.getY()) * (this.outerY - event.getY())));
     }
 
     public double getDistance() {
-        return Math.sqrt(((this.outerX - this.innerX) * (this.outerX - this.innerX))
-                + ((this.outerY - this.innerY) * (this.outerY - this.innerY)));
+        return Math.sqrt(((this.outerX - this.innerX) * (this.outerX - this.innerX)) + ((this.outerY - this.innerY) * (this.outerY - this.innerY)));
     }
 
     public double getPercentage() {
@@ -97,7 +65,7 @@ public class Joystick {
     public double getRadians() {
         double dx = this.innerX - this.outerX;
         double dy = this.innerY - this.outerY;
-        return this.inverted ? Math.PI - Math.atan2(dy, dx) : Math.atan2(dy, dx);
+        return Math.atan2(dy, dx);
     }
 
     public double getAngle() {
@@ -105,11 +73,11 @@ public class Joystick {
     }
 
     public double getSin() {
-        return getDistance() == 0 ? 0 : this.inverted ? -(this.innerY - this.outerY) / getDistance() : (this.innerY - this.outerY) / getDistance();
+        return getDistance() == 0 ? 0 : (this.innerY - this.outerY) / getDistance();
     }
 
     public double getCos() {
-        return getDistance() == 0 ? 0 : this.inverted ? -(this.innerX - this.outerX) / getDistance() : (this.innerX - this.outerX) / getDistance();
+        return getDistance() == 0 ? 0 : (this.innerX - this.outerX) / getDistance();
     }
 
     public boolean isPressed(MotionEvent event) {
@@ -142,25 +110,7 @@ public class Joystick {
         arrange();
     }
 
-    public void invert() {
-        this.inverted = !this.inverted;
-    }
-
-    public boolean isInverted() {
-        return this.inverted;
-    }
-
     public float getRadius() {
         return radius;
-    }
-
-    public void move(float x, float y) {
-        this.innerX += x - this.X;
-        this.outerX += x - this.X;
-        this.X = x;
-
-        this.innerY += y - this.Y;
-        this.outerY += y - this.Y;
-        this.Y = y;
     }
 }

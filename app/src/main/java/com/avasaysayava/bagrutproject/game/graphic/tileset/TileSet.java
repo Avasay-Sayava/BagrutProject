@@ -12,14 +12,14 @@ import com.avasaysayava.bagrutproject.game.graphic.Tile;
 public abstract class TileSet {
     private final Bitmap bitmap;
     private final Tile[] tiles;
+
     public TileSet(Context context, int id) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), id, options);
         this.tiles = getTileArray();
         for (int i = 0; i < this.tiles.length; i++) {
-            if (this.tiles[i] != null)
-                this.tiles[i].setId(i);
+            if (this.tiles[i] != null) this.tiles[i].setId(i);
         }
     }
 

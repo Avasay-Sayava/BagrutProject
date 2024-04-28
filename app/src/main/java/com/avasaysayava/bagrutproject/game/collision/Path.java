@@ -7,9 +7,6 @@ import android.graphics.PointF;
 import com.avasaysayava.bagrutproject.game.struct.LineF;
 import com.avasaysayava.bagrutproject.util.Util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Path {
     private final PointF[] points;
     private float dx, dy;
@@ -17,17 +14,6 @@ public class Path {
     public Path(PointF... points) {
         this.points = points;
         this.dx = this.dy = 0;
-    }
-
-    public static Path circle(float x, float y, float radius, float resolution) {
-        List<PointF> pts = new ArrayList<>();
-        for (double angle = 0; angle < 2 * Math.PI; angle += 10 / (resolution * radius))
-            pts.add(new PointF((float) (x + radius * Math.cos(angle)),
-                    (float) (y + radius * Math.sin(angle))));
-        pts.add(new PointF(x + radius, y));
-        PointF[] path = new PointF[pts.size()];
-        pts.toArray(path);
-        return new Path(path);
     }
 
     public static Path polygon(PointF... vertexes) {
@@ -41,28 +27,14 @@ public class Path {
         PointF[] pPoints = path.getPoints();
         for (int i = 1; i < this.points.length; i++)
             for (int j = 1; j < pPoints.length; j++)
-                if (Util.doesIntersect(this.points[i - 1],
-                        this.points[i],
-                        pPoints[j - 1],
-                        pPoints[j]))
+                if (Util.doesIntersect(this.points[i - 1], this.points[i], pPoints[j - 1], pPoints[j]))
                     return new LineF(this.points[i], this.points[i - 1]);
         return null;
     }
 
-    public void translate(float dx, float dy) {
-        for (PointF point : this.points)
-            point.offset(dx, dy);
-        this.dx += dx;
-        this.dy += dy;
-    }
-
     public void draw(Canvas canvas, Paint paint, int scale) {
         for (int i = 1; i < this.points.length; i++) {
-            canvas.drawLine(this.points[i - 1].x * scale,
-                    this.points[i - 1].y * scale,
-                    this.points[i].x * scale,
-                    this.points[i].y * scale,
-                    paint);
+            canvas.drawLine(this.points[i - 1].x * scale, this.points[i - 1].y * scale, this.points[i].x * scale, this.points[i].y * scale, paint);
         }
     }
 

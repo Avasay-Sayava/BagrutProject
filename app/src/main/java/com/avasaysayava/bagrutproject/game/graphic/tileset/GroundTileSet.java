@@ -16,7 +16,7 @@ public class GroundTileSet extends TileSet {
     protected Tile[] getTileArray() {
         Tile[] tiles = new Tile[64];
 
-        tiles[0] = getTile(0, 0, 0, 0, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.GRASS);
+        tiles[0] = getTile(0, -1, 0, 0, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.GRASS);
         tiles[1] = getTile(0, -1, 1, 0, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.GRASS);
         tiles[2] = getTile(0, -1, 2, 0, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.GRASS);
         tiles[3] = getTile(0, -1, 3, 0, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.GRASS);

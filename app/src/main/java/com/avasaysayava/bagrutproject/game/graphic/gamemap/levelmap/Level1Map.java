@@ -1,4 +1,4 @@
-package com.avasaysayava.bagrutproject.game.graphic.gamemap;
+package com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap;
 
 import com.avasaysayava.bagrutproject.game.Game;
 
@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Level1Map extends GameMap {
+public class Level1Map extends LevelMap {
     @SuppressWarnings("unchecked")
-    public Level1Map(Game game, float x, float y) {
+    public Level1Map(Game game) {
         super(game,
                 new List[][]{
                         new List[]{
@@ -48,8 +48,8 @@ public class Level1Map extends GameMap {
                         }
                 },
                 32,
-                x,
-                y
+                0,
+                0
         );
     }
 }

@@ -12,8 +12,8 @@ public class MovableJoystick extends Joystick {
     @Override
     protected void arrange() {
         if (getDistance() > getRadius()) {
-            this.outerX += (float) ((isInverted() ? -1 : 1) * getCos() * (getDistance() - getRadius()) / 2);
-            this.outerY += (float) ((isInverted() ? -1 : 1) * getSin() * (getDistance() - getRadius()) / 2);
+            this.outerX += (float) (getCos() * (getDistance() - getRadius()) / 2);
+            this.outerY += (float) (getSin() * (getDistance() - getRadius()) / 2);
         }
     }
 

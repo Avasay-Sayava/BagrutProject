@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -49,7 +48,7 @@ public class Level extends Game {
     }
 
     public Level(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes, Constants.UPS, Constants.SCALE, new Paint());
+        super(context, attrs, defStyleAttr, defStyleRes, Constants.LEVEL_UPS, Constants.LEVEL_SCALE, new Paint());
 
         this.textPaint.setTextSize(50);
         this.textPaint.setColor(ContextCompat.getColor(getContext(), R.color.White));
@@ -113,8 +112,6 @@ public class Level extends Game {
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        Log.d("app/event", "surfaceCreated");
-
         // if the operation scheduler is terminated, create a new one
         if (this.operationScheduler.getState().equals(Thread.State.TERMINATED)) {
             createOperationScheduler();
@@ -126,8 +123,6 @@ public class Level extends Game {
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        Log.d("app/event", "surfaceChanged[" + width + "x" + height + "]");
-
         // if screen size changed
         this.vignetteBitmap = Util.generateVignette(width, height);
         createJoystick();
@@ -135,13 +130,11 @@ public class Level extends Game {
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-        Log.d("app/event", "surfaceDestroyed");
     }
 
     @Override
     public void draw(Canvas canvas) {
-        if (canvas == null)
-            return;
+        if (canvas == null) return;
 
         super.draw(canvas);
 
@@ -182,11 +175,7 @@ public class Level extends Game {
                 int[] rgb = getGradientColor(this.upsGraph[i % this.upsGraph.length]);
                 graphPaint.setARGB(120, rgb[0], rgb[1], rgb[2]);
                 if (this.upsGraph[i % this.upsGraph.length] != 0)
-                    canvas.drawLine(getRight() - this.upsGraph.length + i - this.upsIndex,
-                            (float) (getBottom() - this.upsGraph[i % this.upsGraph.length] * 2 * 60.0 / this.UPS),
-                            getRight() - this.upsGraph.length + i - this.upsIndex,
-                            getBottom(),
-                            graphPaint);
+                    canvas.drawLine(getRight() - this.upsGraph.length + i - this.upsIndex, (float) (getBottom() - this.upsGraph[i % this.upsGraph.length] * 2 * 60.0 / this.UPS), getRight() - this.upsGraph.length + i - this.upsIndex, getBottom(), graphPaint);
             }
         }
     }
@@ -205,11 +194,7 @@ public class Level extends Game {
                 int[] rgb = getGradientColor(this.fpsGraph[i % this.fpsGraph.length]);
                 graphPaint.setARGB(120, rgb[0], rgb[1], rgb[2]);
                 if (this.fpsGraph[i % this.fpsGraph.length] != 0)
-                    canvas.drawLine(getRight() - this.fpsGraph.length + i - this.fpsIndex,
-                            (float) (getBottom() - this.fpsGraph[i % this.fpsGraph.length] * 2 * 60.0 / this.UPS),
-                            getRight() - this.fpsGraph.length + i - this.fpsIndex,
-                            getBottom(),
-                            graphPaint);
+                    canvas.drawLine(getRight() - this.fpsGraph.length + i - this.fpsIndex, (float) (getBottom() - this.fpsGraph[i % this.fpsGraph.length] * 2 * 60.0 / this.UPS), getRight() - this.fpsGraph.length + i - this.fpsIndex, getBottom(), graphPaint);
             }
         }
     }
@@ -287,7 +272,6 @@ public class Level extends Game {
     private void createOperationScheduler() {
         SurfaceHolder surfaceHolder = getHolder();
         this.operationScheduler = new OperationScheduler(this, surfaceHolder, this.UPS);
-        Log.d("level/thread", "created " + this.operationScheduler.getName());
     }
 
     private void createJoystick() {

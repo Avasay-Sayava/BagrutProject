@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -25,9 +24,6 @@ public class StartActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
 
         this.uuidDataSource = new UUIDDataSource(this);
         Util.updateUUID(this.uuidDataSource);
@@ -49,9 +45,11 @@ public class StartActivity extends Activity {
         this.btn_go.setOnClickListener(v -> {
             if (this.optionsMenu.getCheckedRadioButtonId() == R.id.rb_levels) {
                 startActivity(new Intent(this, MenuActivity.class), savedInstanceState);
+            } else if (this.optionsMenu.getCheckedRadioButtonId() == R.id.rb_how_to_play) {
+                startActivity(new Intent(this, HowToPlayActivity.class), savedInstanceState);
+            } else if (this.optionsMenu.getCheckedRadioButtonId() == R.id.rb_credits) {
+                startActivity(new Intent(this, CreditsActivity.class), savedInstanceState);
             }
         });
-
-        Log.d(getClass().getSimpleName(), "User UUID: " + this.uuidDataSource.getUUID());
     }
 }

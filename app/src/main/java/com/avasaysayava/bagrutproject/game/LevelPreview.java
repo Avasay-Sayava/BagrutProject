@@ -1,12 +1,13 @@
 package com.avasaysayava.bagrutproject.game;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
@@ -16,9 +17,11 @@ import com.avasaysayava.bagrutproject.Constants;
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.Static;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
+import com.avasaysayava.bagrutproject.util.Util;
 
 public class LevelPreview extends Game {
     private GameMap map;
+    private Bitmap vignetteBitmap;
 
     public LevelPreview(Context context) {
         this(context, null);
@@ -33,7 +36,7 @@ public class LevelPreview extends Game {
     }
 
     public LevelPreview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes, 0, Constants.PREVIEW_SCALE, new Paint());
+        super(context, attrs, defStyleAttr, defStyleRes, Constants.PREVIEW_UPS, Constants.PREVIEW_SCALE, new Paint());
 
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
@@ -44,28 +47,28 @@ public class LevelPreview extends Game {
         this.textPaint.setColor(Color.WHITE);
         this.textPaint.setTextSize(20);
 
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        this.vignetteBitmap = null;
+
         setFocusable(true);
     }
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        Log.d("LevelPreview", "surfaceCreated");
     }
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        Log.d("LevelPreview", "surfaceChanged[" + width + "x" + height + "]");
+        this.vignetteBitmap = Util.generateVignette(width, height);
         loadMap();
     }
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-        Log.d("LevelPreview", "surfaceDestroyed");
     }
 
     private void loadMap() {
-        Log.d("LevelPreview", "loadMap");
-
         Canvas canvas = null;
         SurfaceHolder holder = getHolder();
 
@@ -79,14 +82,12 @@ public class LevelPreview extends Game {
             synchronized (holder) {
                 draw(canvas);
             }
-        } catch (IllegalArgumentException e) {
-            Log.e("LevelPreview", e.getMessage(), e);
+        } catch (IllegalArgumentException ignored) {
         } finally {
             if (canvas != null) {
                 try {
                     holder.unlockCanvasAndPost(canvas);
-                } catch (Exception e) {
-                    Log.e("LevelPreview", e.getMessage(), e);
+                } catch (Exception ignored) {
                 }
             }
         }
@@ -94,8 +95,7 @@ public class LevelPreview extends Game {
 
     @Override
     public void draw(Canvas canvas) {
-        if (canvas == null)
-            return;
+        if (canvas == null) return;
 
         super.draw(canvas);
         canvas.drawColor(ContextCompat.getColor(getContext(), R.color.DimGray));
@@ -113,6 +113,10 @@ public class LevelPreview extends Game {
             this.map.setGame(this);
             this.map.draw(canvas);
         }
+
+        if (this.vignetteBitmap != null) {
+            canvas.drawBitmap(this.vignetteBitmap, getLeft(), getTop(), null);
+        }
     }
 
     @Override
@@ -122,15 +126,11 @@ public class LevelPreview extends Game {
 
     @Override
     public void onStart() {
-        Log.d("LevelPreview", "onStart");
-
         loadMap();
     }
 
     @Override
     public void onResume() {
-        Log.d("LevelPreview", "onResume");
-
         loadMap();
     }
 
@@ -157,6 +157,11 @@ public class LevelPreview extends Game {
     @Override
     public boolean isGraph() {
         return false;
+    }
+
+    @Override
+    public void onCompleted() {
+
     }
 
     public void loadMap(GameMap map) {

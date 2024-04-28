@@ -1,11 +1,11 @@
-package com.avasaysayava.bagrutproject.game.graphic.gamemap;
+package com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap;
 
 import com.avasaysayava.bagrutproject.game.Game;
 
 import java.util.Collections;
 import java.util.List;
 
-public class GroundMap extends GameMap {
+public class GroundMap extends DebugMap {
     @SuppressWarnings("unchecked")
     public GroundMap(Game game, float x, float y) {
         super(

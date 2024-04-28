@@ -14,8 +14,7 @@ public class Collision {
     }
 
     public LineF getIntersector(Collision collision) {
-        if (collision == Collision.empty)
-            return null;
+        if (collision == Collision.empty) return null;
         for (Path p1 : this.paths) {
             for (Path p2 : collision.getPaths()) {
                 LineF intersector = p1.getIntersector(p2);
@@ -31,12 +30,6 @@ public class Collision {
     public void move(float x, float y) {
         for (Path p : this.paths) {
             p.move(x, y);
-        }
-    }
-
-    public void translate(float dx, float dy) {
-        for (Path p : this.paths) {
-            p.translate(dx, dy);
         }
     }
 

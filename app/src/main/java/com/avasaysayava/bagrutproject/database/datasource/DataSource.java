@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.avasaysayava.bagrutproject.database.DatabaseHelper;
 
-public class DataSource {
+public abstract class DataSource {
     protected final DatabaseHelper databaseHelper;
     protected final Context context;
     protected SQLiteDatabase database;

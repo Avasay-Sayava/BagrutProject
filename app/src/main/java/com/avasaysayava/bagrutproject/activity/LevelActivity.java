@@ -9,7 +9,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -17,23 +16,27 @@ import android.widget.ImageButton;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
+import com.avasaysayava.bagrutproject.Static;
+import com.avasaysayava.bagrutproject.database.datasource.LevelDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
 import com.avasaysayava.bagrutproject.game.Level;
 import com.avasaysayava.bagrutproject.service.BackgroundMusicService;
+import com.avasaysayava.bagrutproject.util.Util;
 
 public class LevelActivity extends Activity {
     private Level sv_level;
     private Intent backgroundMusicService;
     private ImageButton img_btn_play, img_btn_debug, img_btn_graph, img_btn_quit;
+    private LevelDataSource levelDataSource;
+    private UUIDDataSource uuidDataSource;
     private MediaPlayer click, load;
-    private long t_start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.t_start = System.currentTimeMillis();
-
-        Log.d("app/event", "onCreate");
+        this.levelDataSource = new LevelDataSource(this, Util.getLevel(Static.currentMap));
+        this.uuidDataSource = new UUIDDataSource(this);
 
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);
@@ -92,6 +95,8 @@ public class LevelActivity extends Activity {
                 pauseLevel();
             }
         });
+
+        this.sv_level.setOnCompleteListener(time -> runOnUiThread(() -> onCompleted(time)));
     }
 
     private void resumeLevel() {
@@ -120,23 +125,14 @@ public class LevelActivity extends Activity {
     }
 
     private void showLeaveDialog() {
-        // create dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.lose_all_progress)
-                .setPositiveButton(R.string.yes, (DialogInterface.OnClickListener) (dialog, id) -> {
-                    super.onBackPressed();
-                })
-                .setNegativeButton(R.string.no, (DialogInterface.OnClickListener) (dialog, id) -> {
+        new AlertDialog.Builder(this).setMessage(R.string.lose_all_progress).setPositiveButton(R.string.yes, (DialogInterface.OnClickListener) (dialog, id) -> super.onBackPressed()).setNegativeButton(R.string.no, (DialogInterface.OnClickListener) (dialog, id) -> {
 
-                });
-        builder.create().show();
+        }).create().show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.d("app/event", "onStart");
         this.load.start();
         this.sv_level.onStart();
     }
@@ -144,37 +140,27 @@ public class LevelActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        Log.d("app/event", "onResume");
-        startService(this.backgroundMusicService);
         this.sv_level.onResume();
+        startService(this.backgroundMusicService);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        Log.d("app/event", "onPause");
-        stopService(this.backgroundMusicService);
-        if (!this.sv_level.isPaused())
-            this.img_btn_play.performClick();
+        if (!this.sv_level.isPaused()) this.img_btn_play.performClick();
         this.sv_level.onPause();
-
+        stopService(this.backgroundMusicService);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
-        Log.d("app/event", "onStop");
         this.sv_level.onStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        Log.d("app/event", "onDestroy");
         this.sv_level.onDestroy();
     }
 
@@ -182,5 +168,20 @@ public class LevelActivity extends Activity {
     public void onBackPressed() {
         if (!this.sv_level.isPaused()) pauseLevel();
         showLeaveDialog();
+    }
+
+    public void onCompleted(long time) {
+        if (!this.sv_level.isPaused()) pauseLevel();
+        this.levelDataSource.openReadable();
+        String stringBestTime = this.levelDataSource.getTimeByUUID(this.uuidDataSource.getUUID());
+        if (stringBestTime == null || Util.stringToTime(stringBestTime) > time) {
+            this.levelDataSource.openWriteable();
+            this.levelDataSource.updateTimeByUUID(Util.timeToString(time), this.uuidDataSource.getUUID());
+        }
+        showTimeDialog(time, time - Util.stringToTime(stringBestTime != null ? stringBestTime : Util.timeToString(time)), stringBestTime == null || Util.stringToTime(stringBestTime) > time);
+    }
+
+    private void showTimeDialog(long time, long diff, boolean newBest) {
+        new AlertDialog.Builder(this).setTitle((newBest ? "New Best Time! " : "Try Harder! ") + Util.timeToString(time) + " (" + (diff > 0 ? "+" : "-") + Util.timeToString(Math.abs(diff)) + ")").setPositiveButton(R.string.ok, (DialogInterface.OnClickListener) (dialog, id) -> super.onBackPressed()).setCancelable(false).create().show();
     }
 }

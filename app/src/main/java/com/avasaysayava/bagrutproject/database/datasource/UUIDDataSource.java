@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 
+import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.database.DatabaseContract;
 
 import java.util.UUID;
 
 public class UUIDDataSource extends DataSource {
-    private static final String PREFS_NAME = "Gwybie";
-    private static final String UUID_PREF_NAME = "UUID";
+    private final String PREFS_NAME = this.context.getResources().getString(R.string.app_name);
+    private final String UUID_PREF_NAME = "UUID";
 
     public UUIDDataSource(Context context) {
         super(context);
@@ -34,14 +35,14 @@ public class UUIDDataSource extends DataSource {
     }
 
     public void saveUUID(String uuid) {
-        SharedPreferences.Editor editor = this.context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
-        editor.putString(UUID_PREF_NAME, uuid);
+        SharedPreferences.Editor editor = this.context.getSharedPreferences(this.PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(this.UUID_PREF_NAME, uuid);
         editor.apply();
     }
 
     public String getUUID() {
-        SharedPreferences prefs = this.context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return prefs.getString(UUID_PREF_NAME, null);
+        SharedPreferences prefs = this.context.getSharedPreferences(this.PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(this.UUID_PREF_NAME, null);
     }
 
     public String generateUUID() {

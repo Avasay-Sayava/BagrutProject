@@ -11,7 +11,7 @@ import com.avasaysayava.bagrutproject.game.graphic.Tile;
 
 public class StructuresTileSet extends TileSet {
     public StructuresTileSet(Context context) {
-        super(context, R.drawable.props);
+        super(context, R.drawable.structures);
     }
 
     @Override
@@ -53,8 +53,7 @@ public class StructuresTileSet extends TileSet {
         reg = new Collision(new Path(new PointF(32, 9), new PointF(29, 12), new PointF(29, 23), new PointF(32, 26)));
         tiles[13] = getTile(29, 13, 13, 2, 1, 1, 32, reg, Collision.empty, Collision.empty, TileSound.WALL);
 
-        reg = new Collision(new Path(new PointF(-1, 10), new PointF(1, 8), new PointF(29, 8), new PointF(32, 11)),
-                new Path(new PointF(-1, 25), new PointF(2, 28), new PointF(28, 28), new PointF(32, 24)));
+        reg = new Collision(new Path(new PointF(-1, 10), new PointF(1, 8), new PointF(29, 8), new PointF(32, 11)), new Path(new PointF(-1, 25), new PointF(2, 28), new PointF(28, 28), new PointF(32, 24)));
         tiles[14] = getTile(29, 13, 14, 2, 1, 1, 32, reg, Collision.empty, Collision.empty, TileSound.WALL);
 
         reg = new Collision(new Path(new PointF(-1, 10), new PointF(1, 12), new PointF(1, 23), new PointF(-1, 25)));

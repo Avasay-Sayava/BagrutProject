@@ -11,7 +11,7 @@ import com.avasaysayava.bagrutproject.game.graphic.Tile;
 
 public class WallsTileSet extends TileSet {
     public WallsTileSet(Context context) {
-        super(context, R.drawable.structures);
+        super(context, R.drawable.walls);
     }
 
     @Override
@@ -242,21 +242,21 @@ public class WallsTileSet extends TileSet {
         reg = new Collision(new Path(new PointF(32, 27), new PointF(15, 27), new PointF(15, 31), new PointF(32, 31)));
         tiles[73] = getTile(0, 31, 12, 10, 1, 1, 32, reg, Collision.empty, Collision.empty, TileSound.WALL);
 
-        tiles[74] = getTile(0, 0, 1, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[74] = getTile(0, -1, 1, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[75] = getTile(0, 0, 2, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[75] = getTile(0, -1, 2, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[76] = getTile(0, 0, 3, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[76] = getTile(0, -1, 3, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[77] = getTile(0, 0, 4, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[77] = getTile(0, -1, 4, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[78] = getTile(0, 0, 5, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[78] = getTile(0, -1, 5, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[79] = getTile(0, 0, 6, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[79] = getTile(0, -1, 6, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[80] = getTile(0, 0, 7, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[80] = getTile(0, -1, 7, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[81] = getTile(0, 0, 8, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[81] = getTile(0, -1, 8, 12, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
         reg = new Collision(new Path(new PointF(32, 3), new PointF(24, 3), new PointF(24, 32)));
         tiles[82] = getTile(24, 7, 9, 12, 1, 1, 32, reg, Collision.empty, Collision.empty, TileSound.WALL);
@@ -267,17 +267,17 @@ public class WallsTileSet extends TileSet {
         reg = new Collision(new Path(new PointF(-1, 3), new PointF(7, 3), new PointF(7, 32)));
         tiles[84] = getTile(0, 7, 11, 12, 1, 1, 32, reg, Collision.empty, Collision.empty, TileSound.WALL);
 
-        tiles[85] = getTile(0, 0, 1, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[85] = getTile(0, -1, 1, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[86] = getTile(0, 0, 2, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[86] = getTile(0, -1, 2, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[87] = getTile(0, 0, 3, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[87] = getTile(0, -1, 3, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[88] = getTile(0, 0, 5, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[88] = getTile(0, -1, 5, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[89] = getTile(0, 0, 6, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[89] = getTile(0, -1, 6, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[90] = getTile(0, 0, 7, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[90] = getTile(0, -1, 7, 13, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
         reg = top = new Collision(new Path(new PointF(24, -1), new PointF(24, 32)), new Path(new PointF(31, -1), new PointF(31, 32)));
         tiles[91] = getTile(24, 0, 9, 13, 1, 1, 32, reg, top, Collision.empty, TileSound.WALL);
@@ -288,17 +288,17 @@ public class WallsTileSet extends TileSet {
         reg = top = new Collision(new Path(new PointF(0, -1), new PointF(0, 32)), new Path(new PointF(7, -1), new PointF(7, 32)));
         tiles[93] = getTile(0, 0, 11, 13, 1, 1, 32, reg, top, Collision.empty, TileSound.WALL);
 
-        tiles[94] = getTile(0, 0, 1, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[94] = getTile(0, -1, 1, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[95] = getTile(0, 0, 2, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[95] = getTile(0, -1, 2, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[96] = getTile(0, 0, 3, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[96] = getTile(0, -1, 3, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[97] = getTile(0, 0, 5, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[97] = getTile(0, -1, 5, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[98] = getTile(0, 0, 6, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[98] = getTile(0, -1, 6, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
-        tiles[99] = getTile(0, 0, 7, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
+        tiles[99] = getTile(0, -1, 7, 14, 1, 1, 32, Collision.empty, Collision.empty, Collision.empty, TileSound.STAIR);
 
         reg = top = new Collision(new Path(new PointF(24, -1), new PointF(24, 31), new PointF(31, 31), new PointF(31, -1)));
         tiles[100] = getTile(24, 0, 9, 14, 1, 1, 32, reg, top, Collision.empty, TileSound.WALL);

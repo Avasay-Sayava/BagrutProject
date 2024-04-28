@@ -17,11 +17,16 @@ import com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.WallsTileSet;
 
+import java.util.function.LongConsumer;
+
 public abstract class Game extends SurfaceView implements SurfaceHolder.Callback {
     public final int SCALE, UPS;
     public final Paint textPaint;
     public final TileSoundPreloader tileSoundPreloader;
     public final TileSet playerTileSet, floorTileSet, glyphFloorTileSet, groundTileSet, structuresTileSet, wallsTileSet;
+    private final long startTime;
+    protected LongConsumer onCompleteListener = time -> {
+    };
 
     public Game(Context context, int UPS, int SCALE, Paint textPaint) {
         this(context, null, UPS, SCALE, textPaint);
@@ -49,6 +54,8 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
         this.groundTileSet = new GroundTileSet(getContext());
         this.structuresTileSet = new StructuresTileSet(getContext());
         this.wallsTileSet = new WallsTileSet(getContext());
+
+        this.startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -59,6 +66,10 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public abstract void surfaceDestroyed(@NonNull SurfaceHolder holder);
+
+    public void setOnCompleteListener(LongConsumer consumer) {
+        this.onCompleteListener = consumer;
+    }
 
     public abstract void update();
 
@@ -75,4 +86,10 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
     public abstract boolean isDebug();
 
     public abstract boolean isGraph();
+
+    public void onCompleted() {
+        if (this.onCompleteListener != null) {
+            this.onCompleteListener.accept(System.currentTimeMillis() - this.startTime);
+        }
+    }
 }
