@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BagrutProject"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".activity.StartActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LevelActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.HowToPlayActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.CreditsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.MenuActivity"
+            android:exported="true" />
+
+        <service
+            android:name=".service.BackgroundMusicService"
+            android:enabled="true" />
+    </application>
+</manifest>

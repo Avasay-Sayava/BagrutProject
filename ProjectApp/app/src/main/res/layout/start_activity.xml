@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black">
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="420dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth="match_constraint">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/monospace"
+                android:text="@string/app_name"
+                android:textAlignment="textStart"
+                android:textColor="@color/White"
+                android:textSize="50sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/monospace"
+                android:text="@string/by_avasay_sayava"
+                android:textAlignment="textStart"
+                android:textColor="@color/White"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/txt_title"
+                app:layout_constraintTop_toBottomOf="@+id/txt_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RadioGroup
+            android:id="@+id/rg_options_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:checkedButton="@id/rb_levels">
+
+            <RadioButton
+                android:id="@+id/rb_levels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/default_radio"
+                android:fontFamily="@font/monospace"
+                android:text="@string/levels"
+                android:textColor="@color/White"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rb_how_to_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/default_radio"
+                android:fontFamily="@font/monospace"
+                android:text="@string/how_to_play"
+                android:textColor="@color/White"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rb_credits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/default_radio"
+                android:fontFamily="@font/monospace"
+                android:text="@string/credits"
+                android:textColor="@color/White"
+                android:textSize="20sp" />
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_go"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/default_button"
+                android:fontFamily="@font/monospace"
+                android:padding="0dp"
+                android:text="@string/go"
+                android:textColor="@color/White"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
