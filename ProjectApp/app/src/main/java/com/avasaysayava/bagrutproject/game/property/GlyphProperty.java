@@ -19,7 +19,7 @@ public class GlyphProperty extends Property {
     @Override
     public void update(Entity... entities) {
         for (Entity e : entities) {
-            Point p = e.getPoint();
+            Point p = e.getCords();
             if (this.x == p.x && this.y == p.y && e.getZ() == this.parent.getZ()) {
                 e.addGlyphs(3);
                 if (this.tile != Tile.empty) {

@@ -24,6 +24,7 @@ public class Tile {
     protected final Collision collisionDown;
     protected Property property;
     protected int id;
+    private boolean drawnLazy = false;
 
     public Tile(Tile tile) {
         this.id = tile.getId();
@@ -164,5 +165,17 @@ public class Tile {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setDrawnLazy(boolean b) {
+        this.drawnLazy = b;
+    }
+
+    public boolean getDrawnLazy() {
+        return this.drawnLazy;
+    }
+
+    public Tile clone() {
+        return this.withZ(this.z);
     }
 }

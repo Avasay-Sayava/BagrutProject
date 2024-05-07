@@ -167,7 +167,8 @@ public class Level2Map extends LevelMap {
                                 Collections.singletonList(game.wallsTileSet.getTile(44).withZ(0)),
                                 Collections.singletonList(game.wallsTileSet.getTile(45).withZ(0)),
                                 Collections.singletonList(game.wallsTileSet.getTile(57).withZ(0)),
-                        }
+                        },
+                        new List[]{}
                 },
                 32,
                 32 * -4.5f,

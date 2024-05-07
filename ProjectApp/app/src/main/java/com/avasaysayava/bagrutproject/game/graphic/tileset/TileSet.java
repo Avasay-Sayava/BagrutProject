@@ -38,6 +38,6 @@ public abstract class TileSet {
     }
 
     public Tile getTile(int index) {
-        return this.tiles[index];
+        return this.tiles[index].clone();
     }
 }

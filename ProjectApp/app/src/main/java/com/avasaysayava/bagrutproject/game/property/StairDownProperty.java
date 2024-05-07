@@ -15,7 +15,7 @@ public class StairDownProperty extends Property {
     @Override
     public void update(Entity... entities) {
         for (Entity e : entities) {
-            Point p = e.getPoint();
+            Point p = e.getCords();
             if (this.x == p.x && this.y == p.y) {
                 e.setZ(this.parent.getZ());
             }

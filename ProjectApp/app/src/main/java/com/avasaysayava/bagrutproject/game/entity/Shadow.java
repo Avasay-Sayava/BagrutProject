@@ -61,7 +61,7 @@ public class Shadow extends Entity {
     }
 
     @Override
-    public Point getPoint() {
-        return this.entity.getPoint();
+    public Point getCords() {
+        return this.entity.getCords();
     }
 }

@@ -24,7 +24,7 @@ public class GlyphStoneProperty extends Property {
     @Override
     public void update(Entity... entities) {
         for (Entity e : entities) {
-            Point p = e.getPoint();
+            Point p = e.getCords();
             if (this.x == p.x && this.y == p.y
                     && e.getZ() == this.parent.getZ()) {
                 this.glyphs += e.getGlyphs(this.GLYPH_GOAL - this.glyphs);

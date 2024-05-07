@@ -203,7 +203,7 @@ public class Player extends Entity {
 
                 GameMap map = this.level.getMap();
                 Point p = getPositionOnMap(map);
-                List<Tile> tiles = map.getTiles(p.y, p.x);
+                List<Tile> tiles = map.getTiles(p.x, p.y);
 
                 boolean played = false;
                 for (Tile t : tiles) {
@@ -255,7 +255,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public Point getPoint() {
+    public Point getCords() {
         return new Point(Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE), Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE));
     }
 

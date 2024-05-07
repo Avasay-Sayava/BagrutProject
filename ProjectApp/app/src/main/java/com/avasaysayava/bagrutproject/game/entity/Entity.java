@@ -77,5 +77,5 @@ public abstract class Entity {
         this.z = z;
     }
 
-    public abstract Point getPoint();
+    public abstract Point getCords();
 }
