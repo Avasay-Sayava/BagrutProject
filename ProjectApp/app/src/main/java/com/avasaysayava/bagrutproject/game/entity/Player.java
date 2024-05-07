@@ -82,7 +82,7 @@ public class Player extends Entity {
 
     private void updateVelocity(double Vx, double Vy) {
         // smooth velocity change
-        double avgUPS = this.level.getOperationScheduler().getAvgUPS();
+        double avgUPS = this.level.getJobScheduler().getAvgUPS();
         double totalFactor = Math.pow(1, 60 / avgUPS);
         double continuityFactor = Math.pow(1 - this.mass * this.mass, 60 / avgUPS);
         this.Vx = ((totalFactor - continuityFactor) * Vx + continuityFactor * this.Vx) / totalFactor;
@@ -94,7 +94,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        double avgUPS = this.level.getOperationScheduler().getAvgUPS();
+        double avgUPS = this.level.getJobScheduler().getAvgUPS();
         if (avgUPS < 1) avgUPS = 1;
 
         Joystick joystick = this.level.getJoystick();
@@ -231,7 +231,7 @@ public class Player extends Entity {
     }
 
     private double getPreferredSpeed() {
-        return this.maxSpeed * this.level.getJoystick().getPercentage() / this.level.getOperationScheduler().getAvgUPS();
+        return this.maxSpeed * this.level.getJoystick().getPercentage() / this.level.getJobScheduler().getAvgUPS();
     }
 
     @Override

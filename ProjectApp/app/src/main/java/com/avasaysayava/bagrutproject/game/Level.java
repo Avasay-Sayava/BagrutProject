@@ -22,7 +22,7 @@ import com.avasaysayava.bagrutproject.game.entity.Player;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
 import com.avasaysayava.bagrutproject.game.gui.MovableJoystick;
-import com.avasaysayava.bagrutproject.game.thread.OperationScheduler;
+import com.avasaysayava.bagrutproject.game.thread.JobScheduler;
 import com.avasaysayava.bagrutproject.util.Util;
 
 public class Level extends Game {
@@ -32,8 +32,9 @@ public class Level extends Game {
     private Joystick joystick;
     private Bitmap vignetteBitmap;
     private boolean debugMode, graphMode, paused;
-    private OperationScheduler operationScheduler;
+    private JobScheduler jobScheduler;
     private int fpsIndex, upsIndex;
+    private long t_total, t_start;
 
     public Level(Context context) {
         this(context, null);
@@ -68,7 +69,7 @@ public class Level extends Game {
         surfaceHolder.setFormat(PixelFormat.RGBA_8888);
 
         // initialize schedulers
-        createOperationScheduler();
+        createJobScheduler();
 
         // initialize the level objects
         createJoystick();
@@ -81,6 +82,9 @@ public class Level extends Game {
         this.upsIndex = this.fpsIndex = 0;
         this.upsGraph = new double[400];
         this.fpsGraph = new double[400];
+
+        this.t_start = System.currentTimeMillis();
+        this.t_total = 0;
 
         setFocusable(true);
     }
@@ -112,13 +116,13 @@ public class Level extends Game {
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        // if the operation scheduler is terminated, create a new one
-        if (this.operationScheduler.getState().equals(Thread.State.TERMINATED)) {
-            createOperationScheduler();
+        // if the job scheduler is terminated, create a new one
+        if (this.jobScheduler.getState().equals(Thread.State.TERMINATED)) {
+            createJobScheduler();
         }
 
         // resume the level loop
-        this.operationScheduler.start();
+        this.jobScheduler.start();
     }
 
     @Override
@@ -163,10 +167,10 @@ public class Level extends Game {
 
     @SuppressLint("DefaultLocale")
     private void drawUPS(Canvas canvas, Paint paint) {
-        String avgUPS = String.format("%.5f", this.operationScheduler.getAvgUPS()) + ", " + String.format("%.5f", this.operationScheduler.getFramedUPS());
+        String avgUPS = String.format("%.5f", this.jobScheduler.getAvgUPS()) + ", " + String.format("%.5f", this.jobScheduler.getFramedUPS());
         canvas.drawText("UPS: " + avgUPS, 10, 50, paint);
 
-        this.upsGraph[this.upsIndex++] = this.operationScheduler.getAvgUPS();
+        this.upsGraph[this.upsIndex++] = this.jobScheduler.getAvgUPS();
         this.upsIndex %= this.upsGraph.length;
 
         if (this.graphMode) {
@@ -182,10 +186,10 @@ public class Level extends Game {
 
     @SuppressLint("DefaultLocale")
     private void drawFPS(Canvas canvas, Paint paint) {
-        String avgFPS = String.format("%.5f", this.operationScheduler.getAvgFPS()) + ", " + String.format("%.5f", this.operationScheduler.getFramedFPS());
+        String avgFPS = String.format("%.5f", this.jobScheduler.getAvgFPS()) + ", " + String.format("%.5f", this.jobScheduler.getFramedFPS());
         canvas.drawText("FPS: " + avgFPS, 10, 100, paint);
 
-        this.fpsGraph[this.fpsIndex++] = this.operationScheduler.getAvgFPS();
+        this.fpsGraph[this.fpsIndex++] = this.jobScheduler.getAvgFPS();
         this.fpsIndex %= this.fpsGraph.length;
 
         if (this.graphMode) {
@@ -235,8 +239,8 @@ public class Level extends Game {
         return this.map;
     }
 
-    public OperationScheduler getOperationScheduler() {
-        return this.operationScheduler;
+    public JobScheduler getJobScheduler() {
+        return this.jobScheduler;
     }
 
     public Joystick getJoystick() {
@@ -256,7 +260,7 @@ public class Level extends Game {
     @Override
     public void onPause() {
         pause();
-        this.operationScheduler.pause();
+        this.jobScheduler.pause();
     }
 
     @Override
@@ -269,9 +273,9 @@ public class Level extends Game {
 
     }
 
-    private void createOperationScheduler() {
+    private void createJobScheduler() {
         SurfaceHolder surfaceHolder = getHolder();
-        this.operationScheduler = new OperationScheduler(this, surfaceHolder, this.UPS);
+        this.jobScheduler = new JobScheduler(this, surfaceHolder, this.UPS);
     }
 
     private void createJoystick() {
@@ -285,11 +289,14 @@ public class Level extends Game {
 
     public void pause() {
         this.paused = true;
+        this.t_total = System.currentTimeMillis() - this.t_start;
     }
 
     public void resume() {
         this.joystick.reset();
         this.paused = false;
+        this.t_start = System.currentTimeMillis() - this.t_total;
+        this.t_total = 0;
     }
 
     public void toggleDebug() {
@@ -303,5 +310,13 @@ public class Level extends Game {
     @Override
     public boolean isGraph() {
         return this.graphMode;
+    }
+
+    @Override
+    public void onCompleted() {
+        if (this.onCompleteListener != null) {
+            if (this.t_total == 0) this.t_total = System.currentTimeMillis()- this.t_start;
+            this.onCompleteListener.accept(this.t_total);
+        }
     }
 }
