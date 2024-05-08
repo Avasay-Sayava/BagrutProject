@@ -33,9 +33,6 @@ public class StartActivity extends Activity {
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         setContentView(R.layout.start_activity);
 
         this.optionsMenu = findViewById(R.id.rg_options_menu);

@@ -54,9 +54,6 @@ public class MenuActivity extends Activity {
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         setContentView(R.layout.menu_activity);
 
         this.rl_rank_current = findViewById(R.id.rl_rank_current);

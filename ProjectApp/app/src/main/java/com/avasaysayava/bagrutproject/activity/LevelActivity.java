@@ -42,9 +42,6 @@ public class LevelActivity extends Activity {
         this.click.setVolume(.1f, .1f);
         this.load = MediaPlayer.create(this, R.raw.level_start);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         this.backgroundMusicService = new Intent(this, BackgroundMusicService.class);
 
         setContentView(R.layout.level_activity);
