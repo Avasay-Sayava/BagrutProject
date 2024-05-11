@@ -1,0 +1,15 @@
+@startuml
+class com.avasaysayava.bagrutproject.activity.StartActivity {
+- RadioGroup rg_options_menu
+- Button btn_go
+- MediaPlayer click
+- MediaPlayer load
+- UUIDDataSource uuidDataSource
+# void onCreate(Bundle)
+}
+
+
+
+
+android.app.Activity <|-com.avasaysayava.bagrutproject.activity.StartActivity
+@enduml

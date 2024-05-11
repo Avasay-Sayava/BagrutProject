@@ -1,0 +1,19 @@
+@startuml
+class com.avasaysayava.bagrutproject.util.Util {
++ {static} boolean within(double,double,double)
++ {static} boolean between(double,double,double)
++ {static} int withAlpha(int,int)
++ {static} boolean isCounterClockwise(PointF,PointF,PointF)
++ {static} boolean doesIntersect(PointF,PointF,PointF,PointF)
++ {static} Bitmap generateVignette(int,int)
++ {static} T randomElement(T[])
++ {static} String timeToString(long)
++ {static} void updateUUID(UUIDDataSource)
++ {static} String getLevel(GameMap)
++ {static} long stringToTime(String)
+}
+note left of com.avasaysayava.bagrutproject.util.Util::doesIntersect(PointF,PointF,PointF,PointF)
+ IMPORTANT: wont work for parallel lines
+end note
+
+@enduml

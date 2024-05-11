@@ -1,0 +1,38 @@
+@startuml
+class com.avasaysayava.bagrutproject.activity.MenuActivity {
+- Button[] levels
+- int currentLevel
+- Button btn_play
+- Button btn_back
+- LevelDataSource levelDataSource
+- UUIDDataSource uuidDataSource
+- RelativeLayout rl_rank_first
+- RelativeLayout rl_rank_faster
+- RelativeLayout rl_rank_current
+- TextView txt_rank_first_time
+- TextView txt_rank_faster_time
+- TextView txt_rank_current_time
+- TextView txt_rank_slower_time
+- TextView txt_rank_first_number
+- TextView txt_rank_faster_number
+- TextView txt_rank_current_number
+- TextView txt_rank_slower_number
+- LevelPreview sv_level_preview
+- MediaPlayer click
+- MediaPlayer load
+- TextView txt_level_title
+# void onCreate(Bundle)
++ void previewMap(int,GameMap)
+- void loadLeaderboards(int)
+# void onResume()
+# void onStart()
+# void onDestroy()
+# void onStop()
+# void onPause()
+}
+
+
+
+
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.MenuActivity
+@enduml

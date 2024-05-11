@@ -1,0 +1,13 @@
+@startuml
+class com.avasaysayava.bagrutproject.service.BackgroundMusicService {
+- MediaPlayer player
++ IBinder onBind(Intent)
++ int onStartCommand(Intent,int,int)
++ void onDestroy()
+}
+
+
+
+
+android.app.Service <|- com.avasaysayava.bagrutproject.service.BackgroundMusicService
+@enduml

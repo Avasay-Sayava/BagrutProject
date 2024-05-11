@@ -1,0 +1,13 @@
+@startuml
+class com.avasaysayava.bagrutproject.activity.CreditsActivity {
+- Button btn_back
+- MediaPlayer click
+- MediaPlayer load
+# void onCreate(Bundle)
+}
+
+
+
+
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.CreditsActivity
+@enduml
