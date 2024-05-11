@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
-import com.avasaysayava.bagrutproject.game.struct.LineF;
 import com.avasaysayava.bagrutproject.util.Util;
+import com.avasaysayava.bagrutproject.util.struct.LineF;
 
 public class Path {
     private final PointF[] points;

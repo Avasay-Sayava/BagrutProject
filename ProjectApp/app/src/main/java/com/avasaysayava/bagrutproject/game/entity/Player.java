@@ -15,8 +15,8 @@ import com.avasaysayava.bagrutproject.game.collision.Path;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
-import com.avasaysayava.bagrutproject.game.struct.LineF;
 import com.avasaysayava.bagrutproject.util.Util;
+import com.avasaysayava.bagrutproject.util.struct.LineF;
 
 import java.util.List;
 

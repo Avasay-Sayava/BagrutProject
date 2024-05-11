@@ -9,7 +9,7 @@ import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet;
 import com.avasaysayava.bagrutproject.game.property.Property;
-import com.avasaysayava.bagrutproject.game.struct.LineF;
+import com.avasaysayava.bagrutproject.util.struct.LineF;
 
 public class Tile {
     public static final Tile empty = null;

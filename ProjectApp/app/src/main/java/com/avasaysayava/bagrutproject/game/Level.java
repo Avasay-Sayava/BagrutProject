@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.Constants;
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.Static;
 import com.avasaysayava.bagrutproject.game.entity.Player;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.gui.Joystick;
@@ -58,7 +57,7 @@ public class Level extends Game {
         this.graphMode = false;
         this.paused = false;
 
-        this.map = Static.currentMap;
+        this.map = GameMap.currentMap;
         this.map.setGame(this);
         this.map.clear();
         this.map.prepare();

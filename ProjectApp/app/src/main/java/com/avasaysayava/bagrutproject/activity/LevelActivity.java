@@ -2,24 +2,21 @@ package com.avasaysayava.bagrutproject.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.Static;
 import com.avasaysayava.bagrutproject.database.datasource.LevelDataSource;
 import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
 import com.avasaysayava.bagrutproject.game.Level;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.service.BackgroundMusicService;
 import com.avasaysayava.bagrutproject.util.Util;
 
@@ -35,7 +32,7 @@ public class LevelActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.levelDataSource = new LevelDataSource(this, Util.getLevel(Static.currentMap));
+        this.levelDataSource = new LevelDataSource(this, Util.getLevel(GameMap.currentMap));
         this.uuidDataSource = new UUIDDataSource(this);
 
         this.click = MediaPlayer.create(this, R.raw.click);
@@ -122,9 +119,11 @@ public class LevelActivity extends Activity {
     }
 
     private void showLeaveDialog() {
-        new AlertDialog.Builder(this).setMessage(R.string.lose_all_progress).setPositiveButton(R.string.yes, (DialogInterface.OnClickListener) (dialog, id) -> super.onBackPressed()).setNegativeButton(R.string.no, (DialogInterface.OnClickListener) (dialog, id) -> {
-
-        }).create().show();
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.lose_all_progress)
+                .setPositiveButton(R.string.yes, (dialog, id) -> super.onBackPressed())
+                .setNegativeButton(R.string.no, (dialog, id) -> {})
+                .create().show();
     }
 
     @Override
@@ -179,6 +178,12 @@ public class LevelActivity extends Activity {
     }
 
     private void showTimeDialog(long time, long diff, boolean newBest) {
-        new AlertDialog.Builder(this).setTitle((newBest ? "New Best Time! " : "Try Harder! ") + Util.timeToString(time) + " (" + (diff > 0 ? "+" : "-") + Util.timeToString(Math.abs(diff)) + ")").setPositiveButton(R.string.ok, (DialogInterface.OnClickListener) (dialog, id) -> super.onBackPressed()).setCancelable(false).create().show();
+        new AlertDialog.Builder(this)
+                .setTitle((newBest ? "New Best Time! " : "Try Harder! ")
+                        + Util.timeToString(time) + " (" + (diff > 0 ? "+" : "-")
+                        + Util.timeToString(Math.abs(diff)) + ")")
+                .setPositiveButton(R.string.ok, (dialog, id) -> super.onBackPressed())
+                .setCancelable(false)
+                .create().show();
     }
 }

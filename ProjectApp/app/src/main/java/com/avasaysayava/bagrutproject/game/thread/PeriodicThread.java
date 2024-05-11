@@ -32,7 +32,6 @@ public abstract class PeriodicThread extends Thread {
         try {
             join();
         } catch (InterruptedException e) {
-            Log.e("level/thread", e.getMessage(), e);
         }
     }
 

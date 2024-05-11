@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.Constants;
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.Static;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.util.Util;
 
@@ -43,7 +42,7 @@ public class LevelPreview extends Game {
         holder.addCallback(this);
         holder.setFormat(PixelFormat.RGBA_8888);
 
-        loadMap(Static.currentMap);
+        loadMap(GameMap.currentMap);
 
         this.textPaint.setColor(Color.WHITE);
         this.textPaint.setTextSize(20);

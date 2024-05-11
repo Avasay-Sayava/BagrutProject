@@ -12,7 +12,7 @@ import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
-import com.avasaysayava.bagrutproject.game.struct.LineF;
+import com.avasaysayava.bagrutproject.util.struct.LineF;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +26,7 @@ public class GameMap {
     protected Game game;
     protected float x, y;
     private int glyphs;
+    public static GameMap currentMap = null;
 
     public GameMap(Game game, List<Tile>[][] map, int tileSize, float x, float y) {
         this.TILE_SIZE = tileSize;

@@ -30,13 +30,13 @@ public class Util {
         return color & (alpha << 24 | 0x00ffffff);
     }
 
-    public static boolean isCounterClockWise(PointF A, PointF B, PointF C) {
+    public static boolean isCounterClockwise(PointF A, PointF B, PointF C) {
         return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x);
     }
 
     // IMPORTANT: wont work for parallel lines
     public static boolean doesIntersect(PointF A, PointF B, PointF C, PointF D) {
-        return isCounterClockWise(A, C, D) != isCounterClockWise(B, C, D) && isCounterClockWise(A, B, C) != isCounterClockWise(A, B, D);
+        return isCounterClockwise(A, C, D) != isCounterClockwise(B, C, D) && isCounterClockwise(A, B, C) != isCounterClockwise(A, B, D);
     }
 
     public static @NonNull Bitmap generateVignette(int width, int height) {

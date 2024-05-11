@@ -1,16 +1,14 @@
 package com.avasaysayava.bagrutproject.activity;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
 import com.avasaysayava.bagrutproject.R;
-
+@SuppressWarnings("FieldCanBeLocal")
 public class HowToPlayActivity extends Activity {
     private Button btn_back;
     private MediaPlayer click, load;

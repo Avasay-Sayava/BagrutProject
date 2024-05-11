@@ -2,11 +2,9 @@ package com.avasaysayava.bagrutproject.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.Static;
 import com.avasaysayava.bagrutproject.database.DatabaseContract;
 import com.avasaysayava.bagrutproject.database.datasource.LevelDataSource;
 import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
@@ -30,9 +27,11 @@ import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.WallsMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level2Map;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class MenuActivity extends Activity {
     private Button[] levels;
-    private Button currentLevel, btn_play, btn_back;
+    private int currentLevel;
+    private Button btn_play, btn_back;
     private LevelDataSource levelDataSource;
     private UUIDDataSource uuidDataSource;
     private RelativeLayout rl_rank_first, rl_rank_faster, rl_rank_current;
@@ -82,7 +81,7 @@ public class MenuActivity extends Activity {
 
         this.btn_play = findViewById(R.id.btn_play);
         this.btn_play.setOnClickListener(v -> {
-            if (Static.currentMap != null) {
+            if (GameMap.currentMap != null) {
                 startActivity(new Intent(this, LevelActivity.class), savedInstanceState);
             } else {
                 this.click.start();
@@ -90,68 +89,77 @@ public class MenuActivity extends Activity {
             }
         });
 
-        this.levels = new Button[]{findViewById(R.id.level1), findViewById(R.id.level2), findViewById(R.id.level3), findViewById(R.id.level4), findViewById(R.id.level5), findViewById(R.id.level6), findViewById(R.id.level7), findViewById(R.id.level8), findViewById(R.id.level9)};
+        this.levels = new Button[]{
+                findViewById(R.id.level1),
+                findViewById(R.id.level2),
+                findViewById(R.id.level3),
+                findViewById(R.id.level4),
+                findViewById(R.id.level5),
+                findViewById(R.id.level6),
+                findViewById(R.id.level7),
+                findViewById(R.id.level8),
+                findViewById(R.id.level9)
+        };
 
         this.levels[0].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 1, Static.currentMap = new Level1Map(this.sv_level_preview));
+            previewMap(0, GameMap.currentMap = new Level1Map(this.sv_level_preview));
         });
 
         this.levels[1].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 2, Static.currentMap = new Level2Map(this.sv_level_preview));
+            previewMap(1, GameMap.currentMap = new Level2Map(this.sv_level_preview));
         });
 
         this.levels[2].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 3, Static.currentMap = new StructuresMap(this.sv_level_preview, 0, 0));
+            previewMap(2, GameMap.currentMap = new StructuresMap(this.sv_level_preview, 0, 0));
         });
 
         this.levels[3].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 4, Static.currentMap = new WallsMap(this.sv_level_preview, -100, -100));
+            previewMap(3, GameMap.currentMap = new WallsMap(this.sv_level_preview, -100, -100));
         });
 
         this.levels[4].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 5, Static.currentMap = new GroundMap(this.sv_level_preview, 0, 0));
+            previewMap(4, GameMap.currentMap = new GroundMap(this.sv_level_preview, 0, 0));
         });
 
         this.levels[5].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 6, Static.currentMap = new FloorMap(this.sv_level_preview, 0, 0));
+            previewMap(5, GameMap.currentMap = new FloorMap(this.sv_level_preview, 0, 0));
         });
 
         this.levels[6].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 7, Static.currentMap = new GlyphFloorMap(this.sv_level_preview, 0, 0));
+            previewMap(6, GameMap.currentMap = new GlyphFloorMap(this.sv_level_preview, 0, 0));
         });
 
         this.levels[7].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 8, Static.currentMap = null);
+            previewMap(7, GameMap.currentMap = null);
         });
 
         this.levels[8].setOnClickListener(v -> {
             this.click.start();
-            previewMap((Button) v, 9, Static.currentMap = null);
+            previewMap(8, GameMap.currentMap = null);
         });
 
-        this.currentLevel = this.levels[0];
-        this.currentLevel.callOnClick();
+        this.currentLevel = 0;
+        this.levels[this.currentLevel].callOnClick();
     }
 
-    public void previewMap(Button level, int id, GameMap map) {
+    public void previewMap(int index, GameMap map) {
+        this.levels[this.currentLevel].setBackground(ContextCompat.getDrawable(this, R.drawable.default_button));
+        this.currentLevel = index;
+        this.levels[this.currentLevel].setBackground(ContextCompat.getDrawable(this, R.drawable.default_button_pressed));
 
-        this.currentLevel.setBackground(ContextCompat.getDrawable(this, R.drawable.default_button));
-        this.currentLevel = level;
-        this.currentLevel.setBackground(ContextCompat.getDrawable(this, R.drawable.default_button_pressed));
-
-        this.txt_level_title.setText(this.currentLevel.getText());
+        this.txt_level_title.setText(this.levels[this.currentLevel].getText());
 
         this.sv_level_preview.loadMap(map);
 
-        loadLeaderboards(id);
+        loadLeaderboards(index + 1);
     }
 
     private void loadLeaderboards(int id) {
@@ -260,7 +268,7 @@ public class MenuActivity extends Activity {
     protected void onResume() {
         super.onResume();
         this.sv_level_preview.onResume();
-        this.currentLevel.callOnClick();
+        this.levels[this.currentLevel].callOnClick();
     }
 
     @Override
