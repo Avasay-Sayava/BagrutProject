@@ -163,11 +163,11 @@ public class MenuActivity extends Activity {
     }
 
     private void loadLeaderboards(int id) {
-        this.levelDataSource.setColumn("level" + id);
+        this.levelDataSource.setLevel("level" + id);
         this.levelDataSource.openReadable();
 
         String currentTime = this.levelDataSource.getTimeByUUID(this.uuidDataSource.getUUID());
-        int currentNumber = this.levelDataSource.getRankByTime(currentTime);
+        int currentNumber = currentTime == null ? -1 : this.levelDataSource.getRankByUUID(this.uuidDataSource.getUUID());
 
         // reset leaderboard colors
         this.rl_rank_first.setBackgroundColor(Color.TRANSPARENT);

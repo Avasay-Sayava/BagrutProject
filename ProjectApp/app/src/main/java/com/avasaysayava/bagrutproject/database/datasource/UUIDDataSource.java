@@ -45,7 +45,20 @@ public class UUIDDataSource extends DataSource {
         return prefs.getString(this.UUID_PREF_NAME, null);
     }
 
-    public String generateUUID() {
+    private String generateUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public void updateUUID() {
+        this.openReadable();
+        String uuid = this.getUUID();
+        if (uuid == null || uuid.isEmpty() || !this.UUIDExists(uuid)) {
+            do {
+                uuid = generateUUID();
+            } while (this.UUIDExists(uuid));
+            this.openWriteable();
+            this.insertUUID(uuid);
+            this.saveUUID(uuid);
+        }
     }
 }

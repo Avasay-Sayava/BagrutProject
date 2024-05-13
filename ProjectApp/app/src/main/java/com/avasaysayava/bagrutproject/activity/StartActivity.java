@@ -25,7 +25,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.uuidDataSource = new UUIDDataSource(this);
-        Util.updateUUID(this.uuidDataSource);
+        uuidDataSource.updateUUID();
 
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);

@@ -75,20 +75,6 @@ public class Util {
         return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
     }
 
-    public static void updateUUID(UUIDDataSource uuidDataSource) {
-        uuidDataSource.openReadable();
-        String uuid = uuidDataSource.getUUID();
-        if (uuid == null || uuid.isEmpty() || !uuidDataSource.UUIDExists(uuid)) {
-            do {
-                uuid = uuidDataSource.generateUUID();
-            } while (uuidDataSource.UUIDExists(uuid));
-            uuidDataSource.openWriteable();
-            uuidDataSource.insertUUID(uuid);
-            uuidDataSource.saveUUID(uuid);
-            uuidDataSource.close();
-        }
-    }
-
     public static String getLevel(GameMap map) {
         if (map instanceof Level1Map) return DatabaseContract.UserEntry.COLUMN_LEVEL1;
         else return DatabaseContract.UserEntry.COLUMN_LEVEL2;
