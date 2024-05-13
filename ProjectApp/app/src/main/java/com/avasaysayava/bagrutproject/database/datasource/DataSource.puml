@@ -1,0 +1,13 @@
+@startuml
+abstract class com.avasaysayava.bagrutproject.database.datasource.DataSource {
+# DatabaseHelper databaseHelper
+# Context context
+# SQLiteDatabase database
++ <<Create>> DataSource(Context)
++ void openWriteable()
++ void openReadable()
++ void close()
+}
+
+
+@enduml

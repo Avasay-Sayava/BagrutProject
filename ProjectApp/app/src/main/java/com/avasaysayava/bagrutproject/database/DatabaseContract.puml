@@ -1,0 +1,22 @@
+@startuml
+class com.avasaysayava.bagrutproject.database.DatabaseContract {
+}
+class com.avasaysayava.bagrutproject.database.UserEntry {
++ {static} String TABLE_NAME
++ {static} String COLUMN_UUID
++ {static} String COLUMN_LEVEL1
++ {static} String COLUMN_LEVEL2
++ {static} String COLUMN_LEVEL3
++ {static} String COLUMN_LEVEL4
++ {static} String COLUMN_LEVEL5
++ {static} String COLUMN_LEVEL6
++ {static} String COLUMN_LEVEL7
++ {static} String COLUMN_LEVEL8
++ {static} String COLUMN_LEVEL9
+}
+
+
+
+com.avasaysayava.bagrutproject.database.DatabaseContract +. com.avasaysayava.bagrutproject.database.UserEntry
+android.provider.BaseColumns <|. com.avasaysayava.bagrutproject.database.UserEntry
+@enduml
