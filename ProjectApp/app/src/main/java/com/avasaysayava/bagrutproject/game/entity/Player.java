@@ -21,7 +21,7 @@ import com.avasaysayava.bagrutproject.util.struct.LineF;
 import java.util.List;
 
 public class Player extends Entity {
-    private final float maxSpeed;
+    private final float MAX_SPEED;
     private final Shadow shadow;
     private final Collision collision;
     private double wobble;
@@ -32,7 +32,7 @@ public class Player extends Entity {
 
     public Player(Level level, float x, float y, int z) {
         super(level, .4, x, y, z);
-        this.maxSpeed = 80;
+        this.MAX_SPEED = 80;
         this.lastId = 0;
         this.collision = new Collision(Path.polygon(new PointF(5, 33), new PointF(25, 33), new PointF(25, 47), new PointF(5, 47)));
         this.shadow = new Shadow(this.level, this, this.level.playerTileSet.getTile(4));
@@ -141,7 +141,7 @@ public class Player extends Entity {
         // fix collision caused by camera movement and floating points
         this.collision.move(this.x, this.y);
         if (this.level.getMap().getIntersector(this) != null) {
-            for (int i = 1; i < this.maxSpeed; i++) {
+            for (int i = 1; i < this.MAX_SPEED; i++) {
                 this.collision.move(this.x + i, this.y);
                 if (this.level.getMap().getIntersector(this) == null) {
                     translate(i, 0);
@@ -202,7 +202,7 @@ public class Player extends Entity {
                 this.playSound = false;
 
                 GameMap map = this.level.getMap();
-                Point p = getPositionOnMap(map);
+                Point p = getCordsOnMap(map);
                 List<Tile> tiles = map.getTiles(p.x, p.y);
 
                 boolean played = false;
@@ -231,7 +231,7 @@ public class Player extends Entity {
     }
 
     private double getPreferredSpeed() {
-        return this.maxSpeed * this.level.getJoystick().getPercentage() / this.level.getJobScheduler().getAvgUPS();
+        return this.MAX_SPEED * this.level.getJoystick().getPercentage() / this.level.getJobScheduler().getAvgUPS();
     }
 
     @Override
@@ -256,7 +256,7 @@ public class Player extends Entity {
 
     @Override
     public Point getCords() {
-        return new Point(Math.round((this.x - this.level.getMap().getX()) / this.level.getMap().TILE_SIZE), Math.round((this.y - this.level.getMap().getY() + 24) / this.level.getMap().TILE_SIZE));
+        return getCordsOnMap(this.level.getMap());
     }
 
     public double getVx() {
@@ -267,7 +267,7 @@ public class Player extends Entity {
         return this.Vy;
     }
 
-    private Point getPositionOnMap(GameMap map) {
+    private Point getCordsOnMap(GameMap map) {
         return new Point(Math.round((this.x - map.getX()) / map.TILE_SIZE), Math.round((this.y - map.getY() + 24) / map.TILE_SIZE));
     }
 }

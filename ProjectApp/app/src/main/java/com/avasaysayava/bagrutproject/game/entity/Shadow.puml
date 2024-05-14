@@ -1,0 +1,21 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.entity.Shadow {
+- Tile tile
+- Entity entity
++ <<Create>> Shadow(Level,Entity,Tile)
++ void draw(Canvas)
++ void update()
++ Collision getCollision()
++ int getLeft()
++ int getDown()
++ Shadow getShadow()
++ int getZ()
++ void setZ(int)
++ Point getCords()
+}
+
+
+
+
+com.avasaysayava.bagrutproject.game.entity.Entity <|-- com.avasaysayava.bagrutproject.game.entity.Shadow
+@enduml

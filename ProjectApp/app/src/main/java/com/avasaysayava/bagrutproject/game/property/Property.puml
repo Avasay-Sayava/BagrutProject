@@ -1,0 +1,13 @@
+@startuml
+abstract class com.avasaysayava.bagrutproject.game.property.Property {
+# Game game
+# GameMap map
+# int x
+# Tile parent
++ <<Create>> Property(Game,GameMap,Tile,int,int)
++ {abstract}void update(Entity)
++ {abstract}Tile getTile()
+}
+
+
+@enduml

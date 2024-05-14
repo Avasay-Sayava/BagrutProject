@@ -1,0 +1,13 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.collision.Collision {
++ {static} Collision empty
+- Path[] paths
++ <<Create>> Collision(Path)
++ LineF getIntersector(Collision)
++ void move(float,float)
++ void draw(Canvas,Paint,int)
++ Path[] getPaths()
+}
+
+
+@enduml

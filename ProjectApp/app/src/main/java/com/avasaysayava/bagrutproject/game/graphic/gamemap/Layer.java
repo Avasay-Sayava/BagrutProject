@@ -157,7 +157,7 @@ public class Layer {
                     if (tile == Tile.empty) continue;
                     if (tile.getProp() != null) {
                         if (tile.getProp() instanceof GlyphStoneProperty) {
-                            this.gameMap.addGlyphs(((GlyphStoneProperty) tile.getProp()).GLYPH_GOAL);
+                            this.gameMap.addGlyphs(GlyphStoneProperty.GLYPH_GOAL);
                         }
                     }
                 }

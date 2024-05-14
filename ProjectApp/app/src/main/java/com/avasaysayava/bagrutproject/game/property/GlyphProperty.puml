@@ -1,0 +1,13 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.property.GlyphProperty {
+- Tile tile
++ <<Create>> GlyphProperty(Game,GameMap,Tile,int,int)
++ void update(Entity)
++ Tile getTile()
+}
+
+
+
+
+com.avasaysayava.bagrutproject.game.property.Property <|-- com.avasaysayava.bagrutproject.game.property.GlyphProperty
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+abstract class com.avasaysayava.bagrutproject.game.entity.Entity {
+# Level level
+# float x
+# float y
+# int z
+# double mass
+- int glyphs
++ <<Create>> Entity(Level,double,float,float,int)
++ void move(float,float)
++ void translate(float,float)
++ float getX()
++ float getY()
++ void addGlyphs(int)
++ int getGlyphs(int)
++ {abstract}void draw(Canvas)
++ {abstract}void update()
++ {abstract}Collision getCollision()
++ {abstract}int getLeft()
++ {abstract}int getDown()
++ {abstract}Shadow getShadow()
++ int getZ()
++ void setZ(int)
++ {abstract}Point getCords()
+}
+
+
+@enduml

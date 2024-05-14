@@ -11,11 +11,12 @@ public abstract class Entity {
     protected float x, y;
     protected int z;
     protected double mass;
-    private int glyphs = 1;
+    private int glyphs;
 
     public Entity(Level level, double mass, float x, float y, int z) {
         this.level = level;
         this.mass = mass;
+        this.glyphs = 0;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -29,10 +30,6 @@ public abstract class Entity {
     public void translate(float dx, float dy) {
         this.x += dx;
         this.y += dy;
-    }
-
-    public double getDistance(float x, float y) {
-        return Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
     }
 
     public float getX() {
@@ -51,10 +48,6 @@ public abstract class Entity {
         int out = Math.min(count, this.glyphs);
         this.glyphs -= out;
         return out;
-    }
-
-    public int getGlyphCount() {
-        return this.glyphs;
     }
 
     public abstract void draw(Canvas canvas);

@@ -1,0 +1,15 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.collision.Path {
+- PointF[] points
+- float dx
+- float dy
++ <<Create>> Path(PointF)
++ {static} Path polygon(PointF)
++ LineF getIntersector(Path)
++ void draw(Canvas,Paint,int)
++ void move(float,float)
++ PointF[] getPoints()
+}
+
+
+@enduml

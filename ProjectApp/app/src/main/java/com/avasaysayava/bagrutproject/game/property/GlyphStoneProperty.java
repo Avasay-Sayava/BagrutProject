@@ -9,7 +9,7 @@ import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.util.Util;
 
 public class GlyphStoneProperty extends Property {
-    public final int GLYPH_GOAL;
+    public static final int GLYPH_GOAL = 3;
     private int glyphs;
     private Tile tile;
 
@@ -17,7 +17,6 @@ public class GlyphStoneProperty extends Property {
         super(game, map, parent, x, y);
 
         this.glyphs = 0;
-        this.GLYPH_GOAL = 3;
         this.tile = Tile.empty;
     }
 
@@ -27,10 +26,10 @@ public class GlyphStoneProperty extends Property {
             Point p = e.getCords();
             if (this.x == p.x && this.y == p.y
                     && e.getZ() == this.parent.getZ()) {
-                this.glyphs += e.getGlyphs(this.GLYPH_GOAL - this.glyphs);
-                if (this.glyphs == this.GLYPH_GOAL && this.tile == Tile.empty) {
+                this.glyphs += e.getGlyphs(GLYPH_GOAL - this.glyphs);
+                if (this.glyphs == GLYPH_GOAL && this.tile == Tile.empty) {
                     this.tile = this.game.structuresTileSet.getTile(25);
-                    this.map.removeGlyphs(this.GLYPH_GOAL);
+                    this.map.removeGlyphs(GLYPH_GOAL);
                     Util.randomElement(this.game.tileSoundPreloader.getSounds(this.tile.getType())).start();
                 }
             }

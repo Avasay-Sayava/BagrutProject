@@ -1,0 +1,32 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.entity.Player {
+- float MAX_SPEED
+- Shadow shadow
+- Collision collision
+- double wobble
+- double Vx
+- double Vy
+- double angle
+- int lastId
+- boolean playSound
++ <<Create>> Player(Level,float,float,int)
++ void draw(Canvas)
++ double getSpeed()
+- void updateVelocity(double,double)
++ void update()
+- double getPreferredSpeed()
++ Collision getCollision()
++ int getLeft()
++ int getDown()
++ Shadow getShadow()
++ Point getCords()
++ double getVx()
++ double getVy()
+- Point getCordsOnMap(GameMap)
+}
+
+
+
+
+com.avasaysayava.bagrutproject.game.entity.Entity <|-- com.avasaysayava.bagrutproject.game.entity.Player
+@enduml

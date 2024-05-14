@@ -1,0 +1,11 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.property.StairUpProperty {
++ <<Create>> StairUpProperty(Game,GameMap,Tile,int,int)
++ void update(Entity)
++ Tile getTile()
+}
+
+
+
+com.avasaysayava.bagrutproject.game.property.Property <|-- com.avasaysayava.bagrutproject.game.property.StairUpProperty
+@enduml

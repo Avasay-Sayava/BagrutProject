@@ -1,0 +1,9 @@
+@startuml
+class com.avasaysayava.bagrutproject.util.struct.LineF {
++ <<Create>> LineF(PointF,PointF)
+}
+
+
+
+android.util.Pair <|- com.avasaysayava.bagrutproject.util.struct.LineF
+@enduml
