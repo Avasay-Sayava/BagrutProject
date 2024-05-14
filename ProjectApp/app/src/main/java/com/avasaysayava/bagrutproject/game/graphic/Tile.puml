@@ -1,0 +1,48 @@
+@startuml
+class game.graphic.Tile {
++ {static} Tile empty
+- int z
+- int down
+- int left
+- int scale
+- TileSound type
+- TileSet tileSet
+- Rect bounds
+- Collision collision
+- Collision collisionTop
+- Collision collisionDown
+- Property property
+- int id
+- boolean drawnLazy
++ <<Create>> Tile(Tile)
+- <<Create>> Tile(Tile,int,int)
++ <<Create>> Tile(TileSet,Rect,Collision,Collision,Collision,int,int,TileSound)
++ Property getProperty()
++ void setProperty(Property)
++ void draw(Canvas,float,float,Paint)
++ void draw(Canvas,float,float,double,double,Paint)
++ LineF getIntersector(Entity)
++ void move(float,float)
++ int getWidth()
++ int getHeight()
++ TileSet getTileSet()
++ Rect getBounds()
++ int getScale()
++ Collision getCollision()
++ Collision getCollisionTop()
++ Collision getCollisionDown()
++ int getDown()
++ int getLeft()
++ int getZ()
++ TileSound getType()
++ Tile withScale(int)
++ Tile withZ(int)
++ int getId()
++ void setId(int)
++ void setDrawnLazy(boolean)
++ boolean getDrawnLazy()
++ Tile clone()
+}
+
+
+@enduml

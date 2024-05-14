@@ -9,7 +9,7 @@ public class TileSoundPreloader {
     private final HashMap<TileSound, MediaPlayer[]> soundMap;
 
     public TileSoundPreloader(Context context) {
-        this.soundMap = new HashMap<>();
+        this.soundMap = new HashMap<>(TileSound.values().length);
 
         for (TileSound ts : TileSound.values()) {
             MediaPlayer[] mps = new MediaPlayer[ts.sounds.length];

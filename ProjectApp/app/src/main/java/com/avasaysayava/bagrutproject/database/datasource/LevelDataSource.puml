@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.database.datasource.LevelDataSource {
+class database.datasource.LevelDataSource {
 - String LEVEL_NAME
 + <<Create>> LevelDataSource(Context,String)
 + String getTimeByUUID(String)
@@ -12,5 +12,5 @@ class com.avasaysayava.bagrutproject.database.datasource.LevelDataSource {
 
 
 
-com.avasaysayava.bagrutproject.database.datasource.DataSource <|- com.avasaysayava.bagrutproject.database.datasource.LevelDataSource
+database.datasource.DataSource <|- database.datasource.LevelDataSource
 @enduml

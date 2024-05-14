@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.activity.MenuActivity {
+class activity.MenuActivity {
 - Button[] levels
 - int currentLevel
 - Button btn_play
@@ -34,5 +34,5 @@ class com.avasaysayava.bagrutproject.activity.MenuActivity {
 
 
 
-android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.MenuActivity
+android.app.Activity <|-- activity.MenuActivity
 @enduml

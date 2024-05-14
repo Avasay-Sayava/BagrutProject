@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource {
+class database.datasource.UUIDDataSource {
 - String PREFS_NAME
 - String UUID_PREF_NAME
 + <<Create>> UUIDDataSource(Context)
@@ -14,5 +14,5 @@ class com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource {
 
 
 
-com.avasaysayava.bagrutproject.database.datasource.DataSource <|- com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource
+database.datasource.DataSource <|- database.datasource.UUIDDataSource
 @enduml

@@ -1,7 +1,7 @@
 @startuml
-class com.avasaysayava.bagrutproject.database.DatabaseContract {
+class database.DatabaseContract {
 }
-class com.avasaysayava.bagrutproject.database.UserEntry {
+class database.UserEntry {
 + {static} String TABLE_NAME
 + {static} String COLUMN_UUID
 + {static} String COLUMN_LEVEL1
@@ -17,6 +17,6 @@ class com.avasaysayava.bagrutproject.database.UserEntry {
 
 
 
-com.avasaysayava.bagrutproject.database.DatabaseContract +. com.avasaysayava.bagrutproject.database.UserEntry
-android.provider.BaseColumns <|. com.avasaysayava.bagrutproject.database.UserEntry
+database.DatabaseContract +. database.UserEntry
+android.provider.BaseColumns <|. database.UserEntry
 @enduml

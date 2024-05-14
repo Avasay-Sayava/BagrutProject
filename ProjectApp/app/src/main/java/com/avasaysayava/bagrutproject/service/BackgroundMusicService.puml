@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.service.BackgroundMusicService {
+class service.BackgroundMusicService {
 - MediaPlayer player
 + IBinder onBind(Intent)
 + int onStartCommand(Intent,int,int)
@@ -9,5 +9,5 @@ class com.avasaysayava.bagrutproject.service.BackgroundMusicService {
 
 
 
-android.app.Service <|- com.avasaysayava.bagrutproject.service.BackgroundMusicService
+android.app.Service <|- service.BackgroundMusicService
 @enduml

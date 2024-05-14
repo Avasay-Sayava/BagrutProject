@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.game.property.GlyphProperty {
+class game.property.GlyphProperty {
 - Tile tile
 + <<Create>> GlyphProperty(Game,GameMap,Tile,int,int)
 + void update(Entity)
@@ -9,5 +9,5 @@ class com.avasaysayava.bagrutproject.game.property.GlyphProperty {
 
 
 
-com.avasaysayava.bagrutproject.game.property.Property <|-- com.avasaysayava.bagrutproject.game.property.GlyphProperty
+game.property.Property <|-- game.property.GlyphProperty
 @enduml

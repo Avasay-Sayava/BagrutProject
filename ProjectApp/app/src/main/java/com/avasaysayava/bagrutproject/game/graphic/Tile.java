@@ -13,18 +13,18 @@ import com.avasaysayava.bagrutproject.util.struct.LineF;
 
 public class Tile {
     public static final Tile empty = null;
-    protected final int z;
-    protected final int down, left;
-    protected final int scale;
-    protected final TileSound type;
-    protected final TileSet tileSet;
-    protected final Rect bounds;
-    protected final Collision collision;
-    protected final Collision collisionTop;
-    protected final Collision collisionDown;
-    protected Property property;
-    protected int id;
-    private boolean drawnLazy = false;
+    private final int z;
+    private final int down, left;
+    private final int scale;
+    private final TileSound type;
+    private final TileSet tileSet;
+    private final Rect bounds;
+    private final Collision collision;
+    private final Collision collisionTop;
+    private final Collision collisionDown;
+    private Property property;
+    private int id;
+    private boolean drawnLazy;
 
     public Tile(Tile tile) {
         this.id = tile.getId();
@@ -38,7 +38,7 @@ public class Tile {
         this.collisionTop = tile.getCollisionTop();
         this.collisionDown = tile.getCollisionDown();
         this.type = tile.getType();
-        this.property = tile.getProp();
+        this.property = tile.getProperty();
     }
 
     private Tile(Tile tile, int newScale, int newZ) {
@@ -52,7 +52,7 @@ public class Tile {
         this.collisionTop = tile.getCollisionTop();
         this.collisionDown = tile.getCollisionDown();
         this.type = tile.getType();
-        this.property = tile.getProp();
+        this.property = tile.getProperty();
         this.scale = newScale;
     }
 
@@ -71,7 +71,7 @@ public class Tile {
         this.property = null;
     }
 
-    public Property getProp() {
+    public Property getProperty() {
         return this.property;
     }
 

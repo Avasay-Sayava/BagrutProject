@@ -1,5 +1,5 @@
 @startuml
-abstract class com.avasaysayava.bagrutproject.game.property.Property {
+abstract class game.property.Property {
 # Game game
 # GameMap map
 # int x

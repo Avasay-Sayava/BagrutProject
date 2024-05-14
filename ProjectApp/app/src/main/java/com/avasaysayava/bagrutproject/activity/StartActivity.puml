@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.activity.StartActivity {
+class activity.StartActivity {
 - RadioGroup rg_options_menu
 - Button btn_go
 - MediaPlayer click
@@ -11,5 +11,5 @@ class com.avasaysayava.bagrutproject.activity.StartActivity {
 
 
 
-android.app.Activity <|-com.avasaysayava.bagrutproject.activity.StartActivity
+android.app.Activity <|-- activity.StartActivity
 @enduml

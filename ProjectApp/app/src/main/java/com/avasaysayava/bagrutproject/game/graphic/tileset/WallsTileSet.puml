@@ -1,0 +1,10 @@
+@startuml
+class game.graphic.tileset.WallsTileSet {
++ <<Create>> WallsTileSet(Context)
+# Tile[] getTileArray()
+}
+
+
+
+game.graphic.tileset.TileSet <|-- game.graphic.tileset.WallsTileSet
+@enduml

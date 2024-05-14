@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.game.collision.Collision {
+class game.collision.Collision {
 + {static} Collision empty
 - Path[] paths
 + <<Create>> Collision(Path)

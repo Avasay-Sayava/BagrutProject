@@ -80,8 +80,8 @@ public class Layer {
                         (this.x + cords.x * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                         (this.y + cords.y * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                         null);
-                if (tile.getProp() != null && tile.getProp().getTile() != null) {
-                    tile.getProp().getTile().withScale(this.gameMap.getGame().SCALE).draw(canvas,
+                if (tile.getProperty() != null && tile.getProperty().getTile() != null) {
+                    tile.getProperty().getTile().withScale(this.gameMap.getGame().SCALE).draw(canvas,
                             (this.x + cords.x * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                             (this.y + cords.y * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                             null);
@@ -111,8 +111,8 @@ public class Layer {
                                 (this.x + j * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                                 (this.y + i * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                                 null);
-                        if (tile.getProp() != null && tile.getProp().getTile() != null) {
-                            tile.getProp().getTile().withScale(this.gameMap.getGame().SCALE).draw(canvas,
+                        if (tile.getProperty() != null && tile.getProperty().getTile() != null) {
+                            tile.getProperty().getTile().withScale(this.gameMap.getGame().SCALE).draw(canvas,
                                     (this.x + j * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                                     (this.y + i * this.gameMap.TILE_SIZE) * this.gameMap.getGame().SCALE,
                                     null);
@@ -155,8 +155,8 @@ public class Layer {
             for (List<Tile> list : lists) {
                 for (Tile tile : list) {
                     if (tile == Tile.empty) continue;
-                    if (tile.getProp() != null) {
-                        if (tile.getProp() instanceof GlyphStoneProperty) {
+                    if (tile.getProperty() != null) {
+                        if (tile.getProperty() instanceof GlyphStoneProperty) {
                             this.gameMap.addGlyphs(GlyphStoneProperty.GLYPH_GOAL);
                         }
                     }
@@ -170,8 +170,8 @@ public class Layer {
             for (List<Tile> list : lists) {
                 for (Tile tile : list) {
                     if (tile == Tile.empty) continue;
-                    if (tile.getProp() == null) continue;
-                    tile.getProp().update(entities);
+                    if (tile.getProperty() == null) continue;
+                    tile.getProperty().update(entities);
                 }
             }
         }

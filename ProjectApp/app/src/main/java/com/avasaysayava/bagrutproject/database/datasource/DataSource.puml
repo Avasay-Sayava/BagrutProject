@@ -1,5 +1,5 @@
 @startuml
-abstract class com.avasaysayava.bagrutproject.database.datasource.DataSource {
+abstract class database.datasource.DataSource {
 # DatabaseHelper databaseHelper
 # Context context
 # SQLiteDatabase database

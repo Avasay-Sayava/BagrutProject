@@ -1,0 +1,14 @@
+@startuml
+abstract class game.graphic.tileset.TileSet {
+- Bitmap bitmap
+- Tile[] tiles
++ <<Create>> TileSet(Context,int)
+# {abstract}Tile[] getTileArray()
++ Bitmap getBitmap()
++ Tile getTile(int,int,int,int,int,int,Collision,Collision,Collision,TileSound)
++ Tile getTile(int,int,int,int,int,int,int,Collision,Collision,Collision,TileSound)
++ Tile getTile(int)
+}
+
+
+@enduml

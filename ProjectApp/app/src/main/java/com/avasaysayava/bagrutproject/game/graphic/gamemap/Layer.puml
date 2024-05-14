@@ -1,0 +1,19 @@
+@startuml
+class game.graphic.gamemap.Layer {
+- int z
+- GameMap gameMap
+- List<Tile>[][] map
+- float x
++ <<Create>> Layer(GameMap,List<Tile>[][],int)
++ void arrange()
++ void draw(Canvas,Entity)
++ int getZ()
++ void prepare(float,float)
++ void update(Entity)
++ List<Tile> getTiles(int,int)
++ void move(float,float)
++ void translate(float,float)
+}
+
+
+@enduml

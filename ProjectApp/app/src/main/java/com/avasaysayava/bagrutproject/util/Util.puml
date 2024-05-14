@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.util.Util {
+class util.Util {
 + {static} boolean within(double,double,double)
 + {static} boolean between(double,double,double)
 + {static} int withAlpha(int,int)
@@ -11,7 +11,7 @@ class com.avasaysayava.bagrutproject.util.Util {
 + {static} String getLevel(GameMap)
 + {static} long stringToTime(String)
 }
-note left of com.avasaysayava.bagrutproject.util.Util::doesIntersect(PointF,PointF,PointF,PointF)
+note left of util.Util::doesIntersect(PointF,PointF,PointF,PointF)
  IMPORTANT: wont work for parallel lines
 end note
 

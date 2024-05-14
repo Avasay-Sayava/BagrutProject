@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.activity.LevelActivity {
+class activity.LevelActivity {
 - Level sv_level
 - Intent backgroundMusicService
 - ImageButton img_btn_play
@@ -27,5 +27,5 @@ class com.avasaysayava.bagrutproject.activity.LevelActivity {
 
 
 
-android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.LevelActivity
+android.app.Activity <|- activity.LevelActivity
 @enduml

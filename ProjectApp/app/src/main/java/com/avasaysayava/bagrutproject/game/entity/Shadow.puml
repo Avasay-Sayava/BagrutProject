@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.game.entity.Shadow {
+class game.entity.Shadow {
 - Tile tile
 - Entity entity
 + <<Create>> Shadow(Level,Entity,Tile)
@@ -17,5 +17,5 @@ class com.avasaysayava.bagrutproject.game.entity.Shadow {
 
 
 
-com.avasaysayava.bagrutproject.game.entity.Entity <|-- com.avasaysayava.bagrutproject.game.entity.Shadow
+game.entity.Entity <|-- game.entity.Shadow
 @enduml

@@ -1,0 +1,14 @@
+@startuml
+
+class game.graphic.gamemap.Prioritised {
++ int z
++ int down
++ int left
++ int x
++ int y
+}
+
+
+
+game.graphic.gamemap.GameMap +. game.graphic.gamemap.Prioritised
+@enduml

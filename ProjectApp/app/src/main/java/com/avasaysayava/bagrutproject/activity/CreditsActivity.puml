@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.activity.CreditsActivity {
+class activity.CreditsActivity {
 - Button btn_back
 - MediaPlayer click
 - MediaPlayer load
@@ -9,5 +9,5 @@ class com.avasaysayava.bagrutproject.activity.CreditsActivity {
 
 
 
-android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.CreditsActivity
+android.app.Activity <|-- activity.CreditsActivity
 @enduml

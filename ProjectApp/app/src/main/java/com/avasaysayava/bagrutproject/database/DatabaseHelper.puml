@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.database.DatabaseHelper {
+class database.DatabaseHelper {
 - {static} String DATABASE_NAME
 - {static} int DATABASE_VERSION
 - {static} String SQL_CREATE_ENTRIES
@@ -12,5 +12,5 @@ class com.avasaysayava.bagrutproject.database.DatabaseHelper {
 
 
 
-android.database.sqlite.SQLiteOpenHelper <|- com.avasaysayava.bagrutproject.database.DatabaseHelper
+android.database.sqlite.SQLiteOpenHelper <|- database.DatabaseHelper
 @enduml

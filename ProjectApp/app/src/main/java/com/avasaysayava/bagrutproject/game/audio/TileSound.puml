@@ -1,0 +1,14 @@
+@startuml
+enum game.audio.TileSound {
++  GRASS
++  PATH
++  FLOOR
++  WALL
++  ENTITY
++  GLYPH
++  STAIR
++ int[] sounds
+~ <<Create>> TileSound(int)
+}
+
+@enduml

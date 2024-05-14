@@ -1,0 +1,9 @@
+@startuml
+class game.audio.TileSoundPreloader {
+- HashMap<TileSound,MediaPlayer[]> soundMap
++ <<Create>> TileSoundPreloader(Context)
++ MediaPlayer[] getSounds(TileSound)
+}
+
+
+@enduml

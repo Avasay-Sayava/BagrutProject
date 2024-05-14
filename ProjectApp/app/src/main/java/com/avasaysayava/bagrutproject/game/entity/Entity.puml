@@ -1,5 +1,5 @@
 @startuml
-abstract class com.avasaysayava.bagrutproject.game.entity.Entity {
+abstract class game.entity.Entity {
 # Level level
 # float x
 # float y

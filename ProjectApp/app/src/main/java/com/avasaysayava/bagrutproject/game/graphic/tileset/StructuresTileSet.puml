@@ -1,0 +1,10 @@
+@startuml
+class game.graphic.tileset.StructuresTileSet {
++ <<Create>> StructuresTileSet(Context)
+# Tile[] getTileArray()
+}
+
+
+
+game.graphic.tileset.TileSet <|-- game.graphic.tileset.StructuresTileSet
+@enduml

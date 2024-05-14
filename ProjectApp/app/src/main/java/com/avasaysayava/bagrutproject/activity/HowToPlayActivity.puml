@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.activity.HowToPlayActivity {
+class activity.HowToPlayActivity {
 - Button btn_back
 - MediaPlayer click
 - MediaPlayer load
@@ -9,5 +9,5 @@ class com.avasaysayava.bagrutproject.activity.HowToPlayActivity {
 
 
 
-android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.HowToPlayActivity
+android.app.Activity <|-- activity.HowToPlayActivity
 @enduml

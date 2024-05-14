@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.game.collision.Path {
+class game.collision.Path {
 - PointF[] points
 - float dx
 - float dy

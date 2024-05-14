@@ -1,0 +1,39 @@
+@startuml
+class game.graphic.gamemap.GameMap {
++ int TILE_SIZE
+# List<Layer> layers
+# List<Tile>[][] map
+# Game game
+# float x
+- int glyphs
++ {static} GameMap currentMap
++ <<Create>> GameMap(Game,List<Tile>[][],int,float,float)
++ <<Create>> GameMap(Game,List<Tile>[][],List<Layer>,int,float,float)
++ {static} int getEvaluation(Object,Object,GameMap)
+- {static} Prioritised getPrioritised(Object,GameMap)
+- void generateLayers(List<Tile>[][])
+- int getMaxZ()
+- Layer generateLayer(List<Tile>[][],int)
++ Game getGame()
++ void setGame(Game)
++ void arrange()
++ void move(float,float)
++ void translate(float,float)
++ void update(Entity)
++ void draw(Canvas,Entity)
++ LineF getIntersector(Entity)
++ List<Tile> getTiles(int,int)
++ List<Tile> getTiles(int,int,int)
++ float getX()
++ float getY()
++ int getColumns()
++ int getRows()
++ List<Layer> getLayers()
++ void clear()
++ void prepare()
++ void addGlyphs(int)
++ void removeGlyphs(int)
++ void onNoGlyphs()
++ List<Tile>[][] getMap()
+}
+@enduml

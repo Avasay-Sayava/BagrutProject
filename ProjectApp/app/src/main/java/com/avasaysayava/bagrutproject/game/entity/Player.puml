@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.game.entity.Player {
+class game.entity.Player {
 - float MAX_SPEED
 - Shadow shadow
 - Collision collision
@@ -28,5 +28,5 @@ class com.avasaysayava.bagrutproject.game.entity.Player {
 
 
 
-com.avasaysayava.bagrutproject.game.entity.Entity <|-- com.avasaysayava.bagrutproject.game.entity.Player
+game.entity.Entity <|-- game.entity.Player
 @enduml

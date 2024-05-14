@@ -1,5 +1,5 @@
 @startuml
-class com.avasaysayava.bagrutproject.game.property.StairUpProperty {
+class game.property.StairUpProperty {
 + <<Create>> StairUpProperty(Game,GameMap,Tile,int,int)
 + void update(Entity)
 + Tile getTile()
@@ -7,5 +7,5 @@ class com.avasaysayava.bagrutproject.game.property.StairUpProperty {
 
 
 
-com.avasaysayava.bagrutproject.game.property.Property <|-- com.avasaysayava.bagrutproject.game.property.StairUpProperty
+game.property.Property <|-- game.property.StairUpProperty
 @enduml
