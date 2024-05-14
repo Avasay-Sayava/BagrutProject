@@ -1,0 +1,9 @@
+@startuml
+class game.graphic.gamemap.debugmap.FloorMap {
++ <<Create>> FloorMap(Game,float,float)
+}
+
+
+
+game.graphic.gamemap.debugmap.DebugMap <|-- game.graphic.gamemap.debugmap.FloorMap
+@enduml

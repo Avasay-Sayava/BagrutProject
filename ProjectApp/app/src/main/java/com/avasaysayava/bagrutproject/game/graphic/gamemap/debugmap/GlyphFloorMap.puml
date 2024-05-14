@@ -1,0 +1,9 @@
+@startuml
+class game.graphic.gamemap.debugmap.GlyphFloorMap {
++ <<Create>> GlyphFloorMap(Game,float,float)
+}
+
+
+
+game.graphic.gamemap.debugmap.DebugMap <|-- game.graphic.gamemap.debugmap.GlyphFloorMap
+@enduml

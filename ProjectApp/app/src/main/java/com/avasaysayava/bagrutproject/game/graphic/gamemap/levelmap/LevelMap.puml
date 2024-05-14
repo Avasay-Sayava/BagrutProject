@@ -1,0 +1,9 @@
+@startuml
+abstract class game.graphic.gamemap.levelmap.LevelMap {
+# <<Create>> LevelMap(Game,List<Tile>[][],int,float,float)
+}
+
+
+
+game.graphic.gamemap.GameMap <|-- game.graphic.gamemap.levelmap.LevelMap
+@enduml

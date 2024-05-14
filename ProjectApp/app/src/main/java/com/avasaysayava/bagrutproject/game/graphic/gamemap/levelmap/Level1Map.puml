@@ -1,0 +1,9 @@
+@startuml
+class game.graphic.gamemap.levelmap.Level1Map {
+# <<Create>> Level1Map(Game)
+}
+
+
+
+game.graphic.gamemap.LevelMap <|-- game.graphic.gamemap.levelmap.Level1Map
+@enduml

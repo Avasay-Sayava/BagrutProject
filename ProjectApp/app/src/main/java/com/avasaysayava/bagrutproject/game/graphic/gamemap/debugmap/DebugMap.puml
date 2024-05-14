@@ -1,0 +1,9 @@
+@startuml
+abstract class game.graphic.gamemap.debugmap.DebugMap {
++ <<Create>> DebugMap(Game,List<Tile>[][],int,float,float)
+}
+
+
+
+game.graphic.gamemap.GameMap <|-- game.graphic.gamemap.debugmap.DebugMap
+@enduml

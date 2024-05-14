@@ -1,0 +1,9 @@
+@startuml
+class game.graphic.gamemap.debugmap.StructuresMap {
++ <<Create>> StructuresMap(Game,float,float)
+}
+
+
+
+game.graphic.gamemap.debugmap.DebugMap <|-- game.graphic.gamemap.debugmap.StructuresMap
+@enduml
