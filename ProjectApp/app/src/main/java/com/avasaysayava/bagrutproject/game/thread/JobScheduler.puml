@@ -1,0 +1,24 @@
+@startuml
+class game.thread.JobScheduler {
+- int UPS
+- Game game
+- SizedDeque<Long> upsDeque
+- SizedDeque<Long> fpsDeque
+- double lastUPS
+- double lastFPS
+- int updates
+- int frames
+- long t_start
++ <<Create>> JobScheduler(Game,int)
++ double getAvgUPS()
++ double getAvgFPS()
++ double getFramedUPS()
++ double getFramedFPS()
+# void periodic()
+}
+
+
+
+
+game.thread.PeriodicThread <|- game.thread.JobScheduler
+@enduml

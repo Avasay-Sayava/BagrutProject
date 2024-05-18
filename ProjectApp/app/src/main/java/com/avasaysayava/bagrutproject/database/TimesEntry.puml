@@ -1,0 +1,14 @@
+@startuml
+class database.DatabaseContract {
+}
+class database.TimesEntry {
++ {static} String TABLE_NAME
++ {static} String COLUMN_TIME
++ {static} String COLUMN_LEVEL
+}
+
+
+
+database.DatabaseContract +.. database.TimesEntry
+android.provider.BaseColumns <|.. database.TimesEntry
+@enduml

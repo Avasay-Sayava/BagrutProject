@@ -8,12 +8,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Database.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + DatabaseContract.LevelsEntry.TABLE_NAME
-            + " (" + DatabaseContract.LevelsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
-            + DatabaseContract.LevelsEntry.COLUMN_TIME + " TIME NOT NULL,"
-            + DatabaseContract.LevelsEntry.COLUMN_LEVEL + " TINYINT NOT NULL)";
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + DatabaseContract.TimesEntry.TABLE_NAME
+            + " (" + DatabaseContract.TimesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + DatabaseContract.TimesEntry.COLUMN_TIME + " TIME NOT NULL,"
+            + DatabaseContract.TimesEntry.COLUMN_LEVEL + " TINYINT NOT NULL)";
 
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DatabaseContract.LevelsEntry.TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DatabaseContract.TimesEntry.TABLE_NAME;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

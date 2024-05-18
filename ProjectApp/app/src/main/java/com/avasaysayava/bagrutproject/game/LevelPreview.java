@@ -14,7 +14,6 @@ import android.view.SurfaceHolder;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.avasaysayava.bagrutproject.Constants;
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.util.Util;

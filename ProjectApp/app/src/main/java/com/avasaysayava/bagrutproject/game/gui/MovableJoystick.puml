@@ -1,0 +1,11 @@
+@startuml
+class game.gui.MovableJoystick {
++ <<Create>> MovableJoystick(Level,float,float,float)
+# void arrange()
++ void enable(MotionEvent)
+}
+
+
+
+game.gui.Joystick <|- game.gui.MovableJoystick
+@enduml

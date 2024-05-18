@@ -1,0 +1,18 @@
+@startuml
+class util.struct.SizedDeque {
+- int CAPACITY
++ <<Create>> SizedDeque(int)
++ boolean add(E)
++ void addFirst(E)
++ void addLast(E)
++ boolean addAll(Collection<? extends E>)
++ boolean offer(E)
++ boolean offerFirst(E)
++ boolean offerLast(E)
+}
+
+
+
+
+java.util.ArrayDeque <|-- util.struct.SizedDeque
+@enduml

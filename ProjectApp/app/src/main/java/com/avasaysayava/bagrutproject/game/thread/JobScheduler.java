@@ -1,8 +1,6 @@
 package com.avasaysayava.bagrutproject.game.thread;
 
 import android.graphics.Canvas;
-import android.util.Log;
-import android.view.SurfaceHolder;
 
 import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.util.struct.SizedDeque;
@@ -10,18 +8,16 @@ import com.avasaysayava.bagrutproject.util.struct.SizedDeque;
 public class JobScheduler extends PeriodicThread {
     private final int UPS;
     private final Game game;
-    private final SurfaceHolder surfaceHolder;
     // ups stands for updates per-second,
     // and fps stands for frames per-second
     private final SizedDeque<Long> upsDeque, fpsDeque;
     private double lastUPS, lastFPS;
-    private int ups = 0, fps = 0;
+    private int updates = 0, frames = 0;
     private long t_start;
 
-    public JobScheduler(Game game, SurfaceHolder surfaceHolder, int ups) {
+    public JobScheduler(Game game, int ups) {
         this.UPS = ups;
         this.game = game;
-        this.surfaceHolder = surfaceHolder;
         this.upsDeque = new SizedDeque<>(this.UPS);
         this.fpsDeque = new SizedDeque<>(this.UPS);
     }
@@ -52,12 +48,12 @@ public class JobScheduler extends PeriodicThread {
 
         // Trying to update & render the level
         try {
-            canvas = this.surfaceHolder.lockCanvas();
-            synchronized (this.surfaceHolder) {
+            canvas = this.game.getHolder().lockCanvas();
+            synchronized (this.game.getHolder()) {
                 this.game.update();
 
                 // for every update, update the ups
-                this.ups++;
+                this.updates++;
                 this.upsDeque.addLast(System.nanoTime());
 
                 // drawing happens here,
@@ -69,8 +65,8 @@ public class JobScheduler extends PeriodicThread {
             if (canvas != null) {
                 try {
                     // for each draw, update the fps
-                    this.fps++;
-                    this.surfaceHolder.unlockCanvasAndPost(canvas);
+                    this.frames++;
+                    this.game.getHolder().unlockCanvasAndPost(canvas);
 
                     this.fpsDeque.addLast(System.nanoTime());
                 } catch (Exception ignored) {
@@ -81,7 +77,7 @@ public class JobScheduler extends PeriodicThread {
         // pause for not exceeding the UPS value
         long t_elapsed = System.nanoTime() - this.t_start;
         // t stands for time
-        long t_sleep = (long) (1E9 * this.ups / this.UPS) - t_elapsed;
+        long t_sleep = (long) (1E9 * this.updates / this.UPS) - t_elapsed;
         if (t_sleep > 0) {
             try {
                 sleep(t_sleep / 1_000_000, (int) (t_sleep % 1_000_000));
@@ -90,11 +86,11 @@ public class JobScheduler extends PeriodicThread {
         }
 
         // skip frames for keeping up with the UPS value
-        while (t_sleep < 0 && ++this.ups < this.UPS) {
+        while (t_sleep < 0 && ++this.updates < this.UPS) {
             this.game.update();
             this.upsDeque.addLast(System.nanoTime());
             t_elapsed = System.nanoTime() - this.t_start;
-            t_sleep = (long) (1E9 * this.ups / this.UPS) - t_elapsed;
+            t_sleep = (long) (1E9 * this.updates / this.UPS) - t_elapsed;
         }
 
         // calculate the average ups and fps
@@ -102,10 +98,10 @@ public class JobScheduler extends PeriodicThread {
 
         // updates every second
         if (t_elapsed >= 1E9) {
-            this.lastUPS = this.ups * 1E9 / t_elapsed;
-            this.lastFPS = this.fps * 1E9 / t_elapsed;
+            this.lastUPS = this.updates * 1E9 / t_elapsed;
+            this.lastFPS = this.frames * 1E9 / t_elapsed;
             this.t_start = System.nanoTime();
-            this.ups = this.fps = 0;
+            this.updates = this.frames = 0;
         }
     }
 }

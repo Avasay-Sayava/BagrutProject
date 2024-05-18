@@ -1,0 +1,18 @@
+@startuml
+class util.Util {
++ {static} boolean within(double,double,double)
++ {static} boolean between(double,double,double)
++ {static} int withAlpha(int,int)
++ {static} boolean isCounterClockwise(PointF,PointF,PointF)
++ {static} boolean doesIntersect(PointF,PointF,PointF,PointF)
++ {static} Bitmap generateVignette(int,int)
++ {static} T randomElement(T[])
++ {static} String timeToString(long)
++ {static} int getLevel(GameMap)
++ {static} long stringToTime(String)
+}
+note right of util.Util::doesIntersect(PointF,PointF,PointF,PointF)
+ IMPORTANT: won't work for parallel lines
+end note
+
+@enduml

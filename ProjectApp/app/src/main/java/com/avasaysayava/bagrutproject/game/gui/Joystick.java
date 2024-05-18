@@ -81,7 +81,7 @@ public class Joystick {
     }
 
     public boolean isPressed(MotionEvent event) {
-        return this.getDistance(event) <= this.radius;
+        return getDistance(event) <= this.radius;
     }
 
     public void enable(MotionEvent ignored) {

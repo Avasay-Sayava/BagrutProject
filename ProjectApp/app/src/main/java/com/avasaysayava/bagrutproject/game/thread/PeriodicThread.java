@@ -1,7 +1,5 @@
 package com.avasaysayava.bagrutproject.game.thread;
 
-import android.util.Log;
-
 public abstract class PeriodicThread extends Thread {
     private boolean running;
 
@@ -31,7 +29,7 @@ public abstract class PeriodicThread extends Thread {
         this.running = false;
         try {
             join();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 

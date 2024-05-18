@@ -15,7 +15,6 @@ import android.view.SurfaceHolder;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.avasaysayava.bagrutproject.Constants;
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.game.entity.Player;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
@@ -273,8 +272,7 @@ public class Level extends Game {
     }
 
     private void createJobScheduler() {
-        SurfaceHolder surfaceHolder = getHolder();
-        this.jobScheduler = new JobScheduler(this, surfaceHolder, this.UPS);
+        this.jobScheduler = new JobScheduler(this, this.UPS);
     }
 
     private void createJoystick() {

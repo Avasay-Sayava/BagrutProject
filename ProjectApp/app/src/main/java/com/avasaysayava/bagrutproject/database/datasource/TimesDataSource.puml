@@ -1,0 +1,16 @@
+@startuml
+class database.datasource.TimesDataSource {
+- String PREFS_NAME
++ <<Create>> TimesDataSource(Context)
++ Long getBestTime(int)
++ List<Long> getAllTimes(int)
++ Long getLastTime(int)
++ void setLastTime(long,int)
++ void addTime(long,int)
+}
+
+
+
+
+database.datasource.DataSource <|-- database.datasource.TimesDataSource
+@enduml

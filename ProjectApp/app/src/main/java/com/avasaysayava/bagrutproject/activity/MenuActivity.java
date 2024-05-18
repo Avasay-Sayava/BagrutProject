@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.datasource.LevelsDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.TimesDataSource;
 import com.avasaysayava.bagrutproject.game.LevelPreview;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.FloorMap;
@@ -25,6 +25,7 @@ import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.WallsMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level2Map;
 import com.avasaysayava.bagrutproject.leaderboard.Leaderboard;
+import com.avasaysayava.bagrutproject.util.Util;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class MenuActivity extends Activity {
@@ -32,7 +33,7 @@ public class MenuActivity extends Activity {
     private int currentLevel;
     private Button btn_play, btn_back;
     private Leaderboard leaderboard;
-    private LevelsDataSource levelsDataSource;
+    private TimesDataSource timesDataSource;
     private ScrollView scroll_ranks;
     private LevelPreview sv_level_preview;
     private MediaPlayer click, load;
@@ -47,7 +48,7 @@ public class MenuActivity extends Activity {
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
 
-        this.levelsDataSource = new LevelsDataSource(this);
+        this.timesDataSource = new TimesDataSource(this);
 
         setContentView(R.layout.menu_activity);
 
@@ -61,7 +62,7 @@ public class MenuActivity extends Activity {
         this.btn_back = findViewById(R.id.btn_back);
         this.btn_back.setOnClickListener(v -> {
             this.click.start();
-            this.levelsDataSource.close();
+            this.timesDataSource.close();
             super.onBackPressed();
         });
 
@@ -170,8 +171,10 @@ public class MenuActivity extends Activity {
     }
 
     private void loadLeaderboard() {
-        this.leaderboard.loadLevel(this.levelsDataSource, this.currentLevel + 1);
-        this.leaderboard.markTime(this.levelsDataSource.getLastTime(this.currentLevel + 1));
+        this.leaderboard.loadLevel(this.timesDataSource, this.currentLevel + 1);
+        Long lastTime = this.timesDataSource.getLastTime(this.currentLevel + 1);
+        if (lastTime != null)
+            this.leaderboard.markTime(Util.timeToString(lastTime));
         this.leaderboard.update();
 
         // animate scrolling

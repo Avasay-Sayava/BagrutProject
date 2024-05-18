@@ -1,0 +1,28 @@
+@startuml
+class activity.MenuActivity {
+- Button[] levels
+- int currentLevel
+- Button btn_play
+- Button btn_back
+- Leaderboard leaderboard
+- LevelsDataSource levelsDataSource
+- ScrollView scroll_ranks
+- LevelPreview sv_level_preview
+- MediaPlayer click
+- MediaPlayer load
+- TextView txt_level_title
+# void onCreate(Bundle)
++ void previewMap(int,GameMap)
+- void loadLeaderboard()
+# void onResume()
+# void onStart()
+# void onDestroy()
+# void onStop()
+# void onPause()
+}
+
+
+
+
+android.app.Activity <|-- activity.MenuActivity
+@enduml

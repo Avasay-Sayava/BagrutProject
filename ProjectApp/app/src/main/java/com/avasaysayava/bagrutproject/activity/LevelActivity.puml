@@ -1,0 +1,31 @@
+@startuml
+class activity.LevelActivity {
+- Level sv_level
+- int levelNumber
+- Intent backgroundMusicService
+- TimesDataSource timesDataSource
+- ImageButton img_btn_play
+- ImageButton img_btn_debug
+- ImageButton img_btn_graph
+- ImageButton img_btn_quit
+- MediaPlayer click
+- MediaPlayer load
+# void onCreate(Bundle)
+- void resumeLevel()
+- void pauseLevel()
+- void showLeaveDialog()
+# void onStart()
+# void onResume()
+# void onPause()
+# void onStop()
+# void onDestroy()
++ void onBackPressed()
++ void onCompleted(long)
+- void showTimeDialog(long,long,boolean)
+}
+
+
+
+
+android.app.Activity <|- activity.LevelActivity
+@enduml

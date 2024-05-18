@@ -1,4 +1,4 @@
-package com.avasaysayava.bagrutproject;
+package com.avasaysayava.bagrutproject.game;
 
 public class Constants {
     public static final int LEVEL_UPS = 60;

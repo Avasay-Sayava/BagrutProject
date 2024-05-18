@@ -1,0 +1,9 @@
+@startuml
+class game.Constants {
++ {static} int LEVEL_UPS
++ {static} int LEVEL_SCALE
++ {static} int PREVIEW_UPS
++ {static} int PREVIEW_SCALE
+}
+
+@enduml

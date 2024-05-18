@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.datasource.LevelsDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.TimesDataSource;
 import com.avasaysayava.bagrutproject.util.Util;
 
 import java.util.ArrayList;
@@ -79,12 +79,17 @@ public class Leaderboard extends LinearLayout {
         this.rls.add(container);
     }
 
-    public void update() {
-        removeAllViews();
-        updateRanks();
-        for (RelativeLayout rl : this.rls) {
-            addView(rl);
+    private void offer(String timeStr, int index) {
+        if (index >= this.rls.size()) {
+            add(timeStr);
+            addView(this.rls.get(this.rls.size() - 1));
+        } else {
+            ((TextView) this.rls.get(index).getChildAt(1)).setText(timeStr);
         }
+    }
+
+    public void update() {
+        updateRanks();
     }
 
     public void clear() {
@@ -94,9 +99,13 @@ public class Leaderboard extends LinearLayout {
 
     @SuppressLint("SetTextI18n")
     private void updateRanks() {
-        int rank = 1;
+        int place = 1;
         for (RelativeLayout rl : this.rls) {
-            ((TextView) rl.getChildAt(0)).setText(rank++ + "");
+            TextView rank = (TextView) rl.getChildAt(0);
+            if (rank.getText().toString().isEmpty() ||
+                    !rank.getText().toString().equals(place + ""))
+                rank.setText(place + "");
+            place++;
         }
     }
 
@@ -127,12 +136,16 @@ public class Leaderboard extends LinearLayout {
         }
     }
 
-    public void loadLevel(LevelsDataSource lds, int level) {
+    public void loadLevel(TimesDataSource lds, int level) {
         lds.openReadable();
         List<Long> times = lds.getAllTimes(level);
-        clear();
-        for (long time : times) {
-            add(Util.timeToString(time));
+        for (int i = 0; i < times.size(); i++) {
+            offer(Util.timeToString(times.get(i)), i);
+        }
+        if (times.size() < this.rls.size()) {
+            for (int i = times.size(); i < this.rls.size(); i++)
+                removeView(this.rls.get(i));
+            this.rls.removeAll(this.rls.subList(times.size(), this.rls.size()));
         }
     }
 

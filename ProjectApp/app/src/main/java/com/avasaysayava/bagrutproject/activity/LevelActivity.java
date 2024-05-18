@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.datasource.LevelsDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.TimesDataSource;
 import com.avasaysayava.bagrutproject.game.Level;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.service.BackgroundMusicService;
@@ -23,7 +23,7 @@ public class LevelActivity extends Activity {
     private Level sv_level;
     private int levelNumber;
     private Intent backgroundMusicService;
-    private LevelsDataSource levelsDataSource;
+    private TimesDataSource timesDataSource;
     private ImageButton img_btn_play, img_btn_debug, img_btn_graph, img_btn_quit;
     private MediaPlayer click, load;
 
@@ -36,7 +36,7 @@ public class LevelActivity extends Activity {
         this.load = MediaPlayer.create(this, R.raw.level_start);
 
         this.backgroundMusicService = new Intent(this, BackgroundMusicService.class);
-        this.levelsDataSource = new LevelsDataSource(this);
+        this.timesDataSource = new TimesDataSource(this);
         this.levelNumber = Util.getLevel(GameMap.currentMap);
 
         setContentView(R.layout.level_activity);
@@ -120,7 +120,7 @@ public class LevelActivity extends Activity {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.lose_all_progress)
                 .setPositiveButton(R.string.yes, (dialog, id) -> {
-                    this.levelsDataSource.close();
+                    this.timesDataSource.close();
                     super.onBackPressed();
                 })
                 .setNegativeButton(R.string.no, (dialog, id) -> {})
@@ -169,12 +169,12 @@ public class LevelActivity extends Activity {
 
     public void onCompleted(long time) {
         if (!this.sv_level.isPaused()) pauseLevel();
-        this.levelsDataSource.openReadable();
-        Long bestTime = this.levelsDataSource.getBestTime(this.levelNumber);
-        this.levelsDataSource.setLastTime(Util.timeToString(time), this.levelNumber);
-        long diff = time - (bestTime == null ? time : bestTime);
-        this.levelsDataSource.openWriteable();
-        this.levelsDataSource.addTime(time, this.levelNumber);
+        this.timesDataSource.openReadable();
+        Long bestTime = this.timesDataSource.getBestTime(this.levelNumber);
+        this.timesDataSource.setLastTime(time, this.levelNumber);
+        long diff = bestTime == null ? 0 : time - bestTime;
+        this.timesDataSource.openWriteable();
+        this.timesDataSource.addTime(time, this.levelNumber);
         showTimeDialog(time, diff, diff <= 0);
     }
 

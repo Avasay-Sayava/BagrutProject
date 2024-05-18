@@ -1,0 +1,14 @@
+@startuml
+class activity.StartActivity {
+- RadioGroup rg_options_menu
+- Button btn_go
+- MediaPlayer click
+- MediaPlayer load
+# void onCreate(Bundle)
+}
+
+
+
+
+android.app.Activity <|-- activity.StartActivity
+@enduml

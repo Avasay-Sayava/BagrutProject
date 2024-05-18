@@ -1,0 +1,15 @@
+@startuml
+abstract class game.thread.PeriodicThread {
+- boolean running
++ <<Create>> PeriodicThread()
++ void start()
++ void run()
++ void pause()
+# {abstract}void periodic()
+}
+
+
+
+
+java.lang.Thread <|- game.thread.PeriodicThread
+@enduml
