@@ -174,131 +174,23 @@
                 android:textSize="30sp" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_ranks"
+        <ScrollView
+            android:id="@+id/scroll_ranks"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="85dp"
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="10dp"
-            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rl_preview"
-            app:layout_constraintWidth="match_constraint"
-            tools:layout_editor_absoluteY="10dp">
+            app:layout_constraintWidth="match_constraint">
 
-            <RelativeLayout
-                android:id="@+id/rl_rank_first"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txt_rank_first_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/txt_rank_first_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_rank_faster"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txt_rank_faster_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/txt_rank_faster_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_rank_current"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txt_rank_current_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/txt_rank_current_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_rank_slower"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txt_rank_slower_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/txt_rank_slower_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/monospace"
-                    android:paddingHorizontal="5dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-        </LinearLayout>
+            <com.avasaysayava.bagrutproject.leaderboard.Leaderboard
+                android:id="@+id/leaderboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
 
         <Button
             android:id="@+id/btn_play"
@@ -310,6 +202,6 @@
             android:text="@string/play"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_ranks" />
+            app:layout_constraintTop_toBottomOf="@+id/scroll_ranks" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

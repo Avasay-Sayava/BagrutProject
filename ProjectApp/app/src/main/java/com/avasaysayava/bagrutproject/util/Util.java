@@ -11,8 +11,6 @@ import android.graphics.Shader;
 
 import androidx.annotation.NonNull;
 
-import com.avasaysayava.bagrutproject.database.DatabaseContract;
-import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map;
 
@@ -75,9 +73,9 @@ public class Util {
         return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
     }
 
-    public static String getLevel(GameMap map) {
-        if (map instanceof Level1Map) return DatabaseContract.UserEntry.COLUMN_LEVEL1;
-        else return DatabaseContract.UserEntry.COLUMN_LEVEL2;
+    public static int getLevel(GameMap map) {
+        if (map instanceof Level1Map) return 1;
+        else return 2;
     }
 
     public static long stringToTime(String timeString) {

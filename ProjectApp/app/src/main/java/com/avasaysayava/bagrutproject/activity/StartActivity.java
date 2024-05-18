@@ -10,22 +10,16 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
-import com.avasaysayava.bagrutproject.util.Util;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class StartActivity extends Activity {
     private RadioGroup rg_options_menu;
     private Button btn_go;
     private MediaPlayer click, load;
-    private UUIDDataSource uuidDataSource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.uuidDataSource = new UUIDDataSource(this);
-        uuidDataSource.updateUUID();
 
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);

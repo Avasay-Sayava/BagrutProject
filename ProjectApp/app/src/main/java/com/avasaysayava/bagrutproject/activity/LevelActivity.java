@@ -13,8 +13,7 @@ import android.widget.ImageButton;
 import androidx.core.content.ContextCompat;
 
 import com.avasaysayava.bagrutproject.R;
-import com.avasaysayava.bagrutproject.database.datasource.LevelDataSource;
-import com.avasaysayava.bagrutproject.database.datasource.UUIDDataSource;
+import com.avasaysayava.bagrutproject.database.datasource.LevelsDataSource;
 import com.avasaysayava.bagrutproject.game.Level;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.service.BackgroundMusicService;
@@ -22,24 +21,23 @@ import com.avasaysayava.bagrutproject.util.Util;
 
 public class LevelActivity extends Activity {
     private Level sv_level;
+    private int levelNumber;
     private Intent backgroundMusicService;
+    private LevelsDataSource levelsDataSource;
     private ImageButton img_btn_play, img_btn_debug, img_btn_graph, img_btn_quit;
-    private LevelDataSource levelDataSource;
-    private UUIDDataSource uuidDataSource;
     private MediaPlayer click, load;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.levelDataSource = new LevelDataSource(this, Util.getLevel(GameMap.currentMap));
-        this.uuidDataSource = new UUIDDataSource(this);
-
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);
         this.load = MediaPlayer.create(this, R.raw.level_start);
 
         this.backgroundMusicService = new Intent(this, BackgroundMusicService.class);
+        this.levelsDataSource = new LevelsDataSource(this);
+        this.levelNumber = Util.getLevel(GameMap.currentMap);
 
         setContentView(R.layout.level_activity);
 
@@ -121,7 +119,10 @@ public class LevelActivity extends Activity {
     private void showLeaveDialog() {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.lose_all_progress)
-                .setPositiveButton(R.string.yes, (dialog, id) -> super.onBackPressed())
+                .setPositiveButton(R.string.yes, (dialog, id) -> {
+                    this.levelsDataSource.close();
+                    super.onBackPressed();
+                })
                 .setNegativeButton(R.string.no, (dialog, id) -> {})
                 .create().show();
     }
@@ -168,13 +169,13 @@ public class LevelActivity extends Activity {
 
     public void onCompleted(long time) {
         if (!this.sv_level.isPaused()) pauseLevel();
-        this.levelDataSource.openReadable();
-        String stringBestTime = this.levelDataSource.getTimeByUUID(this.uuidDataSource.getUUID());
-        if (stringBestTime == null || Util.stringToTime(stringBestTime) > time) {
-            this.levelDataSource.openWriteable();
-            this.levelDataSource.updateTimeByUUID(Util.timeToString(time), this.uuidDataSource.getUUID());
-        }
-        showTimeDialog(time, time - Util.stringToTime(stringBestTime != null ? stringBestTime : Util.timeToString(time)), stringBestTime == null || Util.stringToTime(stringBestTime) > time);
+        this.levelsDataSource.openReadable();
+        Long bestTime = this.levelsDataSource.getBestTime(this.levelNumber);
+        this.levelsDataSource.setLastTime(Util.timeToString(time), this.levelNumber);
+        long diff = time - (bestTime == null ? time : bestTime);
+        this.levelsDataSource.openWriteable();
+        this.levelsDataSource.addTime(time, this.levelNumber);
+        showTimeDialog(time, diff, diff <= 0);
     }
 
     private void showTimeDialog(long time, long diff, boolean newBest) {

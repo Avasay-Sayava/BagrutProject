@@ -3,6 +3,8 @@ package com.avasaysayava.bagrutproject.game.audio;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+import com.avasaysayava.bagrutproject.R;
+
 import java.util.HashMap;
 
 public class TileSoundPreloader {
@@ -15,7 +17,11 @@ public class TileSoundPreloader {
             MediaPlayer[] mps = new MediaPlayer[ts.sounds.length];
             for (int i = 0; i < ts.sounds.length; i++) {
                 mps[i] = MediaPlayer.create(context, ts.sounds[i]);
-                mps[i].setVolume(.1f, .1f);
+                if (ts.sounds[i] == R.raw.grass1
+                        || ts.sounds[i] == R.raw.grass2
+                        || ts.sounds[i] == R.raw.glyph1
+                        || ts.sounds[i] == R.raw.glyph2)
+                    mps[i].setVolume(.1f, .1f);
             }
             this.soundMap.put(ts, mps);
         }

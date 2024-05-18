@@ -8,9 +8,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Database.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + DatabaseContract.UserEntry.TABLE_NAME + " (" + DatabaseContract.UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + DatabaseContract.UserEntry.COLUMN_UUID + " CHAR(36) NOT NULL," + DatabaseContract.UserEntry.COLUMN_LEVEL1 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL2 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL3 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL4 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL5 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL6 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL7 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL8 + " TIME," + DatabaseContract.UserEntry.COLUMN_LEVEL9 + " TIME)";
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + DatabaseContract.LevelsEntry.TABLE_NAME
+            + " (" + DatabaseContract.LevelsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+            + DatabaseContract.LevelsEntry.COLUMN_TIME + " TIME NOT NULL,"
+            + DatabaseContract.LevelsEntry.COLUMN_LEVEL + " TINYINT NOT NULL)";
 
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DatabaseContract.UserEntry.TABLE_NAME;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DatabaseContract.LevelsEntry.TABLE_NAME;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
