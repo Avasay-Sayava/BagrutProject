@@ -149,13 +149,19 @@ public class Leaderboard extends LinearLayout {
         }
     }
 
-    public float getMarkedY() {
-        int i = 0;
-        if (marked != null) {
+    public int getMarkedY() {
+        int count = 0;
+        if (this.marked != null) {
+            float height = 0;
+            try {
+                height = this.rls.get(0).getMeasuredHeight();
+            } catch (Exception ignored) {
+            }
+            if (height == 0) height = 23.4f * getResources().getDisplayMetrics().density;
             for (RelativeLayout rl : this.rls) {
                 if (rl == this.marked)
-                    return i * 23.4f;
-                i++;
+                    return (int) (count * height);
+                count++;
             }
         }
         return 0;

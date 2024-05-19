@@ -41,7 +41,7 @@ public class LevelPreview extends Game {
         holder.addCallback(this);
         holder.setFormat(PixelFormat.RGBA_8888);
 
-        loadMap(GameMap.currentMap);
+        loadMap(null);
 
         this.textPaint.setColor(Color.WHITE);
         this.textPaint.setTextSize(20);

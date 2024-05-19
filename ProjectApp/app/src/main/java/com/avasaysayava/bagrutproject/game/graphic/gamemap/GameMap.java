@@ -26,7 +26,6 @@ public class GameMap {
     protected Game game;
     protected float x, y;
     private int glyphs;
-    public static GameMap currentMap = null;
 
     public GameMap(Game game, List<Tile>[][] map, int tileSize, float x, float y) {
         this.TILE_SIZE = tileSize;

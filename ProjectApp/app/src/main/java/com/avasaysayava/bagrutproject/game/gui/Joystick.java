@@ -59,7 +59,7 @@ public class Joystick {
     }
 
     public double getPercentage() {
-        return getDistance() / getRadius();
+        return Util.bound(0, getDistance() / getRadius(), 1);
     }
 
     public double getRadians() {

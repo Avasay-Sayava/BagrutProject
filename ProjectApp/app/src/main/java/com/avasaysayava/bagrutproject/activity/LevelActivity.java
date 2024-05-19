@@ -37,11 +37,12 @@ public class LevelActivity extends Activity {
 
         this.backgroundMusicService = new Intent(this, BackgroundMusicService.class);
         this.timesDataSource = new TimesDataSource(this);
-        this.levelNumber = Util.getLevel(GameMap.currentMap);
+        this.levelNumber = getIntent().getIntExtra("map", 0);
 
         setContentView(R.layout.level_activity);
 
         this.sv_level = findViewById(R.id.sv_level);
+        this.sv_level.loadMap(Util.getMap(this.sv_level, this.levelNumber));
 
         this.img_btn_quit = findViewById(R.id.img_btn_quit);
         this.img_btn_quit.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.quit));

@@ -14,5 +14,5 @@ class util.struct.SizedDeque {
 
 
 
-java.util.ArrayDeque <|-- util.struct.SizedDeque
+java.util.ArrayDeque <|- util.struct.SizedDeque
 @enduml

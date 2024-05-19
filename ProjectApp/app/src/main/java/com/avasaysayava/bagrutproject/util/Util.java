@@ -11,8 +11,15 @@ import android.graphics.Shader;
 
 import androidx.annotation.NonNull;
 
+import com.avasaysayava.bagrutproject.game.Game;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.FloorMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GlyphFloorMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GroundMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.StructuresMap;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.WallsMap;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map;
+import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level2Map;
 
 public class Util {
 
@@ -22,6 +29,14 @@ public class Util {
 
     public static boolean between(double lower, double num, double upper) {
         return lower < num && num < upper;
+    }
+
+    public static double bound(double lower, double num, double upper) {
+        return Math.min(Math.max(lower, num), upper);
+    }
+
+    public static int bound(int lower, int num, int upper) {
+        return Math.min(Math.max(lower, num), upper);
     }
 
     public static int withAlpha(int color, int alpha) {
@@ -73,11 +88,6 @@ public class Util {
         return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
     }
 
-    public static int getLevel(GameMap map) {
-        if (map instanceof Level1Map) return 1;
-        else return 2;
-    }
-
     public static long stringToTime(String timeString) {
         String[] parts = timeString.split(":");
         String[] secondsAndMillis = parts[2].split("\\.");
@@ -86,5 +96,26 @@ public class Util {
         long seconds = Long.parseLong(secondsAndMillis[0]);
         long millis = Long.parseLong(secondsAndMillis[1]);
         return ((hours * 60 + minutes) * 60 + seconds) * 1000 + millis;
+    }
+
+    public static GameMap getMap(Game game, int level) {
+        switch (level) {
+            case 1:
+                return new Level1Map(game);
+            case 2:
+                return new Level2Map(game);
+            case 3:
+                return new FloorMap(game, 0, 0);
+            case 4:
+                return new GlyphFloorMap(game, 0, 0);
+            case 5:
+                return new WallsMap(game, 0, 0);
+            case 6:
+                return new StructuresMap(game, 0, 0);
+            case 7:
+                return new GroundMap(game, 0, 0);
+            default:
+                return null;
+        }
     }
 }

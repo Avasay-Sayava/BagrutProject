@@ -68,14 +68,16 @@ public class MenuActivity extends Activity {
 
         this.btn_play = findViewById(R.id.btn_play);
         this.btn_play.setOnClickListener(v -> {
-            if (GameMap.currentMap != null) {
-                startActivity(new Intent(this, LevelActivity.class), savedInstanceState);
+            if (Util.getMap(this.sv_level_preview, this.currentLevel + 1) != null) {
+                Intent intent = new Intent(this, LevelActivity.class);
+                intent.putExtra("map", this.currentLevel + 1);
+                startActivity(intent, savedInstanceState);
             } else {
                 this.click.start();
                 Toast.makeText(this, R.string.no_level_provided, Toast.LENGTH_SHORT).show();
             }
         });
-
+        
         this.levels = new Button[]{
                 findViewById(R.id.level1),
                 findViewById(R.id.level2),
@@ -90,47 +92,47 @@ public class MenuActivity extends Activity {
 
         this.levels[0].setOnClickListener(v -> {
             this.click.start();
-            previewMap(0, GameMap.currentMap = new Level1Map(this.sv_level_preview));
+            previewMap(0);
         });
 
         this.levels[1].setOnClickListener(v -> {
             this.click.start();
-            previewMap(1, GameMap.currentMap = new Level2Map(this.sv_level_preview));
+            previewMap(1);
         });
 
         this.levels[2].setOnClickListener(v -> {
             this.click.start();
-            previewMap(2, GameMap.currentMap = new StructuresMap(this.sv_level_preview, 0, 0));
+            previewMap(2);
         });
 
         this.levels[3].setOnClickListener(v -> {
             this.click.start();
-            previewMap(3, GameMap.currentMap = new WallsMap(this.sv_level_preview, -100, -100));
+            previewMap(3);
         });
 
         this.levels[4].setOnClickListener(v -> {
             this.click.start();
-            previewMap(4, GameMap.currentMap = new GroundMap(this.sv_level_preview, 0, 0));
+            previewMap(4);
         });
 
         this.levels[5].setOnClickListener(v -> {
             this.click.start();
-            previewMap(5, GameMap.currentMap = new FloorMap(this.sv_level_preview, 0, 0));
+            previewMap(5);
         });
 
         this.levels[6].setOnClickListener(v -> {
             this.click.start();
-            previewMap(6, GameMap.currentMap = new GlyphFloorMap(this.sv_level_preview, 0, 0));
+            previewMap(6);
         });
 
         this.levels[7].setOnClickListener(v -> {
             this.click.start();
-            previewMap(7, GameMap.currentMap = null);
+            previewMap(7);
         });
 
         this.levels[8].setOnClickListener(v -> {
             this.click.start();
-            previewMap(8, GameMap.currentMap = null);
+            previewMap(8);
         });
 
         this.currentLevel = -1;
@@ -138,7 +140,7 @@ public class MenuActivity extends Activity {
         this.levels[0].callOnClick();
     }
 
-    public void previewMap(int index, GameMap map) {
+    public void previewMap(int index) {
         if (this.currentLevel != index) {
             if (this.currentLevel != -1)
                 this.levels[this.currentLevel].setBackground(
@@ -147,7 +149,7 @@ public class MenuActivity extends Activity {
             this.levels[this.currentLevel].setBackground(
                     ContextCompat.getDrawable(this, R.drawable.default_button_pressed));
             this.txt_level_title.setText(this.levels[this.currentLevel].getText());
-            this.sv_level_preview.loadMap(map);
+            this.sv_level_preview.loadMap(Util.getMap(this.sv_level_preview, this.currentLevel + 1));
             loadLeaderboard();
         } else {
             // animate scrolling
@@ -155,8 +157,7 @@ public class MenuActivity extends Activity {
                 ObjectAnimator.ofInt(this.scroll_ranks,
                                 "scrollY",
                                 this.scroll_ranks.getScrollY(),
-                                (int) (getResources().getDisplayMetrics().density
-                                        * (this.leaderboard.getMarkedY())))
+                                this.leaderboard.getMarkedY())
                         .setDuration(200)
                         .start();
             } else {
@@ -179,10 +180,9 @@ public class MenuActivity extends Activity {
 
         // animate scrolling
         ObjectAnimator.ofInt(this.scroll_ranks,
-                "scrollY",
-                0,
-                (int) (getResources().getDisplayMetrics().density
-                        * (this.leaderboard.getMarkedY())))
+                        "scrollY",
+                        0,
+                        this.leaderboard.getMarkedY())
                 .setDuration(1000)
                 .start();
     }

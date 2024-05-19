@@ -25,7 +25,7 @@ import com.avasaysayava.bagrutproject.util.Util;
 
 public class Level extends Game {
     private final Player player;
-    private final GameMap map;
+    private GameMap map;
     private final double[] fpsGraph, upsGraph;
     private Joystick joystick;
     private Bitmap vignetteBitmap;
@@ -56,10 +56,7 @@ public class Level extends Game {
         this.graphMode = false;
         this.paused = false;
 
-        this.map = GameMap.currentMap;
-        this.map.setGame(this);
-        this.map.clear();
-        this.map.prepare();
+        this.map = null;
 
         // Register callback
         SurfaceHolder surfaceHolder = getHolder();
@@ -136,7 +133,7 @@ public class Level extends Game {
 
     @Override
     public void draw(Canvas canvas) {
-        if (canvas == null) return;
+        if (canvas == null || this.map == null) return;
 
         super.draw(canvas);
 
@@ -202,11 +199,10 @@ public class Level extends Game {
     }
 
     private int[] getGradientColor(double value) {
-        value = Math.max(0, Math.min(this.UPS, value));
-        value = Math.max(0, Math.min(this.UPS, value));
+        value = Util.bound(0, this.UPS, value);
 
-        int red = Math.min(Math.max((int) (255 * (2 * (1 - value / this.UPS))), 0), 255);
-        int green = Math.min(Math.max((int) (255 * (2 * value / this.UPS)), 0), 255);
+        int red = Util.bound(0, (int) (255 * (2 * (1 - value / this.UPS))), 255);
+        int green = Util.bound(0, (int) (255 * (2 * value / this.UPS)),  255);
 
         return new int[]{red, green, 0};
     }
@@ -315,5 +311,12 @@ public class Level extends Game {
             if (this.t_total == 0) this.t_total = System.currentTimeMillis()- this.t_start;
             this.onCompleteListener.accept(this.t_total);
         }
+    }
+
+    public void loadMap(GameMap map) {
+        this.map = map;
+        this.map.setGame(this);
+        this.map.clear();
+        this.map.prepare();
     }
 }
