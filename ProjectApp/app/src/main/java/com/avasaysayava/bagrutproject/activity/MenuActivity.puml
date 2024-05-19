@@ -5,14 +5,14 @@ class activity.MenuActivity {
 - Button btn_play
 - Button btn_back
 - Leaderboard leaderboard
-- LevelsDataSource levelsDataSource
+- TimesDataSource TimesDataSource
 - ScrollView scroll_ranks
 - LevelPreview sv_level_preview
 - MediaPlayer click
 - MediaPlayer load
 - TextView txt_level_title
 # void onCreate(Bundle)
-+ void previewMap(int,GameMap)
++ void previewMap(int)
 - void loadLeaderboard()
 # void onResume()
 # void onStart()

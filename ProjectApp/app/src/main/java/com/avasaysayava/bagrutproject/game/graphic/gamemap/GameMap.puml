@@ -6,7 +6,6 @@ class game.graphic.gamemap.GameMap {
 # Game game
 # float x
 - int glyphs
-+ {static} GameMap currentMap
 + <<Create>> GameMap(Game,List<Tile>[][],int,float,float)
 + <<Create>> GameMap(Game,List<Tile>[][],List<Layer>,int,float,float)
 + {static} int getEvaluation(Object,Object,GameMap)
