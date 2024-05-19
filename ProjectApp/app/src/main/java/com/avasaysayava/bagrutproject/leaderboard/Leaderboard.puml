@@ -1,6 +1,6 @@
 @startuml
 class leaderboard.Leaderboard {
-- List<RelativeLayout> rls
+- List<RelativeLayout> rows
 - RelativeLayout marked
 + <<Create>> Leaderboard(Context)
 + <<Create>> Leaderboard(Context,AttributeSet)
@@ -15,11 +15,11 @@ class leaderboard.Leaderboard {
 - void unmark(RelativeLayout)
 + void markTime(String)
 + void loadLevel(TimesDataSource,int)
-+ float getMarkedY()
++ int getMarkedY()
 }
 
 
 
 
-android.widget.LinearLayout <|- leaderboard.Leaderboard
+android.widget.LinearLayout <|-- leaderboard.Leaderboard
 @enduml

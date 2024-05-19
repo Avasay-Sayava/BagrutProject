@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Leaderboard extends LinearLayout {
-    private final List<RelativeLayout> rls;
+    private final List<RelativeLayout> rows;
     private RelativeLayout marked;
 
     public Leaderboard(Context context) {
@@ -38,7 +38,7 @@ public class Leaderboard extends LinearLayout {
     public Leaderboard(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
-        this.rls = new ArrayList<>();
+        this.rows = new ArrayList<>();
         this.marked = null;
     }
 
@@ -76,15 +76,15 @@ public class Leaderboard extends LinearLayout {
         time.setTextSize(15);
         container.addView(time);
 
-        this.rls.add(container);
+        this.rows.add(container);
     }
 
     private void offer(String timeStr, int index) {
-        if (index >= this.rls.size()) {
+        if (index >= this.rows.size()) {
             add(timeStr);
-            addView(this.rls.get(this.rls.size() - 1));
+            addView(this.rows.get(this.rows.size() - 1));
         } else {
-            ((TextView) this.rls.get(index).getChildAt(1)).setText(timeStr);
+            ((TextView) this.rows.get(index).getChildAt(1)).setText(timeStr);
         }
     }
 
@@ -94,13 +94,13 @@ public class Leaderboard extends LinearLayout {
 
     public void clear() {
         removeAllViews();
-        this.rls.clear();
+        this.rows.clear();
     }
 
     @SuppressLint("SetTextI18n")
     private void updateRanks() {
         int place = 1;
-        for (RelativeLayout rl : this.rls) {
+        for (RelativeLayout rl : this.rows) {
             TextView rank = (TextView) rl.getChildAt(0);
             if (rank.getText().toString().isEmpty() ||
                     !rank.getText().toString().equals(place + ""))
@@ -126,7 +126,7 @@ public class Leaderboard extends LinearLayout {
             unmark(this.marked);
         if (timeStr == null)
             return;
-        for (RelativeLayout rl : this.rls) {
+        for (RelativeLayout rl : this.rows) {
             if (((TextView) rl.getChildAt(1))
                     .getText().toString().equals(timeStr)) {
                 mark(rl);
@@ -142,10 +142,10 @@ public class Leaderboard extends LinearLayout {
         for (int i = 0; i < times.size(); i++) {
             offer(Util.timeToString(times.get(i)), i);
         }
-        if (times.size() < this.rls.size()) {
-            for (int i = times.size(); i < this.rls.size(); i++)
-                removeView(this.rls.get(i));
-            this.rls.removeAll(this.rls.subList(times.size(), this.rls.size()));
+        if (times.size() < this.rows.size()) {
+            for (int i = times.size(); i < this.rows.size(); i++)
+                removeView(this.rows.get(i));
+            this.rows.removeAll(this.rows.subList(times.size(), this.rows.size()));
         }
     }
 
@@ -154,11 +154,11 @@ public class Leaderboard extends LinearLayout {
         if (this.marked != null) {
             float height = 0;
             try {
-                height = this.rls.get(0).getMeasuredHeight();
+                height = this.rows.get(0).getMeasuredHeight();
             } catch (Exception ignored) {
             }
             if (height == 0) height = 23.4f * getResources().getDisplayMetrics().density;
-            for (RelativeLayout rl : this.rls) {
+            for (RelativeLayout rl : this.rows) {
                 if (rl == this.marked)
                     return (int) (count * height);
                 count++;

@@ -24,8 +24,7 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
     public final Paint textPaint;
     public final TileSoundPreloader tileSoundPreloader;
     public final TileSet playerTileSet, floorTileSet, glyphFloorTileSet, groundTileSet, structuresTileSet, wallsTileSet;
-    protected LongConsumer onCompleteListener = time -> {
-    };
+    protected LongConsumer onCompleteListener = time -> {};
 
     public Game(Context context, int UPS, int SCALE, Paint textPaint) {
         this(context, null, UPS, SCALE, textPaint);
