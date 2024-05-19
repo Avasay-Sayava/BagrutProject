@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -61,7 +63,7 @@ public class Level extends Game {
         // Register callback
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
-        surfaceHolder.setFormat(PixelFormat.RGBA_8888);
+        surfaceHolder.setFormat(PixelFormat.UNKNOWN);
 
         // initialize schedulers
         createJobScheduler();
@@ -125,6 +127,7 @@ public class Level extends Game {
         // if screen size changed
         this.vignetteBitmap = Util.generateVignette(width, height);
         createJoystick();
+        holder.setFormat(PixelFormat.UNKNOWN);
     }
 
     @Override
