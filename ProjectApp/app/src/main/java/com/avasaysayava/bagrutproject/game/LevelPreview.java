@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
@@ -108,8 +107,6 @@ public class LevelPreview extends Game {
             float previewX = (getWidth() - this.SCALE * this.map.TILE_SIZE * this.map.getColumns()) / 2f;
             float previewY = (getHeight() - this.SCALE * this.map.TILE_SIZE * this.map.getRows()) / 2f;
             this.map.move(previewX, previewY);
-
-            Log.d(getClass().getSimpleName(), "rows: " + this.map.getRows() + ", cols: " + this.map.getColumns());
 
             this.map.setGame(this);
             this.map.draw(canvas);

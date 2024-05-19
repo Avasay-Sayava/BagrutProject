@@ -1,0 +1,30 @@
+@startuml
+class game.LevelPreview {
+- GameMap map
+- Bitmap vignetteBitmap
++ <<Create>> LevelPreview(Context)
++ <<Create>> LevelPreview(Context,AttributeSet)
++ <<Create>> LevelPreview(Context,AttributeSet,int)
++ <<Create>> LevelPreview(Context,AttributeSet,int,int)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
+- void loadMap()
++ void draw(Canvas)
++ void update()
++ void onStart()
++ void onResume()
++ void onPause()
++ void onStop()
++ void onDestroy()
++ boolean isDebug()
++ boolean isGraph()
++ void onCompleted()
++ void loadMap(GameMap)
+}
+
+
+
+
+game.Game <|-- game.LevelPreview
+@enduml
