@@ -1,0 +1,57 @@
+@startuml
+class game.Level {
+- Player player
+- double[] upsGraph
+- double[] fpsGraph
+- GameMap map
+- Joystick joystick
+- Bitmap vignetteBitmap
+- boolean debugMode
+- boolean graphMode
+- boolean paused
+- JobScheduler jobScheduler
+- int upsIndex
+- int fpsIndex
+- long t_start
+- long t_total
++ <<Create>> Level(Context)
++ <<Create>> Level(Context,AttributeSet)
++ <<Create>> Level(Context,AttributeSet,int)
++ <<Create>> Level(Context,AttributeSet,int,int)
++ boolean onTouchEvent(MotionEvent)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
++ void draw(Canvas)
+- void drawUPS(Canvas,Paint)
+- void drawFPS(Canvas,Paint)
+- int[] getGradientColor(double)
+- void drawBounds(Canvas,Paint)
+- void drawPlayerVelocity(Canvas,Paint)
++ void update()
++ boolean isDebug()
++ GameMap getMap()
++ JobScheduler getJobScheduler()
++ Joystick getJoystick()
++ void onStart()
++ void onResume()
++ void onPause()
++ void onStop()
++ void onDestroy()
+- void createJobScheduler()
+- void createJoystick()
++ boolean isPaused()
++ void pause()
++ void resume()
++ void toggleDebug()
++ void toggleGraph()
++ boolean isGraph()
++ void onCompleted()
++ void loadMap(GameMap)
+}
+
+
+
+
+game.Game <|- game.Level
+@enduml

@@ -25,8 +25,8 @@ import com.avasaysayava.bagrutproject.util.Util;
 
 public class Level extends Game {
     private final Player player;
-    private GameMap map;
     private final double[] fpsGraph, upsGraph;
+    private GameMap map;
     private Joystick joystick;
     private Bitmap vignetteBitmap;
     private boolean debugMode, graphMode, paused;
@@ -202,7 +202,7 @@ public class Level extends Game {
         value = Util.bound(0, this.UPS, value);
 
         int red = Util.bound(0, (int) (255 * (2 * (1 - value / this.UPS))), 255);
-        int green = Util.bound(0, (int) (255 * (2 * value / this.UPS)),  255);
+        int green = Util.bound(0, (int) (255 * (2 * value / this.UPS)), 255);
 
         return new int[]{red, green, 0};
     }
@@ -308,7 +308,7 @@ public class Level extends Game {
     @Override
     public void onCompleted() {
         if (this.onCompleteListener != null) {
-            if (this.t_total == 0) this.t_total = System.currentTimeMillis()- this.t_start;
+            if (this.t_total == 0) this.t_total = System.currentTimeMillis() - this.t_start;
             this.onCompleteListener.accept(this.t_total);
         }
     }

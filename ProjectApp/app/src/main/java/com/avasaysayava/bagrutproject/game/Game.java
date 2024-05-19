@@ -61,7 +61,7 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
     public abstract void surfaceCreated(@NonNull SurfaceHolder holder);
 
     @Override
-    public abstract void surfaceDestroyed(@NonNull SurfaceHolder holder);
+        public abstract void surfaceDestroyed(@NonNull SurfaceHolder holder);
 
     public void setOnCompleteListener(LongConsumer consumer) {
         this.onCompleteListener = consumer;

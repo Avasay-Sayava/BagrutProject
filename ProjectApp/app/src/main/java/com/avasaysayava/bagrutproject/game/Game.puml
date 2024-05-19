@@ -1,0 +1,40 @@
+@startuml
+abstract class game.Game {
++ int UPS
++ int SCALE
++ Paint textPaint
++ TileSoundPreloader tileSoundPreloader
++ TileSet playerTileSet
++ TileSet floorTileSet
++ TileSet glyphFloorTileSet
++ TileSet glyphFloorTileSet
++ TileSet groundTileSet
++ TileSet structuresTileSet
++ TileSet wallsTileSet
+# LongConsumer onCompleteListener
++ <<Create>> Game(Context,int,int,Paint)
++ <<Create>> Game(Context,AttributeSet,int,int,Paint)
++ <<Create>> Game(Context,AttributeSet,int,int,int,Paint)
++ <<Create>> Game(Context,AttributeSet,int,int,int,int,Paint)
++ {abstract}void surfaceChanged(SurfaceHolder,int,int,int)
++ {abstract}void surfaceCreated(SurfaceHolder)
++ {abstract}void surfaceDestroyed(SurfaceHolder)
++ void setOnCompleteListener(LongConsumer)
++ {abstract}void update()
++ {abstract}void onStart()
++ {abstract}void onResume()
++ {abstract}void onPause()
++ {abstract}void onStop()
++ {abstract}void onDestroy()
++ {abstract}boolean isDebug()
++ {abstract}boolean isGraph()
++ {abstract}void onCompleted()
+}
+
+
+
+
+android.view.SurfaceHolder +. android.view.Callback
+android.view.Callback <|.. game.Game
+android.view.SurfaceView <|- game.Game
+@enduml
