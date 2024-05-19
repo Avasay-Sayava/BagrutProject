@@ -166,4 +166,8 @@ public class Leaderboard extends LinearLayout {
         }
         return 0;
     }
+
+    public boolean isLoaded() {
+        return this.rows.size() == getChildCount();
+    }
 }

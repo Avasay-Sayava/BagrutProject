@@ -16,10 +16,11 @@ class leaderboard.Leaderboard {
 + void markTime(String)
 + void loadLevel(TimesDataSource,int)
 + int getMarkedY()
++ boolean isLoaded()
 }
 
 
 
 
-android.widget.LinearLayout <|-- leaderboard.Leaderboard
+android.widget.LinearLayout <|- leaderboard.Leaderboard
 @enduml

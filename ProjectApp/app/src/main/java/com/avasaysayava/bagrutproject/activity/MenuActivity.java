@@ -178,13 +178,18 @@ public class MenuActivity extends Activity {
             this.leaderboard.markTime(Util.timeToString(lastTime));
         this.leaderboard.update();
 
-        // animate scrolling
-        ObjectAnimator.ofInt(this.scroll_ranks,
-                        "scrollY",
-                        0,
-                        this.leaderboard.getMarkedY())
-                .setDuration(1000)
-                .start();
+        // animate scrolling when leaderboard loaded
+        new Thread(() -> {
+            while (!this.leaderboard.isLoaded());
+            runOnUiThread(() -> {
+                ObjectAnimator.ofInt(this.scroll_ranks,
+                                "scrollY",
+                                0,
+                                this.leaderboard.getMarkedY())
+                        .setDuration(200)
+                        .start();
+            });
+        }).start();
     }
 
     @Override
