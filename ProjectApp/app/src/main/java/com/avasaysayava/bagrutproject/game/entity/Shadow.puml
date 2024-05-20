@@ -17,5 +17,5 @@ class game.entity.Shadow {
 
 
 
-game.entity.Entity <|-- game.entity.Shadow
+game.entity.Entity <|- game.entity.Shadow
 @enduml

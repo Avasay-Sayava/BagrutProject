@@ -16,14 +16,6 @@ import androidx.core.content.ContextCompat;
 import com.avasaysayava.bagrutproject.R;
 import com.avasaysayava.bagrutproject.database.datasource.TimesDataSource;
 import com.avasaysayava.bagrutproject.game.LevelPreview;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.FloorMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GlyphFloorMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GroundMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.StructuresMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.WallsMap;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map;
-import com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level2Map;
 import com.avasaysayava.bagrutproject.leaderboard.Leaderboard;
 import com.avasaysayava.bagrutproject.util.Util;
 
@@ -77,7 +69,7 @@ public class MenuActivity extends Activity {
                 Toast.makeText(this, R.string.no_level_provided, Toast.LENGTH_SHORT).show();
             }
         });
-        
+
         this.levels = new Button[]{
                 findViewById(R.id.level1),
                 findViewById(R.id.level2),
@@ -172,6 +164,7 @@ public class MenuActivity extends Activity {
     }
 
     private void loadLeaderboard() {
+        this.scroll_ranks.setScrollY(0);
         this.leaderboard.loadLevel(this.timesDataSource, this.currentLevel + 1);
         Long lastTime = this.timesDataSource.getLastTime(this.currentLevel + 1);
         if (lastTime != null)
@@ -180,15 +173,18 @@ public class MenuActivity extends Activity {
 
         // animate scrolling when leaderboard loaded
         new Thread(() -> {
-            while (!this.leaderboard.isLoaded());
-            runOnUiThread(() -> {
-                ObjectAnimator.ofInt(this.scroll_ranks,
-                                "scrollY",
-                                0,
-                                this.leaderboard.getMarkedY())
-                        .setDuration(200)
-                        .start();
-            });
+            while (!this.leaderboard.isLoaded()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ignored) {
+                }
+            }
+            runOnUiThread(() -> ObjectAnimator.ofInt(this.scroll_ranks,
+                            "scrollY",
+                            0,
+                            this.leaderboard.getMarkedY())
+                    .setDuration(200)
+                    .start());
         }).start();
     }
 

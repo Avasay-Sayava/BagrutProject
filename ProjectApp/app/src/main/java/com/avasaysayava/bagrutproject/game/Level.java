@@ -49,7 +49,13 @@ public class Level extends Game {
     }
 
     public Level(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes, Constants.LEVEL_UPS, Constants.LEVEL_SCALE, new Paint());
+        super(context,
+                attrs,
+                defStyleAttr,
+                defStyleRes,
+                Constants.LEVEL_UPS,
+                Util.bound(1, (int) (4 * context.getResources().getDisplayMetrics().density), Constants.LEVEL_SCALE),
+                new Paint());
 
         this.textPaint.setTextSize(50);
         this.textPaint.setColor(ContextCompat.getColor(getContext(), R.color.White));
