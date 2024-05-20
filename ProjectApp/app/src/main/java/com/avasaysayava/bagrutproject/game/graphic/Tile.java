@@ -56,7 +56,14 @@ public class Tile {
         this.scale = newScale;
     }
 
-    public Tile(TileSet tileSet, Rect bounds, Collision collision, Collision collisionTop, Collision collisionDown, int left, int down, TileSound type) {
+    public Tile(TileSet tileSet,
+                Rect bounds,
+                Collision collision,
+                Collision collisionTop,
+                Collision collisionDown,
+                int left,
+                int down,
+                TileSound type) {
         this.id = -1;
         this.z = 0;
         this.left = left;

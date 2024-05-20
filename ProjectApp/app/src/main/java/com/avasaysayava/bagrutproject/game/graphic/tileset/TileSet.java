@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RawRes;
+
 import com.avasaysayava.bagrutproject.game.audio.TileSound;
 import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
@@ -13,7 +16,7 @@ public abstract class TileSet {
     private final Bitmap bitmap;
     private final Tile[] tiles;
 
-    public TileSet(Context context, int id) {
+    public TileSet(Context context, @DrawableRes int id) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), id, options);
