@@ -1,0 +1,113 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GroundMap {
++ <<Create>> GroundMap(Game,float,float)
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GlyphFloorMap {
++ <<Create>> GlyphFloorMap(Game,float,float)
+}
+
+abstract class com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap {
++ <<Create>> DebugMap(Game,List<Tile>[][],int,float,float)
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level2Map {
++ <<Create>> Level2Map(Game)
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.FloorMap {
++ <<Create>> FloorMap(Game,float,float)
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.StructuresMap {
++ <<Create>> StructuresMap(Game,float,float)
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.Layer {
+- int z
+- GameMap gameMap
+- List<Tile>[][] map
+- float x
++ <<Create>> Layer(GameMap,List<Tile>[][],int)
++ void arrange()
++ void draw(Canvas,Entity)
++ int getZ()
++ void prepare(float,float)
++ void update(Entity)
++ List<Tile> getTiles(int,int)
++ void move(float,float)
++ void translate(float,float)
+}
+
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap {
++ int TILE_SIZE
+# List<Layer> layers
+# List<Tile>[][] map
+# Game game
+# float x
+- int glyphs
++ <<Create>> GameMap(Game,List<Tile>[][],int,float,float)
++ <<Create>> GameMap(Game,List<Tile>[][],List<Layer>,int,float,float)
++ {static} int getEvaluation(Object,Object,GameMap)
+- {static} Prioritised getPrioritised(Object,GameMap)
+- void generateLayers(List<Tile>[][])
+- int getMaxZ()
+- Layer generateLayer(List<Tile>[][],int)
++ Game getGame()
++ void setGame(Game)
++ void arrange()
++ void move(float,float)
++ void translate(float,float)
++ void update(Entity)
++ void draw(Canvas,Entity)
++ LineF getIntersector(Entity)
++ List<Tile> getTiles(int,int)
++ List<Tile> getTiles(int,int,int)
++ float getX()
++ float getY()
++ int getColumns()
++ int getRows()
++ List<Layer> getLayers()
++ void clear()
++ void prepare()
++ void addGlyphs(int)
++ void removeGlyphs(int)
++ void onNoGlyphs()
++ List<Tile>[][] getMap()
+}
+
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.Prioritised {
++ int z
++ int down
++ int left
++ int x
++ int y
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map {
++ <<Create>> Level1Map(Game)
+}
+
+abstract class com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.LevelMap {
+# <<Create>> LevelMap(Game,List<Tile>[][],int,float,float)
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.WallsMap {
++ <<Create>> WallsMap(Game,float,float)
+}
+
+
+
+com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap <|-- com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GroundMap
+com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap <|--- com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.GlyphFloorMap
+com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap <|---- com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap
+com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.LevelMap <|-- com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level2Map
+com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap <|--- com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.FloorMap
+com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap <|-- com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.StructuresMap
+com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap +. com.avasaysayava.bagrutproject.game.graphic.gamemap.Prioritised
+com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.LevelMap <|-- com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.Level1Map
+com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap <|-- com.avasaysayava.bagrutproject.game.graphic.gamemap.levelmap.LevelMap
+com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.DebugMap <|- com.avasaysayava.bagrutproject.game.graphic.gamemap.debugmap.WallsMap
+@enduml

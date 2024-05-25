@@ -1,0 +1,32 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.thread.JobScheduler {
+- int UPS
+- Game game
+- SizedDeque<Long> upsDeque
+- double lastUPS
+- int updates
+- long t_start
++ <<Create>> JobScheduler(Game,int)
++ double getAvgUPS()
++ double getAvgFPS()
++ double getFramedUPS()
++ double getFramedFPS()
+# void periodic()
+}
+
+
+abstract class com.avasaysayava.bagrutproject.game.thread.PeriodicThread {
+- boolean running
++ <<Create>> PeriodicThread()
++ void start()
++ void run()
++ void pause()
+# {abstract}void periodic()
+}
+
+
+
+
+com.avasaysayava.bagrutproject.game.thread.PeriodicThread <|- com.avasaysayava.bagrutproject.game.thread.JobScheduler
+java.lang.Thread <|-- com.avasaysayava.bagrutproject.game.thread.PeriodicThread
+@enduml

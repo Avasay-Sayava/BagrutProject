@@ -1,0 +1,22 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.audio.TileSoundPreloader {
+- HashMap<TileSound,MediaPlayer[]> soundMap
++ <<Create>> TileSoundPreloader(Context)
++ MediaPlayer[] getSounds(TileSound)
+}
+
+
+enum com.avasaysayava.bagrutproject.game.audio.TileSound {
++  GRASS
++  PATH
++  FLOOR
++  WALL
++  ENTITY
++  GLYPH
++  STAIR
++ int[] sounds
+~ <<Create>> TileSound(int)
+}
+
+
+@enduml

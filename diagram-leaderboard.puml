@@ -1,0 +1,26 @@
+@startuml
+class com.avasaysayava.bagrutproject.leaderboard.Leaderboard {
+- List<RelativeLayout> rows
+- RelativeLayout marked
++ <<Create>> Leaderboard(Context)
++ <<Create>> Leaderboard(Context,AttributeSet)
++ <<Create>> Leaderboard(Context,AttributeSet,int)
++ <<Create>> Leaderboard(Context,AttributeSet,int,int)
+- void add(String)
+- void offer(String,int)
++ void update()
++ void clear()
+- void updateRanks()
+- void mark(RelativeLayout)
+- void unmark(RelativeLayout)
++ void markTime(String)
++ void loadLevel(TimesDataSource,int)
++ int getMarkedY()
++ boolean isLoaded()
+}
+
+
+
+
+android.widget.LinearLayout <|-- com.avasaysayava.bagrutproject.leaderboard.Leaderboard
+@enduml

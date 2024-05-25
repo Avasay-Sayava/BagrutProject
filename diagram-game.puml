@@ -1,0 +1,111 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.LevelPreview {
+- GameMap map
+- Bitmap vignetteBitmap
++ <<Create>> LevelPreview(Context)
++ <<Create>> LevelPreview(Context,AttributeSet)
++ <<Create>> LevelPreview(Context,AttributeSet,int)
++ <<Create>> LevelPreview(Context,AttributeSet,int,int)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
+- void loadMap()
++ void draw(Canvas)
++ void update()
++ void onStart()
++ void onResume()
++ void onPause()
++ void onStop()
++ void onDestroy()
++ boolean isDebug()
++ boolean isGraph()
++ void onCompleted()
++ void loadMap(GameMap)
+}
+
+class com.avasaysayava.bagrutproject.game.Level {
+- Player player
+- double[] fpsGraph
+- GameMap map
+- Joystick joystick
+- Bitmap vignetteBitmap
+- boolean debugMode
+- JobScheduler jobScheduler
+- int fpsIndex
+- long t_total
++ <<Create>> Level(Context)
++ <<Create>> Level(Context,AttributeSet)
++ <<Create>> Level(Context,AttributeSet,int)
++ <<Create>> Level(Context,AttributeSet,int,int)
++ boolean onTouchEvent(MotionEvent)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
++ void draw(Canvas)
+- void drawUPS(Canvas,Paint)
+- void drawFPS(Canvas,Paint)
+- int[] getGradientColor(double)
+- void drawBounds(Canvas,Paint)
+- void drawPlayerVelocity(Canvas,Paint)
++ void update()
++ boolean isDebug()
++ GameMap getMap()
++ JobScheduler getJobScheduler()
++ Joystick getJoystick()
++ void onStart()
++ void onResume()
++ void onPause()
++ void onStop()
++ void onDestroy()
+- void createJobScheduler()
+- void createJoystick()
++ boolean isPaused()
++ void pause()
++ void resume()
++ void toggleDebug()
++ void toggleGraph()
++ boolean isGraph()
++ void onCompleted()
++ void loadMap(GameMap)
+}
+
+
+class com.avasaysayava.bagrutproject.game.Constants {
++ {static} int LEVEL_UPS
++ {static} int LEVEL_SCALE
++ {static} int PREVIEW_UPS
++ {static} int PREVIEW_SCALE
+}
+
+abstract class com.avasaysayava.bagrutproject.game.Game {
++ int SCALE
++ Paint textPaint
++ TileSoundPreloader tileSoundPreloader
++ TileSet playerTileSet
+# LongConsumer onCompleteListener
++ <<Create>> Game(Context,int,int,Paint)
++ <<Create>> Game(Context,AttributeSet,int,int,Paint)
++ <<Create>> Game(Context,AttributeSet,int,int,int,Paint)
++ <<Create>> Game(Context,AttributeSet,int,int,int,int,Paint)
++ {abstract}void surfaceChanged(SurfaceHolder,int,int,int)
++ {abstract}void surfaceCreated(SurfaceHolder)
++ {abstract}void surfaceDestroyed(SurfaceHolder)
++ void setOnCompleteListener(LongConsumer)
++ {abstract}void update()
++ {abstract}void onStart()
++ {abstract}void onResume()
++ {abstract}void onPause()
++ {abstract}void onStop()
++ {abstract}void onDestroy()
++ {abstract}boolean isDebug()
++ {abstract}boolean isGraph()
++ {abstract}void onCompleted()
+}
+
+
+com.avasaysayava.bagrutproject.game.Game <|-- com.avasaysayava.bagrutproject.game.LevelPreview
+com.avasaysayava.bagrutproject.game.Game <|-- com.avasaysayava.bagrutproject.game.Level
+android.view.SurfaceView <|-- com.avasaysayava.bagrutproject.game.Game
+android.view.Callback <|.. com.avasaysayava.bagrutproject.game.Game
+android.view.SurfaceHolder +. android.view.Callback
+@enduml

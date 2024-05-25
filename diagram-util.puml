@@ -1,0 +1,38 @@
+@startuml
+class com.avasaysayava.bagrutproject.util.struct.LineF {
++ <<Create>> LineF(PointF,PointF)
+}
+
+class com.avasaysayava.bagrutproject.util.Util {
++ {static} boolean within(double,double,double)
++ {static} boolean between(double,double,double)
++ {static} double bound(double,double,double)
++ {static} int bound(int,int,int)
++ {static} int withAlpha(int,int)
++ {static} boolean isCounterClockwise(PointF,PointF,PointF)
++ {static} boolean doesIntersect(PointF,PointF,PointF,PointF)
++ {static} Bitmap generateVignette(int,int)
++ {static} T randomElement(T[])
++ {static} String timeToString(long)
++ {static} long stringToTime(String)
++ {static} GameMap getMap(Game,int)
+}
+
+class com.avasaysayava.bagrutproject.util.struct.SizedDeque {
+- int CAPACITY
++ <<Create>> SizedDeque(int)
++ boolean add(E)
++ void addFirst(E)
++ void addLast(E)
++ boolean addAll(Collection<? extends E>)
++ boolean offer(E)
++ boolean offerFirst(E)
++ boolean offerLast(E)
+}
+
+
+
+
+android.util.Pair <|-- com.avasaysayava.bagrutproject.util.struct.LineF
+java.util.ArrayDeque <|-- com.avasaysayava.bagrutproject.util.struct.SizedDeque
+@enduml

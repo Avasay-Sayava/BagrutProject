@@ -1,0 +1,52 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.graphic.tileset.GroundTileSet {
++ <<Create>> GroundTileSet(Context)
+# Tile[] getTileArray()
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.tileset.PlayerTileSet {
++ <<Create>> PlayerTileSet(Context)
+# Tile[] getTileArray()
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet {
++ <<Create>> StructuresTileSet(Context)
+# Tile[] getTileArray()
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.tileset.GlyphFloorTileSet {
++ <<Create>> GlyphFloorTileSet(Context)
+# Tile[] getTileArray()
+}
+
+class com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet {
++ <<Create>> FloorTileSet(Context)
+# Tile[] getTileArray()
+}
+
+abstract class com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet {
+- Bitmap bitmap
+- Tile[] tiles
++ <<Create>> TileSet(Context,int)
+# {abstract}Tile[] getTileArray()
++ Bitmap getBitmap()
++ Tile getTile(int,int,int,int,int,int,Collision,Collision,Collision,TileSound)
++ Tile getTile(int,int,int,int,int,int,int,Collision,Collision,Collision,TileSound)
++ Tile getTile(int)
+}
+
+
+class com.avasaysayava.bagrutproject.game.graphic.tileset.WallsTileSet {
++ <<Create>> WallsTileSet(Context)
+# Tile[] getTileArray()
+}
+
+
+
+com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet <|- com.avasaysayava.bagrutproject.game.graphic.tileset.GroundTileSet
+com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet <|--- com.avasaysayava.bagrutproject.game.graphic.tileset.PlayerTileSet
+com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet <|-- com.avasaysayava.bagrutproject.game.graphic.tileset.StructuresTileSet
+com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet <|--- com.avasaysayava.bagrutproject.game.graphic.tileset.GlyphFloorTileSet
+com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet <|-- com.avasaysayava.bagrutproject.game.graphic.tileset.FloorTileSet
+com.avasaysayava.bagrutproject.game.graphic.tileset.TileSet <|-- com.avasaysayava.bagrutproject.game.graphic.tileset.WallsTileSet
+@enduml

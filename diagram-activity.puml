@@ -1,0 +1,74 @@
+@startuml
+class com.avasaysayava.bagrutproject.activity.MenuActivity {
+- Button[] levels
+- int currentLevel
+- Button btn_play
+- Leaderboard leaderboard
+- TimesDataSource timesDataSource
+- ScrollView scroll_ranks
+- LevelPreview sv_level_preview
+- MediaPlayer click
+- TextView txt_level_title
+# void onCreate(Bundle)
++ void previewMap(int)
+- void loadLeaderboard()
+# void onResume()
+# void onStart()
+# void onDestroy()
+# void onStop()
+# void onPause()
+}
+
+
+class com.avasaysayava.bagrutproject.activity.CreditsActivity {
+- Button btn_back
+- MediaPlayer click
+# void onCreate(Bundle)
+}
+
+
+class com.avasaysayava.bagrutproject.activity.StartActivity {
+- RadioGroup rg_options_menu
+- Button btn_go
+- MediaPlayer click
+# void onCreate(Bundle)
+}
+
+
+class com.avasaysayava.bagrutproject.activity.LevelActivity {
+- Level sv_level
+- int levelNumber
+- Intent backgroundMusicService
+- TimesDataSource timesDataSource
+- ImageButton img_btn_play
+- MediaPlayer click
+# void onCreate(Bundle)
+- void resumeLevel()
+- void pauseLevel()
+- void showLeaveDialog()
+# void onStart()
+# void onResume()
+# void onPause()
+# void onStop()
+# void onDestroy()
++ void onBackPressed()
++ void onCompleted(long)
+- void showTimeDialog(long,long,boolean)
+}
+
+
+class com.avasaysayava.bagrutproject.activity.HowToPlayActivity {
+- Button btn_back
+- MediaPlayer click
+# void onCreate(Bundle)
+}
+
+
+
+
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.MenuActivity
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.CreditsActivity
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.StartActivity
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.LevelActivity
+android.app.Activity <|-- com.avasaysayava.bagrutproject.activity.HowToPlayActivity
+@enduml

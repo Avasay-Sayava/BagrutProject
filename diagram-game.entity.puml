@@ -1,0 +1,73 @@
+@startuml
+class com.avasaysayava.bagrutproject.game.entity.Player {
+- float MAX_SPEED
+- Shadow shadow
+- Collision collision
+- double wobble
+- double Vx
+- double angle
+- int lastId
+- boolean playSound
++ <<Create>> Player(Level,float,float,int)
++ void draw(Canvas)
++ double getSpeed()
+- void updateVelocity(double,double)
++ void update()
+- double getPreferredSpeed()
++ Collision getCollision()
++ int getLeft()
++ int getDown()
++ Shadow getShadow()
++ Point getCords()
++ double getVx()
++ double getVy()
+- Point getCordsOnMap(GameMap)
+}
+
+
+abstract class com.avasaysayava.bagrutproject.game.entity.Entity {
+# Level level
+# float x
+# int z
+# double mass
+- int glyphs
++ <<Create>> Entity(Level,double,float,float,int)
++ void move(float,float)
++ void translate(float,float)
++ float getX()
++ float getY()
++ void addGlyphs(int)
++ int getGlyphs(int)
++ {abstract}void draw(Canvas)
++ {abstract}void update()
++ {abstract}Collision getCollision()
++ {abstract}int getLeft()
++ {abstract}int getDown()
++ {abstract}Shadow getShadow()
++ int getZ()
++ void setZ(int)
++ {abstract}Point getCords()
+}
+
+
+class com.avasaysayava.bagrutproject.game.entity.Shadow {
+- Tile tile
+- Entity entity
++ <<Create>> Shadow(Level,Entity,Tile)
++ void draw(Canvas)
++ void update()
++ Collision getCollision()
++ int getLeft()
++ int getDown()
++ Shadow getShadow()
++ int getZ()
++ void setZ(int)
++ Point getCords()
+}
+
+
+
+
+com.avasaysayava.bagrutproject.game.entity.Entity <|-- com.avasaysayava.bagrutproject.game.entity.Player
+com.avasaysayava.bagrutproject.game.entity.Entity <|-- com.avasaysayava.bagrutproject.game.entity.Shadow
+@enduml

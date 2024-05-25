@@ -1,0 +1,49 @@
+@startuml
+class com.avasaysayava.bagrutproject.database.DatabaseHelper {
+- {static} String DATABASE_NAME
+- {static} int DATABASE_VERSION
+- {static} String SQL_CREATE_ENTRIES
+- {static} String SQL_DELETE_ENTRIES
++ <<Create>> DatabaseHelper(Context)
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
+}
+
+
+class com.avasaysayava.bagrutproject.database.DatabaseContract {
+}
+class com.avasaysayava.bagrutproject.database.TimesEntry {
++ {static} String TABLE_NAME
++ {static} String COLUMN_TIME
++ {static} String COLUMN_LEVEL
+}
+
+class com.avasaysayava.bagrutproject.database.datasource.TimesDataSource {
+- String PREFS_NAME
++ <<Create>> TimesDataSource(Context)
++ Long getBestTime(int)
++ List<Long> getAllTimes(int)
++ Long getLastTime(int)
++ void setLastTime(long,int)
++ void addTime(long,int)
+}
+
+
+abstract class com.avasaysayava.bagrutproject.database.datasource.DataSource {
+# DatabaseHelper databaseHelper
+# Context context
+# SQLiteDatabase database
++ <<Create>> DataSource(Context)
++ void openWriteable()
++ void openReadable()
++ void close()
+}
+
+
+
+
+android.database.sqlite.SQLiteOpenHelper <|-- com.avasaysayava.bagrutproject.database.DatabaseHelper
+com.avasaysayava.bagrutproject.database.DatabaseContract +.. com.avasaysayava.bagrutproject.database.TimesEntry
+android.provider.BaseColumns <|.. com.avasaysayava.bagrutproject.database.TimesEntry
+com.avasaysayava.bagrutproject.database.datasource.DataSource <|-- com.avasaysayava.bagrutproject.database.datasource.TimesDataSource
+@enduml
