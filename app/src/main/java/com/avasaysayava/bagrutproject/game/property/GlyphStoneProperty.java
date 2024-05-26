@@ -8,7 +8,7 @@ import com.avasaysayava.bagrutproject.game.graphic.Tile;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 import com.avasaysayava.bagrutproject.util.Util;
 
-public class GlyphStoneProperty extends Property {
+    public class GlyphStoneProperty extends Property {
     public static final int GLYPH_GOAL = 3;
     private int glyphs;
     private Tile tile;
@@ -21,6 +21,7 @@ public class GlyphStoneProperty extends Property {
     }
 
     @Override
+    // updates the given entities' glyphs by their position. happens periodically
     public void update(Entity... entities) {
         for (Entity e : entities) {
             Point p = e.getCords();

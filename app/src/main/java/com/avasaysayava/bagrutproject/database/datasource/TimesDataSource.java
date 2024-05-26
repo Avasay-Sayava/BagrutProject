@@ -18,6 +18,7 @@ public class TimesDataSource extends DataSource {
     }
 
     @SuppressLint("Range")
+    // retrieves the best time recorded for a specific level in the database.
     public Long getBestTime(int level) {
         Cursor cursor = this.database.query(DatabaseContract.TimesEntry.TABLE_NAME,
                 new String[]{DatabaseContract.TimesEntry.COLUMN_TIME},
@@ -35,6 +36,7 @@ public class TimesDataSource extends DataSource {
     }
 
     @SuppressLint("Range")
+    // retrieving all the recorded times for a specific level from the database.
     public List<Long> getAllTimes(int level) {
         Cursor cursor = this.database.query(DatabaseContract.TimesEntry.TABLE_NAME,
                 new String[]{DatabaseContract.TimesEntry.COLUMN_TIME},
@@ -51,12 +53,14 @@ public class TimesDataSource extends DataSource {
         return times;
     }
 
+    // retrieves the last recorded time for a specific level from the shared preferences.
     public Long getLastTime(int level) {
         long out = this.context.getSharedPreferences(this.PREFS_NAME, Context.MODE_PRIVATE)
                 .getLong(DatabaseContract.TimesEntry.COLUMN_LEVEL + level, -1);
         return out == -1 ? null : out;
     }
 
+    // sets the last time for a specific level in shared preferences.
     public void setLastTime(long time, int level) {
         this.context.getSharedPreferences(this.PREFS_NAME, Context.MODE_PRIVATE)
                 .edit()
@@ -64,6 +68,7 @@ public class TimesDataSource extends DataSource {
                 .apply();
     }
 
+    // inserts a new time entry into a database table with the specified level and time values.
     public void addTime(long time, int level) {
         this.database.execSQL("INSERT INTO " + DatabaseContract.TimesEntry.TABLE_NAME
                 + "(" + DatabaseContract.TimesEntry.COLUMN_LEVEL + ","

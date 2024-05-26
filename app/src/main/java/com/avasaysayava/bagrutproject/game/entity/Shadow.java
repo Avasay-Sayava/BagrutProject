@@ -21,7 +21,7 @@ public class Shadow extends Entity {
     @Override
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setAlpha(25);
+        paint.setAlpha(25); // to make it shadow-like and not a solid color
         this.tile.withScale(this.level.SCALE).draw(canvas, this.x * this.level.SCALE, this.y * this.level.SCALE, paint);
     }
 

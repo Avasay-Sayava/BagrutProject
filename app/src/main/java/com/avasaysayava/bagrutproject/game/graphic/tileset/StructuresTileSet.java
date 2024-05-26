@@ -9,7 +9,7 @@ import com.avasaysayava.bagrutproject.game.collision.Collision;
 import com.avasaysayava.bagrutproject.game.collision.Path;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
 
-public class StructuresTileSet extends TileSet {
+    public class StructuresTileSet extends TileSet {
     public StructuresTileSet(Context context) {
         super(context, R.drawable.structures);
     }

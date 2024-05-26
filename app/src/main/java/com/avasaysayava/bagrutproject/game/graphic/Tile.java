@@ -26,6 +26,7 @@ public class Tile {
     private int id;
     private boolean drawnLazy;
 
+    // copying the given tile
     public Tile(Tile tile) {
         this.id = tile.getId();
         this.z = tile.getZ();
@@ -41,6 +42,7 @@ public class Tile {
         this.property = tile.getProperty();
     }
 
+    // copying the given tile but with new z and scale
     private Tile(Tile tile, int newScale, int newZ) {
         this.id = tile.getId();
         this.z = newZ;
@@ -86,14 +88,17 @@ public class Tile {
         this.property = property;
     }
 
+    // draws the given tile on the canvas
     public void draw(Canvas canvas, float x, float y, Paint paint) {
         draw(canvas, x, y, 0, 0, paint);
     }
 
+    // draws the given tile on the canvas, and transforms it according to the {extraWidth} and the {extraHeight}
     public void draw(Canvas canvas, float x, float y, double extraWidth, double extraHeight, Paint paint) {
         canvas.drawBitmap(this.tileSet.getBitmap(), this.bounds, new Rect((int) x, (int) (y - extraHeight * this.scale), (int) (x + getWidth() + extraWidth * this.scale), (int) (y + getHeight())), paint);
     }
 
+    // returns the first intersector of this tile with the given entity
     public LineF getIntersector(Entity e) {
         if (e.getZ() == this.z) {
             return this.collision != Collision.empty ? this.collision.getIntersector(e.getCollision()) : null;
@@ -104,6 +109,7 @@ public class Tile {
         }
     }
 
+    // moves all collisions of the tile
     public void move(float x, float y) {
         if (this.collision != Collision.empty) this.collision.move(x, y);
         if (this.collisionTop != Collision.empty) this.collisionTop.move(x, y);

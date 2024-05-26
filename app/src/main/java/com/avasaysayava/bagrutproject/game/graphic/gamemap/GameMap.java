@@ -52,6 +52,7 @@ public class GameMap {
         arrange();
     }
 
+    // a comparator for sorting the layers by their properties
     public static int getEvaluation(Object o1, Object o2, GameMap gameMap) {
         GameMap.Prioritised p1 = getPrioritised(o1, gameMap), p2 = getPrioritised(o2, gameMap);
 
@@ -63,6 +64,8 @@ public class GameMap {
     }
 
     @SuppressWarnings("unchecked")
+    // returns a Prioritised for the given object, GameMap that can be
+    // compared with other Prioritiseds
     private static Prioritised getPrioritised(Object o, GameMap gameMap) {
         GameMap.Prioritised p = new GameMap.Prioritised();
         if (o instanceof Entity) {
@@ -91,6 +94,7 @@ public class GameMap {
         return p;
     }
 
+    // generates layers into {this.layers} my given map
     private void generateLayers(List<Tile>[][] map) {
         this.layers.clear();
         int maxZ = getMaxZ();
@@ -99,15 +103,17 @@ public class GameMap {
         }
     }
 
+    // find the max z value among all tiles in {this.map}
     private int getMaxZ() {
         int maxZ = Integer.MIN_VALUE;
-        for (List<Tile>[] lists : map)
+        for (List<Tile>[] lists : this.map)
             for (List<Tile> list : lists)
                 for (Tile tile : list) maxZ = Math.max(maxZ, tile.getZ());
         return maxZ;
     }
 
     @SuppressWarnings("unchecked")
+    // generates layer by z from map
     private Layer generateLayer(List<Tile>[][] map, int z) {
         List<Tile>[][] layerMap = new List[map.length][];
         for (int i = 0; i < map.length; i++) {
@@ -132,6 +138,7 @@ public class GameMap {
         this.game = game;
     }
 
+    // arranges all layers, so they can be drawn in the correct order
     public void arrange() {
         for (Layer layer : this.layers) {
             layer.arrange();
@@ -139,6 +146,7 @@ public class GameMap {
         this.layers.sort(Comparator.comparingInt(Layer::getZ));
     }
 
+    // moves all layers and the map itself
     public void move(float x, float y) {
         this.x = x;
         this.y = y;
@@ -147,6 +155,7 @@ public class GameMap {
         }
     }
 
+    // translates all layers and the map itself
     public void translate(float dx, float dy) {
         this.x += dx;
         this.y += dy;
@@ -155,12 +164,14 @@ public class GameMap {
         }
     }
 
+    // updates all layers. happens periodically
     public void update(Entity... entities) {
         for (Layer layer : this.layers) {
             layer.update(entities);
         }
     }
 
+    // draws all layers
     public void draw(Canvas canvas, Entity... entities) {
         for (Layer layer : this.layers) {
             layer.draw(canvas, entities);
@@ -197,6 +208,7 @@ public class GameMap {
         }
     }
 
+    // return the first intersector between the given entity and the map
     public LineF getIntersector(Entity e) {
         for (int i = Math.max(Math.round((e.getY() - this.y) / this.TILE_SIZE) - 1, 0); i <= Math.min(Math.round((e.getY() - this.y) / this.TILE_SIZE) + 1, this.map.length - 1); i++) {
             for (int j = Math.max(Math.round((e.getX() - this.x) / this.TILE_SIZE) - 1, 0); j <= Math.min(Math.round((e.getX() - this.x) / this.TILE_SIZE) + 1, this.map[i].length - 1); j++) {
@@ -214,12 +226,14 @@ public class GameMap {
         return null;
     }
 
+    // returns all tiles in the given position
     public List<Tile> getTiles(int x, int y) {
         if (y < 0 || y >= this.map.length || x < 0 || x >= this.map[y].length)
             return Collections.emptyList();
         return this.map[y][x];
     }
 
+    // returns all tiles in the given position and z
     public List<Tile> getTiles(int x, int y, int z) {
         if (y < 0 || y >= this.map.length || x < 0 || x >= this.map[y].length)
             return Collections.emptyList();
@@ -234,6 +248,7 @@ public class GameMap {
         return this.y;
     }
 
+    // returns the number of columns in the map
     public int getColumns() {
         int columns = 0;
         for (List<Tile>[] row : this.map)
@@ -241,6 +256,7 @@ public class GameMap {
         return columns;
     }
 
+    // returns the number of rows in the map
     public int getRows() {
         return this.map.length;
     }
@@ -249,6 +265,7 @@ public class GameMap {
         return this.layers;
     }
 
+    // removes every property within a tile in the map, and replaces it with null
     public void clear() {
         for (List<Tile>[] lists : this.map) {
             for (List<Tile> list : lists) {
@@ -260,6 +277,7 @@ public class GameMap {
         }
     }
 
+    // prepares all layers for starting a level
     public void prepare() {
         this.glyphs = 0;
         for (Layer layer : this.layers) {
@@ -267,10 +285,12 @@ public class GameMap {
         }
     }
 
+    // add glyphs to the map to set the glyph goal
     public void addGlyphs(int glyphs) {
         this.glyphs += glyphs;
     }
 
+    // add glyphs to the map to reach the glyph goal
     public void removeGlyphs(int count) {
         this.glyphs -= count;
         if (this.glyphs <= 0) {
@@ -278,6 +298,7 @@ public class GameMap {
         }
     }
 
+    // happens when all glyphs are in the glyphstones, and the goal is reached
     public void onNoGlyphs() {
         this.game.onCompleted();
     }

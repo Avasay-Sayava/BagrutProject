@@ -5,7 +5,9 @@ public abstract class PeriodicThread extends Thread {
 
     public PeriodicThread() {
         super();
-        setName(getClass().getName());
+
+        // sets the thread name to the extending class's name
+        setName(getClass().getSimpleName());
     }
 
     @Override
@@ -18,6 +20,8 @@ public abstract class PeriodicThread extends Thread {
     public void run() {
         super.run();
 
+        // runs the periodic() method periodically until
+        // it is interrupted by the method pause()
         while (this.running) {
             periodic();
         }
@@ -25,6 +29,7 @@ public abstract class PeriodicThread extends Thread {
         super.interrupt();
     }
 
+    // pauses periodic execution of the method periodic()
     public void pause() {
         this.running = false;
         try {

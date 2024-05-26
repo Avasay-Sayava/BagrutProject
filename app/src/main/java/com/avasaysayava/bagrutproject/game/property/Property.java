@@ -5,7 +5,7 @@ import com.avasaysayava.bagrutproject.game.entity.Entity;
 import com.avasaysayava.bagrutproject.game.graphic.Tile;
 import com.avasaysayava.bagrutproject.game.graphic.gamemap.GameMap;
 
-public abstract class Property {
+    public abstract class Property {
     protected Game game;
     protected GameMap map;
     protected int x, y;

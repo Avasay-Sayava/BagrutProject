@@ -10,6 +10,7 @@ public class MovableJoystick extends Joystick {
     }
 
     @Override
+    // moves the joystick itself to make the joystick's handle to stay within the joystick's bounds
     protected void arrange() {
         if (getDistance() > getRadius()) {
             this.outerX += (float) (getCos() * (getDistance() - getRadius()) / 2);
@@ -18,6 +19,7 @@ public class MovableJoystick extends Joystick {
     }
 
     @Override
+    // enables the joystick and moves it to the touch event position
     public void enable(MotionEvent event) {
         super.enable(event);
 

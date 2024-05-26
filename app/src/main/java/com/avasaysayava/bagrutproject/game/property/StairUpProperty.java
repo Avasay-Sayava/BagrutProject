@@ -13,6 +13,7 @@ public class StairUpProperty extends Property {
     }
 
     @Override
+    // updates the given entities z-value by their position
     public void update(Entity... entities) {
         for (Entity e : entities) {
             Point p = e.getCords();

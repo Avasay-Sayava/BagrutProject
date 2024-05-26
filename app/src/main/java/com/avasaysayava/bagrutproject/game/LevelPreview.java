@@ -36,10 +36,12 @@ public class LevelPreview extends Game {
     public LevelPreview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes, Constants.PREVIEW_UPS, Constants.PREVIEW_SCALE, new Paint());
 
+        // register callback
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
         holder.setFormat(PixelFormat.RGBA_8888);
 
+        // load a blank map
         loadMap(null);
 
         this.textPaint.setColor(Color.WHITE);
@@ -58,7 +60,9 @@ public class LevelPreview extends Game {
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+        // generates the vignette effect that fits the screen
         this.vignetteBitmap = Util.generateVignette(width, height);
+
         loadMap();
     }
 
@@ -66,6 +70,7 @@ public class LevelPreview extends Game {
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
     }
 
+    // loads the map preview
     private void loadMap() {
         Canvas canvas = null;
         SurfaceHolder holder = getHolder();
@@ -92,6 +97,7 @@ public class LevelPreview extends Game {
     }
 
     @Override
+    // draws the current map to preview
     public void draw(Canvas canvas) {
         if (canvas == null) return;
 
@@ -162,6 +168,7 @@ public class LevelPreview extends Game {
 
     }
 
+    // loads the given map
     public void loadMap(GameMap map) {
         if (map == null) this.map = null;
         else this.map = new GameMap(this, map.getMap(), map.getLayers(), map.TILE_SIZE, map.getX(), map.getY());

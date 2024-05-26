@@ -13,6 +13,7 @@ public class Collision {
         this.paths = paths;
     }
 
+    // returns the intersection line between paths in the current object and paths in a Collision object.
     public LineF getIntersector(Collision collision) {
         if (collision == Collision.empty) return null;
         for (Path p1 : this.paths) {
@@ -27,18 +28,21 @@ public class Collision {
         return null;
     }
 
+    // moves every path in the collision
     public void move(float x, float y) {
         for (Path p : this.paths) {
             p.move(x, y);
         }
     }
 
+    // draws the collision
     public void draw(Canvas canvas, Paint paint, int scale) {
         for (Path p : this.paths) {
             p.draw(canvas, paint, scale);
         }
     }
 
+    // returns the paths of the collision
     public Path[] getPaths() {
         return this.paths;
     }

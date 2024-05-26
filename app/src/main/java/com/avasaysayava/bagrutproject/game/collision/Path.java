@@ -16,6 +16,7 @@ public class Path {
         this.dx = this.dy = 0;
     }
 
+    // creates a closed path using the given vertex points.
     public static Path polygon(PointF... vertexes) {
         PointF[] path = new PointF[vertexes.length + 1];
         System.arraycopy(vertexes, 0, path, 0, vertexes.length);
@@ -23,6 +24,7 @@ public class Path {
         return new Path(path);
     }
 
+    // returns the first line segment that intersects with another path.
     public LineF getIntersector(Path path) {
         PointF[] pPoints = path.getPoints();
         for (int i = 1; i < this.points.length; i++)
@@ -32,12 +34,14 @@ public class Path {
         return null;
     }
 
+    // draws the path to the Canvas
     public void draw(Canvas canvas, Paint paint, int scale) {
         for (int i = 1; i < this.points.length; i++) {
             canvas.drawLine(this.points[i - 1].x * scale, this.points[i - 1].y * scale, this.points[i].x * scale, this.points[i].y * scale, paint);
         }
     }
 
+    // moves the Path
     public void move(float x, float y) {
         for (PointF point : this.points)
             point.offset(x - this.dx, y - this.dy);
@@ -45,6 +49,7 @@ public class Path {
         this.dy = y;
     }
 
+    // returns the Path's points
     public PointF[] getPoints() {
         return this.points;
     }

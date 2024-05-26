@@ -97,16 +97,19 @@ public class Level extends Game {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                // enable joystick on tap down
                 if (!this.paused && this.joystick.isPressed(event)) {
                     this.joystick.enable(event);
                     return true;
                 }
             case MotionEvent.ACTION_MOVE:
+                // move joystick on tap move
                 if (!this.paused && this.joystick.isEnabled()) {
                     this.joystick.press(event);
                     return true;
                 }
             case MotionEvent.ACTION_UP:
+                // disable joystick on tap end
                 if (!this.paused && this.joystick.isEnabled()) {
                     this.joystick.disable();
                     this.joystick.reset();
@@ -146,8 +149,10 @@ public class Level extends Game {
 
         super.draw(canvas);
 
+        // draw background color to the canvas
         canvas.drawColor(ContextCompat.getColor(getContext(), R.color.DimGray));
 
+        // draw the game map and the player
         this.map.draw(canvas, this.player);
 
         // apply vignette effect
@@ -155,6 +160,7 @@ public class Level extends Game {
             canvas.drawBitmap(this.vignetteBitmap, getLeft(), getTop(), null);
         }
 
+        // draw debug text
         if (isDebug()) {
             drawUPS(canvas, this.textPaint);
             drawFPS(canvas, this.textPaint);
@@ -162,21 +168,27 @@ public class Level extends Game {
             drawPlayerVelocity(canvas, this.textPaint);
         }
 
+        // draw joystick
         this.joystick.draw(canvas);
 
+        // draw dark overlay if paused
         if (this.paused) {
             canvas.drawColor(Util.withAlpha(Color.BLACK, 0x80));
         }
     }
 
     @SuppressLint("DefaultLocale")
+    // draw the ups as text and as graph
     private void drawUPS(Canvas canvas, Paint paint) {
+        // draw text
         String avgUPS = String.format("%.5f", this.jobScheduler.getAvgUPS()) + ", " + String.format("%.5f", this.jobScheduler.getFramedUPS());
         canvas.drawText("UPS: " + avgUPS, 10, 50, paint);
 
+        // update graph
         this.upsGraph[this.upsIndex++] = this.jobScheduler.getAvgUPS();
         this.upsIndex %= this.upsGraph.length;
 
+        // draw graph
         if (this.graphMode) {
             Paint graphPaint = new Paint();
             for (int i = this.upsIndex; i < this.upsGraph.length + this.upsIndex; i++) {
@@ -189,13 +201,17 @@ public class Level extends Game {
     }
 
     @SuppressLint("DefaultLocale")
+    // draw the fps as text and as graph
     private void drawFPS(Canvas canvas, Paint paint) {
+        // draw text
         String avgFPS = String.format("%.5f", this.jobScheduler.getAvgFPS()) + ", " + String.format("%.5f", this.jobScheduler.getFramedFPS());
         canvas.drawText("FPS: " + avgFPS, 10, 100, paint);
 
+        // update graph
         this.fpsGraph[this.fpsIndex++] = this.jobScheduler.getAvgFPS();
         this.fpsIndex %= this.fpsGraph.length;
 
+        // draw graph
         if (this.graphMode) {
             Paint graphPaint = new Paint();
             for (int i = this.fpsIndex; i < this.fpsGraph.length + this.fpsIndex; i++) {
@@ -207,6 +223,7 @@ public class Level extends Game {
         }
     }
 
+    // returns the correct color for the graph red-yellow-green gradient by the given percentage
     private int[] getGradientColor(double value) {
         value = Util.bound(0, this.UPS, value);
 
@@ -216,16 +233,19 @@ public class Level extends Game {
         return new int[]{red, green, 0};
     }
 
+    // draws the bounds text
     private void drawBounds(Canvas canvas, Paint paint) {
         canvas.drawText(getLeft() + "," + getTop() + "," + getRight() + "," + getBottom() + " (" + getWidth() + "x" + getHeight() + ")", 10, 150, paint);
     }
 
     @SuppressLint("DefaultLocale")
+    // draws the player's velocity x,y
     private void drawPlayerVelocity(Canvas canvas, Paint paint) {
         canvas.drawText("Vx: " + String.format("%.5f", this.player.getVx()), 10, 200, paint);
         canvas.drawText("Vy: " + String.format("%.5f", this.player.getVy()), 10, 250, paint);
     }
 
+    // updates the game (called periodically)
     public void update() {
         if (!this.paused) {
             this.player.update();
@@ -263,6 +283,8 @@ public class Level extends Game {
     @Override
     public void onPause() {
         pause();
+
+        // pauses update-draw scheduler
         this.jobScheduler.pause();
     }
 
@@ -291,6 +313,8 @@ public class Level extends Game {
 
     public void pause() {
         this.paused = true;
+
+        // to pause the time counter
         this.t_total = System.currentTimeMillis() - this.t_start;
     }
 
@@ -315,6 +339,7 @@ public class Level extends Game {
     }
 
     @Override
+    // inform the activity that the game is finished
     public void onCompleted() {
         if (this.onCompleteListener != null) {
             if (this.t_total == 0) this.t_total = System.currentTimeMillis() - this.t_start;
@@ -322,6 +347,7 @@ public class Level extends Game {
         }
     }
 
+    // loads the given map into the level screen
     public void loadMap(GameMap map) {
         this.map = map;
         this.map.setGame(this);

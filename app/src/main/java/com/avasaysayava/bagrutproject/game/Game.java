@@ -24,7 +24,8 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
     public final Paint textPaint;
     public final TileSoundPreloader tileSoundPreloader;
     public final TileSet playerTileSet, floorTileSet, glyphFloorTileSet, groundTileSet, structuresTileSet, wallsTileSet;
-    protected LongConsumer onCompleteListener = time -> {};
+    protected LongConsumer onCompleteListener = time -> {
+    }; // default value of doing nothing
 
     public Game(Context context, int UPS, int SCALE, Paint textPaint) {
         this(context, null, UPS, SCALE, textPaint);
@@ -45,6 +46,7 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
         this.SCALE = SCALE;
         this.textPaint = textPaint;
 
+        // init the sounds and the tilesets
         this.tileSoundPreloader = new TileSoundPreloader(getContext());
         this.playerTileSet = new PlayerTileSet(getContext());
         this.floorTileSet = new FloorTileSet(getContext());
@@ -61,7 +63,7 @@ public abstract class Game extends SurfaceView implements SurfaceHolder.Callback
     public abstract void surfaceCreated(@NonNull SurfaceHolder holder);
 
     @Override
-        public abstract void surfaceDestroyed(@NonNull SurfaceHolder holder);
+    public abstract void surfaceDestroyed(@NonNull SurfaceHolder holder);
 
     public void setOnCompleteListener(LongConsumer consumer) {
         this.onCompleteListener = consumer;

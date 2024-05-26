@@ -38,17 +38,21 @@ public class Leaderboard extends LinearLayout {
     public Leaderboard(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
+        // init all parameters
         this.rows = new ArrayList<>();
         this.marked = null;
     }
 
+    // adds a row to the leaderboard
     private void add(String timeStr) {
+        // create the relative layout that contains all of the time info
         RelativeLayout container = new RelativeLayout(getContext());
         RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         container.setLayoutParams(containerParams);
 
+        // create the rank box that shows the rank of the time
         TextView rank = new TextView(getContext());
         RelativeLayout.LayoutParams rankParams = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -62,6 +66,7 @@ public class Leaderboard extends LinearLayout {
         rank.setTextSize(15);
         container.addView(rank);
 
+        // create the time box that contains the given time
         TextView time = new TextView(getContext());
         RelativeLayout.LayoutParams timeParams = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -76,9 +81,12 @@ public class Leaderboard extends LinearLayout {
         time.setTextSize(15);
         container.addView(time);
 
+        // add the row to be added
         this.rows.add(container);
     }
 
+    // try to add a time in a given index to the leaderboard.
+    // if it can't, it adds it to the end of it
     private void offer(String timeStr, int index) {
         if (index >= this.rows.size()) {
             add(timeStr);
@@ -88,39 +96,44 @@ public class Leaderboard extends LinearLayout {
         }
     }
 
+    // update the rank num of the rows in the leaderboard
     public void update() {
         updateRanks();
     }
 
+    // clear the leaderboard
     public void clear() {
         removeAllViews();
         this.rows.clear();
     }
 
-    @SuppressLint("SetTextI18n")
+    // updates all the ranks in the leaderboard according to their index
     private void updateRanks() {
         int place = 1;
         for (RelativeLayout rl : this.rows) {
             TextView rank = (TextView) rl.getChildAt(0);
             if (rank.getText().toString().isEmpty() ||
-                    !rank.getText().toString().equals(place + ""))
-                rank.setText(place + "");
+                    !rank.getText().toString().equals(String.valueOf(place)))
+                rank.setText(String.valueOf(place));
             place++;
         }
     }
 
+    // mark the given relative layout in white
     private void mark(RelativeLayout rl) {
         rl.setBackgroundColor(Color.WHITE);
         ((TextView) rl.getChildAt(0)).setTextColor(Color.BLACK);
         ((TextView) rl.getChildAt(1)).setTextColor(Color.BLACK);
     }
 
+    // unmark the given relative layout
     private void unmark(RelativeLayout rl) {
         rl.setBackgroundColor(Color.TRANSPARENT);
         ((TextView) rl.getChildAt(0)).setTextColor(Color.WHITE);
         ((TextView) rl.getChildAt(1)).setTextColor(Color.WHITE);
     }
 
+    // mark the given time in the leaderboard and unmark the last that has been marked
     public void markTime(String timeStr) {
         if (this.marked != null)
             unmark(this.marked);
@@ -136,6 +149,7 @@ public class Leaderboard extends LinearLayout {
         }
     }
 
+    // load the given level to the leaderboard
     public void loadLevel(TimesDataSource lds, int level) {
         lds.openReadable();
         List<Long> times = lds.getAllTimes(level);
@@ -149,6 +163,7 @@ public class Leaderboard extends LinearLayout {
         }
     }
 
+    // returns the marked row's y
     public int getMarkedY() {
         int sum = 0;
         for (RelativeLayout rl : this.rows) {
@@ -159,6 +174,8 @@ public class Leaderboard extends LinearLayout {
         return sum;
     }
 
+    // returns if the leaderboard is fully loaded by checking if
+    // the real row count is equal to the child count
     public boolean isLoaded() {
         return this.rows.size() == getChildCount();
     }

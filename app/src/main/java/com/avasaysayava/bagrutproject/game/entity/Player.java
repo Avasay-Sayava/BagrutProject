@@ -39,6 +39,7 @@ public class Player extends Entity {
         this.playSound = true;
     }
 
+    // draws the player on the Canvas
     @Override
     public void draw(Canvas canvas) {
         boolean debugMode = this.level.isDebug();
@@ -76,10 +77,12 @@ public class Player extends Entity {
         }
     }
 
+    // calculates the player's speed and returns it
     public double getSpeed() {
         return Math.sqrt(this.Vx * this.Vx + this.Vy * this.Vy);
     }
 
+    // periodically updates the player's velocities
     private void updateVelocity(double Vx, double Vy) {
         // smooth velocity change
         double avgUPS = this.level.getJobScheduler().getAvgUPS();
@@ -92,6 +95,7 @@ public class Player extends Entity {
         if (Util.within(-.1, this.Vy, .1)) this.Vy = 0;
     }
 
+    // periodically updates the player's position, state
     @Override
     public void update() {
         double avgUPS = this.level.getJobScheduler().getAvgUPS();
@@ -230,6 +234,7 @@ public class Player extends Entity {
         this.shadow.update();
     }
 
+    // calculates the player's preferred speed according to the joystick percentage
     private double getPreferredSpeed() {
         return this.MAX_SPEED * this.level.getJoystick().getPercentage() / this.level.getJobScheduler().getAvgUPS();
     }
@@ -267,6 +272,7 @@ public class Player extends Entity {
         return this.Vy;
     }
 
+    // calculates the player's cords on the given map
     private Point getCordsOnMap(GameMap map) {
         return new Point(Math.round((this.x - map.getX()) / map.TILE_SIZE), Math.round((this.y - map.getY() + 24) / map.TILE_SIZE));
     }

@@ -7,9 +7,11 @@ import com.avasaysayava.bagrutproject.R;
 
 import java.util.HashMap;
 
-public class TileSoundPreloader {
+    public class TileSoundPreloader {
     private final HashMap<TileSound, MediaPlayer[]> soundMap;
 
+    // creates MediaPlayer objects for each TileSound value, and stores these MediaPlayer
+    // objects in a HashMap called soundMap with the key being the TileSound enum and value being an array of MediaPlayers.
     public TileSoundPreloader(Context context) {
         this.soundMap = new HashMap<>(TileSound.values().length);
 

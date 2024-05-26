@@ -22,11 +22,13 @@ public abstract class Entity {
         this.z = z;
     }
 
+    // moves the entity
     public void move(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    // translates the entity
     public void translate(float dx, float dy) {
         this.x += dx;
         this.y += dy;
@@ -40,10 +42,12 @@ public abstract class Entity {
         return this.y;
     }
 
+    // adds a glyph to the entity's collection
     public void addGlyphs(int count) {
         this.glyphs += count;
     }
 
+    // removes a glyph from the entity's collection
     public int getGlyphs(int count) {
         int out = Math.min(count, this.glyphs);
         this.glyphs -= out;

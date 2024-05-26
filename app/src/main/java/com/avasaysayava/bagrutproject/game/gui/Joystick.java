@@ -43,6 +43,7 @@ public class Joystick {
         canvas.drawCircle(this.innerX, this.innerY, this.radius / 2, this.innerPaint);
     }
 
+    // disallows the joystick handle to move outside the joystick bounds
     protected void arrange() {
         if (getDistance() > this.radius) {
             this.innerX = (float) ((this.innerX - this.outerX) * (this.radius / getDistance()) + this.outerX);
@@ -50,44 +51,56 @@ public class Joystick {
         }
     }
 
+    // returns the distance between the joystick's center and the touch event
     public double getDistance(MotionEvent event) {
         return Math.sqrt(((this.outerX - event.getX()) * (this.outerX - event.getX())) + ((this.outerY - event.getY()) * (this.outerY - event.getY())));
     }
 
+    // returns the distance between the joystick's center and the handle's center
     public double getDistance() {
         return Math.sqrt(((this.outerX - this.innerX) * (this.outerX - this.innerX)) + ((this.outerY - this.innerY) * (this.outerY - this.innerY)));
     }
 
+    // returns the percentage of the distance between the joystick's center and the handle's center
     public double getPercentage() {
         return Util.bound(0, getDistance() / getRadius(), 1);
     }
 
+    // calculates the angle (radians) between the joystick's center,
+    // the handle's center, and the x-axis and returns it
     public double getRadians() {
         double dx = this.innerX - this.outerX;
         double dy = this.innerY - this.outerY;
         return Math.atan2(dy, dx);
     }
 
+    // calculates the angle (degrees) between the joystick's center,
+    // the handle's center, and the x-axis and returns it
     public double getAngle() {
         return getRadians() * 180 / Math.PI;
     }
 
+    // calculates the sin of getRadians()
     public double getSin() {
         return getDistance() == 0 ? 0 : (this.innerY - this.outerY) / getDistance();
     }
 
+    // calculates the cos of getRadians()
     public double getCos() {
         return getDistance() == 0 ? 0 : (this.innerX - this.outerX) / getDistance();
     }
 
+    // returns if the touch event is pressing the joystick within it's bounds
     public boolean isPressed(MotionEvent event) {
         return getDistance(event) <= this.radius;
     }
 
+    // enables the joystick
     public void enable(MotionEvent ignored) {
         this.enabled = true;
     }
 
+    // disables the joystick
     public void disable() {
         this.enabled = false;
     }
@@ -96,16 +109,16 @@ public class Joystick {
         return this.enabled;
     }
 
+    // resets the joystick to its original position
     public void reset() {
         this.innerX = this.outerX = this.X;
         this.innerY = this.outerY = this.Y;
     }
 
+    // moving the joystick handle to the touch event position
     public void press(MotionEvent event) {
-        float dx = event.getX() - this.outerX;
-        float dy = event.getY() - this.outerY;
-        this.innerX = this.outerX + dx;
-        this.innerY = this.outerY + dy;
+        this.innerX = event.getX();
+        this.innerY = event.getY();
 
         arrange();
     }

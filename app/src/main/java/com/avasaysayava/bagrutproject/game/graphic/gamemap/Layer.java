@@ -36,6 +36,7 @@ public class Layer {
         this.y = gameMap.getY();
     }
 
+    // sorts the tiles in every position to be in the drawing order
     public void arrange() {
         for (List<Tile>[] row : this.map) {
             for (List<Tile> list : row) {
@@ -45,6 +46,7 @@ public class Layer {
     }
 
     @SuppressWarnings("unchecked")
+    // draws the layer and the given entities on the given canvas
     public void draw(Canvas canvas, Entity... entities) {
         Queue<Object> pq = new PriorityQueue<>((o1, o2) -> getEvaluation(o1, o2, this.gameMap));
         for (Entity e : entities) {
@@ -127,6 +129,7 @@ public class Layer {
         return this.z;
     }
 
+    // sets all properties to the matching tiles and updates the map's glyph goal
     public void prepare(float x, float y) {
         move(x, y);
         for (int i = 0; i < this.map.length; i++) {
@@ -165,6 +168,7 @@ public class Layer {
         }
     }
 
+    // updates the layer according to the given entities
     public void update(Entity... entities) {
         for (List<Tile>[] lists : this.map) {
             for (List<Tile> list : lists) {
@@ -177,17 +181,20 @@ public class Layer {
         }
     }
 
+    // returns the tiles at the given cords
     public List<Tile> getTiles(int x, int y) {
         if (y < 0 || y >= this.map.length || x < 0 || x >= this.map[y].length)
             return Collections.emptyList();
         return this.map[y][x];
     }
 
+    // moves the layer to the given cords
     public void move(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    // translates the layer by the given amounts
     public void translate(float dx, float dy) {
         this.x += dx;
         this.y += dy;

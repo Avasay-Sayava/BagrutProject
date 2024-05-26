@@ -17,6 +17,7 @@ public class BackgroundMusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // looping the music at 50% volume
         this.player = MediaPlayer.create(this, R.raw.background1);
         this.player.setVolume(.5f, .5f);
         this.player.setLooping(true);
@@ -26,6 +27,7 @@ public class BackgroundMusicService extends Service {
     }
 
     @Override
+    // stops the music
     public void onDestroy() {
         super.onDestroy();
         this.player.stop();
