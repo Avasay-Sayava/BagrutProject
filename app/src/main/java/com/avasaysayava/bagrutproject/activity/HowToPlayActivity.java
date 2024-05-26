@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 
 import com.avasaysayava.bagrutproject.R;
+
 @SuppressWarnings("FieldCanBeLocal")
 public class HowToPlayActivity extends Activity {
     private Button btn_back;
@@ -17,16 +18,26 @@ public class HowToPlayActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Create a MediaPlayer for the click sound with 10% volume
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);
+
+        // Create a MediaPlayer for the level start sound and play it
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
 
+        // Set the layout of the activity
         setContentView(R.layout.how_to_play_activity);
 
+        // Find the button with ID "btn_back" from the layout
         this.btn_back = findViewById(R.id.btn_back);
+
+        // Set on-click listener for the back button
         this.btn_back.setOnClickListener(v -> {
+            // Play click sound when button pressed
             this.click.start();
+
+            // Finish the activity (go back to start screen)
             super.onBackPressed();
         });
     }

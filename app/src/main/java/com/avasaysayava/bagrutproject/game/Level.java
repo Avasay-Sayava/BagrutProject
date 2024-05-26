@@ -54,7 +54,7 @@ public class Level extends Game {
                 defStyleAttr,
                 defStyleRes,
                 Constants.LEVEL_UPS,
-                Util.bound(1, (int) (4 * context.getResources().getDisplayMetrics().density), Constants.LEVEL_SCALE),
+                Util.bound(1, (int) (3.5f * context.getResources().getDisplayMetrics().density), Constants.LEVEL_SCALE),
                 new Paint());
 
         this.textPaint.setTextSize(50);

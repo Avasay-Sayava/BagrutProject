@@ -35,34 +35,39 @@ public class MenuActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Create media players and set click sound volume
         this.click = MediaPlayer.create(this, R.raw.click);
         this.click.setVolume(.1f, .1f);
         this.load = MediaPlayer.create(this, R.raw.level_start);
         this.load.start();
 
+        // Create data source for level times
         this.timesDataSource = new TimesDataSource(this);
 
+        // Set layout for the activity
         setContentView(R.layout.menu_activity);
 
+        // Find UI elements from the layout
         this.txt_level_title = findViewById(R.id.txt_level_title);
-
         this.leaderboard = findViewById(R.id.leaderboard);
         this.scroll_ranks = findViewById(R.id.scroll_ranks);
-
         this.sv_level_preview = findViewById(R.id.sv_preview);
-
         this.btn_back = findViewById(R.id.btn_back);
+        this.btn_play = findViewById(R.id.btn_play);
+
+        // Set on-click listener for back button
         this.btn_back.setOnClickListener(v -> {
             this.click.start();
-            this.timesDataSource.close();
+            this.timesDataSource.close(); // Close data source when back is pressed
             super.onBackPressed();
         });
 
-        this.btn_play = findViewById(R.id.btn_play);
+        // Set on-click listener for play button
         this.btn_play.setOnClickListener(v -> {
+            // Check if map data exists for the selected level
             if (Util.getMap(this.sv_level_preview, this.currentLevel + 1) != null) {
                 Intent intent = new Intent(this, LevelActivity.class);
-                intent.putExtra("map", this.currentLevel + 1);
+                intent.putExtra("map", this.currentLevel + 1); // Pass level number to LevelActivity
                 startActivity(intent, savedInstanceState);
             } else {
                 this.click.start();
@@ -70,6 +75,7 @@ public class MenuActivity extends Activity {
             }
         });
 
+        // Initialize level buttons array
         this.levels = new Button[]{
                 findViewById(R.id.level1),
                 findViewById(R.id.level2),
@@ -82,58 +88,25 @@ public class MenuActivity extends Activity {
                 findViewById(R.id.level9)
         };
 
-        this.levels[0].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(0);
-        });
+        // Set on-click listeners for each level button
+        for (int i = 0; i < levels.length; i++) {
+            final int index = i;
+            levels[i].setOnClickListener(v -> {
+                this.click.start();
+                previewMap(index);
+            });
+        }
 
-        this.levels[1].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(1);
-        });
-
-        this.levels[2].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(2);
-        });
-
-        this.levels[3].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(3);
-        });
-
-        this.levels[4].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(4);
-        });
-
-        this.levels[5].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(5);
-        });
-
-        this.levels[6].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(6);
-        });
-
-        this.levels[7].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(7);
-        });
-
-        this.levels[8].setOnClickListener(v -> {
-            this.click.start();
-            previewMap(8);
-        });
-
+        // Initialize current level
         this.currentLevel = -1;
-        this.leaderboard.clear();
-        this.levels[0].callOnClick();
+        this.leaderboard.clear(); // Clear leaderboard initially
+        this.levels[0].callOnClick(); // Simulate click on first level button to trigger preview
+
     }
 
     public void previewMap(int index) {
         if (this.currentLevel != index) {
+            // Update button visuals based on selected level
             if (this.currentLevel != -1)
                 this.levels[this.currentLevel].setBackground(
                         ContextCompat.getDrawable(this, R.drawable.default_button));
@@ -141,10 +114,12 @@ public class MenuActivity extends Activity {
             this.levels[this.currentLevel].setBackground(
                     ContextCompat.getDrawable(this, R.drawable.default_button_pressed));
             this.txt_level_title.setText(this.levels[this.currentLevel].getText());
+
+            // Load map data and update preview
             this.sv_level_preview.loadMap(Util.getMap(this.sv_level_preview, this.currentLevel + 1));
             loadLeaderboard();
         } else {
-            // animate scrolling
+            // Animate scrolling for leaderboard
             if (this.scroll_ranks.getScrollY() == 0) {
                 ObjectAnimator.ofInt(this.scroll_ranks,
                                 "scrollY",
@@ -164,14 +139,15 @@ public class MenuActivity extends Activity {
     }
 
     private void loadLeaderboard() {
+        // Reset scroll position and load leaderboard data for current level
         this.scroll_ranks.setScrollY(0);
         this.leaderboard.loadLevel(this.timesDataSource, this.currentLevel + 1);
         Long lastTime = this.timesDataSource.getLastTime(this.currentLevel + 1);
         if (lastTime != null)
-            this.leaderboard.markTime(Util.timeToString(lastTime));
+            this.leaderboard.markTime(Util.timeToString(lastTime)); // Mark last time on leaderboard
         this.leaderboard.update();
 
-        // animate scrolling when leaderboard loaded
+        // Animate scrolling to marked time (if any) on a separate thread
         new Thread(() -> {
             while (!this.leaderboard.isLoaded()) {
                 try {
@@ -194,7 +170,7 @@ public class MenuActivity extends Activity {
         this.sv_level_preview.onResume();
         int level = this.currentLevel;
         this.currentLevel = -1;
-        this.levels[level].callOnClick();
+        this.levels[level].callOnClick(); // Simulate click on previously selected level on resume
     }
 
     @Override
