@@ -20,5 +20,5 @@ class game.thread.JobScheduler {
 
 
 
-game.thread.PeriodicThread <|- game.thread.JobScheduler
+game.thread.PeriodicThread <|-- game.thread.JobScheduler
 @enduml

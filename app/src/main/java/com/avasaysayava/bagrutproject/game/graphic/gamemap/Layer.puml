@@ -4,6 +4,7 @@ class game.graphic.gamemap.Layer {
 - GameMap gameMap
 - List<Tile>[][] map
 - float x
+- float y
 + <<Create>> Layer(GameMap,List<Tile>[][],int)
 + void arrange()
 + void draw(Canvas,Entity)
